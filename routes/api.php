@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
-
+use App\Http\Controllers\ScraperController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/card', [CardController::class, 'index']);
-
+Route::get('/scraper', [ScraperController::class, 'index']);
 Route::prefix('auth')->group(function() {
     Route::post('login', [AuthController::class, 'login']);
 });

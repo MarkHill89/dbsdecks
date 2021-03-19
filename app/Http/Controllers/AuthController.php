@@ -16,7 +16,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return true;
         }else {
-            return md5($credentials['password']);
+            return "0";
         }
         return false;
 
