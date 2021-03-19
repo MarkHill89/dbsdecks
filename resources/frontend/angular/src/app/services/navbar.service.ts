@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class NavbarService {
 
-  private _heading: BehaviorSubject<string> = new BehaviorSubject<string>('Home');
+  private _heading: BehaviorSubject<string> = new BehaviorSubject<string>('home');
   heading$ = this._heading.asObservable();
 
   constructor() { }

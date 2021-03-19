@@ -44,7 +44,7 @@
                 }
               ],
               "outputPath": "../../../public/assets/angular",
-              "deployUrl": "/",
+              "deployUrl": "/home/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
