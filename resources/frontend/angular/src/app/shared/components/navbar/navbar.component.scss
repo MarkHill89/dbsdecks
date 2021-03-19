@@ -1,0 +1,10 @@
+.navbar {
+    background: #000;
+    border-bottom: 2px solid #df2026;
+}
+
+.heading-text {
+    @media (max-width: 414px) {
+        margin-right: auto !important;
+    }
+}
