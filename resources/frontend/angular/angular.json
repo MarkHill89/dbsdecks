@@ -44,7 +44,7 @@
                 }
               ],
               "outputPath": "../../../public/assets/angular",
-              "deployUrl": "/assets/angular/",
+              "deployUrl": "/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -67,7 +67,7 @@
             },
             "dev": {
               "outputPath": "dist/assets/angular",
-              "baseHref": "/assets/angular/"
+              "baseHref": "/"
             }
           }
         },
