@@ -1,0 +1,32 @@
+cards-component{
+    .card-list{
+        .cardContainer{
+            .card-item{
+                background-color: #222;
+                border-color: #000!important;
+                max-height: 199px;
+                overflow: hidden;
+                color:#f0ead6;
+                .descriptionContainer{
+                    padding:3px;
+                    .title{
+                        font-size:12px;
+                        margin: 0 0 4px 0;
+                    }
+                    .cardId{
+                        font-size: 12px;
+                        margin:0 0 2px 0;
+                    }
+                    .cardDescription{
+                        font-size:11px;
+                    }
+                }
+            }
+        }
+        img{
+            &.cardThumbnail{
+                width: 100%;
+            }
+        }
+    }
+}

@@ -3,15 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 import { map, filter  } from 'rxjs/operators';
-import {
-  Event,
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router
-} from '@angular/router';
-import { NavbarService } from '../../../services/navbar.service';
+import {Event,NavigationCancel,NavigationEnd,NavigationError,NavigationStart,Router} from '@angular/router';
+import { NavbarService } from '@dbsdecks/infrastructure/services/';
 
 @Component({
   selector: 'app-navbar',

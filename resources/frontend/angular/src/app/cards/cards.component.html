@@ -1,1 +1,17 @@
-<p>Cards Works!</p>
+<div class="container-fluid card-list mt-3">
+    <div class="row">
+        <div *ngFor="let card of cardsList;" class="col-md-3 mt-3 cardContainer">
+            <div class="card-item">
+                <div class="row">
+                    <div class="col-md-6"><img class="cardThumbnail" src="{{card.thumbnailUrl}}" alt="{{card.title}}"></div>
+                    <div class="col-md-6 descriptionContainer">
+                        <h3 class="title">{{card.title}}</h3>
+                        <h4 class="cardId">BT1-{{card.id}}</h4>
+                        <p class="cardDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat vestibulum lacus et convallis. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

@@ -2,7 +2,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@dbsdecks/*": ["./src/app/*", "./resources/frontend/angular/src/app/*"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -11,7 +16,6 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
-    "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
@@ -19,7 +23,8 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "typeRoots": ["../node_modules/@types", "../typings"]
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
