@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {DataService} from "@dbsdecks/infrastructure/services/"
 import {HttpClient} from "@angular/common/http";
 
 @Component({
@@ -8,18 +9,27 @@ import {HttpClient} from "@angular/common/http";
   encapsulation: ViewEncapsulation.None
 })
 export class CardsComponent implements OnInit {
-  cardsList;
-  constructor(private http:HttpClient) {
+  cardsList:any = [];
+  constructor(
+    private dataService:DataService
+  ) {
 
    }
 
   ngOnInit(): void {
-    this.http.get("https://jsonplaceholder.typicode.com/albums/1/photos")
-      .subscribe((data)=> this.displayCards(data));
+   this.getCards(); 
   }
 
-  displayCards(data){
-    this.cardsList = data;
+  async getCards(){
+    try{
+      this.cardsList = await this.dataService.getCardList()
+      .subscribe(data =>{
+        this.cardsList = data;
+      })
+    } catch(e){
+      console.log(e);
+    }
+    
   }
 
 }
