@@ -10,7 +10,7 @@ class Proc {
 
     public static function call(string $procedureName) {
 
-        $str = "call . $procedureName";
+        $str = "call $procedureName";
 
         return DB::select($str);
 

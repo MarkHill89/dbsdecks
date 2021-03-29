@@ -13,6 +13,7 @@ class DataService
         ->map(function ($row) {
             return [
                 "title" => $row != null ? $row->cardName: '',
+                "cardNumber" => $row != null ? $row->cardNumber: '',
                 "rarity" => $row != null ? $row->rarity: '',
                 "description" => $row != null ? $row->cardText : '',
                 "cardType" => $row != null ? $row->cardType : '',
@@ -26,10 +27,10 @@ class DataService
                 "cardCharacter" => $row != null ? $row->cardCharacter : '',
                 "url" => $row != null ? $row->url : '',
                 "thumbnail" => $row != null ? $row->imageUrl : '',
-                "isUltimate" => (int)$row != null ? $row->isUltimate : 0,
-                "isSuperCombo" => (int)$row != null ? $row->isSuperCombo : 0,
-                "isDragonBall" => (int)$row != null ? $row->isDragonBall : 0,
-                "cardLimit" => (int)$row != null ? $row->cardLimit : 0
+                "isUltimate" => $row != null ? $row->isUltimate : 0,
+                "isSuperCombo" => $row != null ? $row->isSuperCombo : 0,
+                "isDragonBall" => $row != null ? $row->isDragonBall : 0,
+                "cardLimit" => $row != null ? $row->cardLimit : 0
             ];
         });
     }
