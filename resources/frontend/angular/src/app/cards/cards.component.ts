@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {DataService} from "@dbsdecks/infrastructure/services/"
+import {DataService} from "@dbsdecks/app/infrastructure/services/"
 import {HttpClient} from "@angular/common/http";
 
 @Component({

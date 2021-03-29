@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@dbsdecks/*": ["./src/app/*", "./resources/frontend/angular/src/app/*"]
+      "@dbsdecks/*": ["./src/*", "./resources/frontend/angular/src/app/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

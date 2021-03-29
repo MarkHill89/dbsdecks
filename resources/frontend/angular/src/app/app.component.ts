@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DataService, NavbarService} from "@dbsdecks/infrastructure/services"
+import {DataService, NavbarService} from "@dbsdecks/app/infrastructure/services";
 
 @Component({
   selector: 'app-root',

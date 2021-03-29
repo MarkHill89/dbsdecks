@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/card', [CardController::class, 'index']);
+Route::get('/card', [CardController::class, 'allCards']);
 Route::get('/scraper', [ScraperController::class, 'index']);
 Route::prefix('auth')->group(function() {
     Route::post('login', [AuthController::class, 'login']);
