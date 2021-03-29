@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class Proc {
 
-    public static function call(string $procedureName, array $parms) {
+    public static function call(string $procedureName) {
 
         $str = "call . $procedureName";
 
-        return DB::select($str, $parms);
+        return DB::select($str);
 
     }
 }
