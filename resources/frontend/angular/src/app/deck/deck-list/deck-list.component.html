@@ -1,0 +1,44 @@
+<main class='container-fluid'>
+    <div class='row my-3'>
+        <section class='col'>
+            <article class='card p-3 bg-super-dark border-color-super-dark'>
+                <form>
+                    <div class='row'>
+                        <div class='col-md-4 col-lg-3'>
+                            <input type='text' class='form-control form-control-sm rounded-0 mt-1' placeholder='Search by username'/>
+                        </div>
+                        <div class='col-md-4 col-lg-3'>
+                            <select class='form-control form-control-sm rounded-0 mt-1' placeholder='Search by username'>
+                                <option value="" selected="selected">-- Leader Card --</option>
+                                <option>test</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col'>
+                            <div class='btn-group mt-2'>
+                                <button class='btn btn-success btn-sm d-block rounded-0' type="submit">Apply</button>
+                                <button class='btn btn-danger btn-sm d-block rounded-0' type="reset" >Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </div>
+    <div class='row'>
+        <div class='col-md-4 col-lg-3'>
+        </div>
+    </div>
+    <div class='row'>
+        <section class='col-md-6' *ngIf="decks; else loading">
+            <app-recent-decks [recentDecks]="decks" [returnUrl]="returnUrl"></app-recent-decks>
+        </section>
+        <section class='col d-block d-sm-none my-2'></section>
+		<section class='col-md-3'>
+        </section>
+        <section class='col d-block d-sm-none my-2'></section>
+		<section class='col-md-3'>
+		</section>
+    </div>
+</main>

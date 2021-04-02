@@ -4,10 +4,10 @@ cards-component{
             .card-item{
                 background-color: #222;
                 border-color: #000!important;
-                max-height: 199px;
-                overflow: hidden;
                 color:#f0ead6;
                 .descriptionContainer{
+                    max-height: 280px;
+                    overflow-y: auto;
                     padding:3px;
                     .title{
                         font-size:12px;

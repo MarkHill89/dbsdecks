@@ -6,11 +6,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 
+// Modals
+import {LoginComponent} from '@dbsdecks/app/shared/modals'
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
+    LoginComponent,
   ],
   imports: [
     CommonModule,

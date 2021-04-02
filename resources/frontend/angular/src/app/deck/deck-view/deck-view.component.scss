@@ -1,0 +1,23 @@
+.page-header {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.material-icons {
+    line-height: 1;
+    font-size: 22px;
+}
+.leader-image {
+    max-width: calc( calc(100% - 20px)  / 3);
+    margin: 5px 10px;
+    border-radius: 6px;
+}
+.rounded-img {
+    border-radius: 8px;
+}
+@media (min-width: 792px) {
+    .leader-image {
+        max-width: 100%;
+        margin: 5px 10px;
+        border-radius: 6px;
+    }   
+}

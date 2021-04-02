@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { Observable } from 'rxjs';
-import { map, filter  } from 'rxjs/operators';
+import { Component, OnInit, Injectable } from '@angular/core';
 import {Event,NavigationCancel,NavigationEnd,NavigationError,NavigationStart,Router} from '@angular/router';
 import { NavbarService } from '@dbsdecks/app/infrastructure/services/';
+import {LoginComponent} from '@dbsdecks/app/shared/modals/login/login.component';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
+
 export class NavbarComponent implements OnInit {
 
   show:boolean =  false;
@@ -25,6 +23,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
   
+  }
+
+  open() {
+    // this.modalService.open(LoginComponent);
   }
 
 }

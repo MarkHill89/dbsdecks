@@ -8,12 +8,14 @@ import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardsComponent } from './cards/cards.component';
 import { InfrastructureModule } from  "./infrastructure/infrastructure.module";
+import { DeckComponent } from './deck/deck.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CardsComponent
+    CardsComponent,
+    DeckComponent
   ],
   imports: [
     BrowserModule,
