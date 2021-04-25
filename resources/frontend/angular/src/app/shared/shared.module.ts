@@ -5,19 +5,17 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
-
-// Modals
-import {LoginComponent} from '@dbsdecks/app/shared/modals'
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    LoginComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
+    ModalModule.forRoot(),
     ReactiveFormsModule,
     NgbModule,
     ChartsModule
