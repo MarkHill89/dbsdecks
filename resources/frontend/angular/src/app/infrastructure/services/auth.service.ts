@@ -16,15 +16,20 @@ export class AuthService {
         private http: HttpClient) { 
     }
 
-    check() {
-        return this.http
-            .get(this.baseUrl + "authlog")
-            .pipe(map(data => {return data}));
+    canActivate():boolean{
+        let token = localStorage.getItem('token');
+
+        if(!token){
+            return false;
+        } else{
+        }
+        return true;
     }
+
     login(username:string, password:string):Observable<any>{
         return this.http.post(this.baseUrl + "auth/login", {username, password});
     }
-    logout(){
+    logout():Observable<any>{
         return this.http.post(this.baseUrl + "auth/logout",{})
     }
   

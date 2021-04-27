@@ -30,6 +30,7 @@ export class NavbarComponent {
     this.authService.logout().toPromise()
     .then(result => {
       if(result){
+        localStorage.removeItem('token');
         console.log("success");
       } else{
         console.log(result);
