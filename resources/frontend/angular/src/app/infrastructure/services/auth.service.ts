@@ -22,7 +22,10 @@ export class AuthService {
             .pipe(map(data => {return data}));
     }
     login(username:string, password:string):Observable<any>{
-        return this.http.post(this.baseUrl + "auth/login", {username, password})
+        return this.http.post(this.baseUrl + "auth/login", {username, password});
+    }
+    logout(){
+        return this.http.post(this.baseUrl + "auth/logout",{})
     }
   
   
