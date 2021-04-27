@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {DataService} from "@dbsdecks/app/infrastructure/services/"
-import {HttpClient} from "@angular/common/http";
+import {DataService} from "@dbsdecks/app/infrastructure/services/";
 
 @Component({
   selector: 'cards-component',
