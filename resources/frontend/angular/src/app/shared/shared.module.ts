@@ -6,11 +6,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ErrorModalComponent } from './modals/error-modal/error-modal.component';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
+    ErrorModalComponent,
   ],
   imports: [
     CommonModule,
