@@ -1,4 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router} from '@angular/router';
+
+import {AuthService} from '@dbsdecks/app/infrastructure/services/auth.service';
+
 
 @Component({
   selector: 'register-new-user-component',
@@ -6,17 +10,27 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./register.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RegisterComponent implements OnInit {
-  firstName = '';
-  lastName = '';
-  userName = '';
-  password = '';
-  confirmPassword = '';
-  emailAddress = '';
-  confirmEmailAddress= '';
-  constructor() { }
+export class RegisterComponent{
+  credentials = {
+    firstName : '',
+    lastName : '',
+    userName : '',
+    password : '',
+    password_confirmation : '',
+    emailAddress : '',
+    emailAddress_confirmation : ''
+  }
+  
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
-  ngOnInit(): void {
+  submitRegistration(){
+    this.authService.registerNew(this.credentials).subscribe(res =>{
+      res ? this.router.navigate(['/home']) : console.log("register failure");
+      
+    });
   }
 
 }

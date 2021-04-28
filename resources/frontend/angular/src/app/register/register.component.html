@@ -9,17 +9,17 @@
                     <label for="username">First Name</label>
                     <input 
                         type="text"
-                        [(ngModel)]="firstName"
+                        [(ngModel)]="credentials.firstName"
                         autocomplete="off"
                         class="form-control"
                         required
                     />
                 </div>
                 <div class="col">
-                    <label for="password">Password</label>
+                    <label for="password">Last Name</label>
                     <input 
-                        type="password"
-                        [(ngModel)]="password"
+                        type="text"
+                        [(ngModel)]="credentials.lastName"
                         class="form-control"
                         required
                     />
@@ -30,7 +30,7 @@
                     <label for="username">Username</label>
                     <input 
                         type="text"
-                        [(ngModel)]="userName"
+                        [(ngModel)]="credentials.userName"
                         autocomplete="off"
                         class="form-control"
                         required
@@ -40,21 +40,19 @@
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <label for="username">Password</label>
+                    <label for="password">Password</label>
                     <input 
                         type="text"
-                        [(ngModel)]="password"
-                        autocomplete="off"
+                        [(ngModel)]="credentials.password"
                         class="form-control"
                         required
                     />
                 </div>
                 <div class="col">
-                    <label for="username">Confirm Password</label>
+                    <label for="password_confirmation">Confirm Password</label>
                     <input 
-                        type="text"
-                        [(ngModel)]="confirmPassword"
-                        autocomplete="off"
+                        type="password"
+                        [(ngModel)]="credentials.password_confirmation"
                         class="form-control"
                         required
                     />
@@ -62,26 +60,31 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <label for="username">E-Mail Address</label>
+                    <label for="email">E-Mail Address</label>
                     <input 
                         type="text"
-                        [(ngModel)]="emailAddress"
+                        [(ngModel)]="credentials.emailAddress"
                         autocomplete="off"
                         class="form-control"
                         required
                     />
                 </div>
                 <div class="col">
-                    <label for="username">Confirm E-Mail Address</label>
+                    <label for="emailAddress_confirmation">Confirm E-Mail Address</label>
                     <input 
                         type="text"
-                        [(ngModel)]="confirmEmailAddress"
+                        [(ngModel)]="credentials.emailAddress_confirmation"
                         autocomplete="off"
                         class="form-control"
                         required
                     />
                 </div>
-            </div>           
+            </div> 
+            <div class="row">
+                <div class="col">
+                    <button (click)="submitRegistration()" type="submit" class="btn btn-primary text-center">Submit</button>
+                </div>
+            </div>          
         </section>
     </div>
 </main>

@@ -33,6 +33,9 @@ export class AuthService {
     login(username:string, password:string):Observable<any>{
         return this.http.post(this.baseUrl + "auth/login", {username, password});
     }
+    registerNew(credentials:object):Observable<any>{
+        return this.http.post(this.baseUrl + "auth/register-new", {credentials});
+    }
     logout():Observable<any>{
         return this.http.post(this.baseUrl + "auth/logout",{})
     }
