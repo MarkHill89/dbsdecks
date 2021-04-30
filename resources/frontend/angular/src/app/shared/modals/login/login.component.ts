@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgModule } from '@angular/core';
+import {AuthService} from "@dbsdecks/app/infrastructure/services/";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  constructor() { }
+  username="";
+  password = "";
 
-  ngOnInit(): void {
+  constructor(
+    private authService: AuthService,
+  ) { }
+  
+
+  submitLogin(){
+    this.authService.login(this.username, this.password).subscribe(res =>{
+      localStorage.setItem('token', res.token);
+      if(res){
+        console.log("logged in");
+      }
+        
+    });
+    
   }
 
 }

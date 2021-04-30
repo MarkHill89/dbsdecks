@@ -16,7 +16,10 @@
         </ul>
         <ul class='navbar-nav ml-auto'>
             <li class='nav-item'>
-               <a class="nav-link cursor-pointer text-primary">Login</a>
+                <a (click)="logout()" class="nav-link cursor-pointer text-primary">Logout</a>
+             </li>
+            <li class='nav-item'>
+               <a (click)="openLogin()" class="nav-link cursor-pointer text-primary">Login</a>
             </li>
             <li class='nav-item d-none d-md-block'  display="dynamic" placement="bottom-right">
                 <a class='nav-link cursor-pointer'  id="profileDropdown" role="button">

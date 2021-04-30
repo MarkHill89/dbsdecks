@@ -15,6 +15,7 @@ class CardController extends Controller
 
     public function all()
     {
+        return "hello test";
 
     }
 }
