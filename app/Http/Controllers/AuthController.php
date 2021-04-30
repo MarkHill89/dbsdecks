@@ -4,23 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
 {
+    public function username()
+    {
+        return 'username';
+    }
+
     public function register(Request $request)
     {
         $allFields = $request->all();
         $fields = $request->validate([
             'credentials.firstName' => 'required|string',
             'credentials.lastName' => 'required|string',
-            'credentials.userName' => 'required|string',
+            'credentials.userName' => 'required|string|unique:users,username',
             'credentials.password' => 'required|string|confirmed',
             'credentials.password_confirmation' => 'required|string',
-            'credentials.emailAddress' => 'required|string|confirmed',
+            'credentials.emailAddress' => 'required|string|confirmed|unique:users,email',
             'credentials.emailAddress_confirmation' => 'required|string',            
         ]);
 
@@ -47,19 +50,24 @@ class AuthController extends Controller
         $fields = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string'
-        ]);
+        ]);        
         
         $user = User::where('username', $fields['username'])->first();
-        // Check Password
+        // Check Password is md5
         if ($user->password == hash('md5', $fields['password'])) {
-            $token = $user->createToken('tempToken')->plainTextToken;
-
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
+        }
+           
         
-        return response($response, 201);
+
+        // Check Password is updated
+        if (Auth::attempt(['username' => $fields['username'], 'password' => $fields['password']]))
+        {
+            Auth::login($user);
+            return response([
+                'token' => "validated-creds"
+            ], 200);
         } else {
             return response([
                 'message' => "Invalid Credentials"
@@ -82,4 +90,5 @@ class AuthController extends Controller
             'message' => 'Successfully logged'
         ]);
     }
+    
 }
