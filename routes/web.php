@@ -2,6 +2,9 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +16,28 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::prefix('api')->group(function () {
+
+    // Public Routes
+    Route::get('/card', [CardController::class, 'allCards']);
+
+    // Public Routes with auth
+    Route::prefix('auth')->group(function() {
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register-new', [AuthController::class, 'register']);
+        Route::post('/logout', [AuthController::class, 'logout'] );
+    });
+
+    // Protected Routes
+    Route::group(['middleware'=> ['auth:sanctum']], function () {
+        Route::get('/deck/list', [CardController::class, 'all']);
+    });
+
+    Route::prefix('auth')->group(function () {
+        Route::post('login', [AuthController::class, 'login']);
+        Route::get('authlog', [UserController::class, 'index']);
+    });
+
+});
 
 Route::any('/{any}', [AngularController::class, 'index'])->where('any', '^(?!api).*$');

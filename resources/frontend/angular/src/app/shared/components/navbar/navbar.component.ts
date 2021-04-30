@@ -1,7 +1,7 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import {Event,NavigationCancel,NavigationEnd,NavigationError,NavigationStart,Router} from '@angular/router';
-import { NavbarService } from '@dbsdecks/app/infrastructure/services/';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {LoginComponent} from '@dbsdecks/app/shared/modals/login/login.component';
+import {AuthService} from "@dbsdecks/app/infrastructure/services/";
 
 @Component({
   selector: 'app-navbar',
@@ -9,24 +9,33 @@ import {LoginComponent} from '@dbsdecks/app/shared/modals/login/login.component'
   styleUrls: ['./navbar.component.scss']
 })
 
-export class NavbarComponent implements OnInit {
-
+export class NavbarComponent {
+  modalRef?: BsModalRef;
   show:boolean =  false;
   loading = false;
  
   constructor(
-    private router: Router,
-    private navbarService: NavbarService
-  ) {
-  
-   }
+    private authService: AuthService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit() {
   
   }
 
-  open() {
-    // this.modalService.open(LoginComponent);
+  openLogin() {
+    this.modalRef = this.modalService.show(LoginComponent);
   }
-
+  logout(){
+    this.authService.logout().toPromise()
+    .then(result => {
+      if(result){
+        localStorage.removeItem('token');
+        console.log("success");
+      } else{
+        console.log(result);
+      }
+      
+    });
+  }
 }

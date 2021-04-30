@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import {DataService, NavbarService} from "./services/";
+import {DataService, NavbarService, AuthService} from "./services/";
 import {SecureRouterLinkDirective} from "./services/security.service";
 
 const DIRECTIVES = [
@@ -8,6 +8,7 @@ const DIRECTIVES = [
 
 const PROVIDERS = [
     DataService,
+    AuthService,
     NavbarService
 ];
 
