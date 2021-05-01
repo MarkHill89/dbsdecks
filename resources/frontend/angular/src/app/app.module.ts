@@ -9,17 +9,17 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CardsComponent } from './cards/cards.component';
 import { InfrastructureModule } from  "./infrastructure/infrastructure.module";
 import { DeckComponent } from './deck/deck.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 // Modals
 import {LoginComponent} from '@dbsdecks/app/shared/modals';
+import { CardsModule } from './cards/cards.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CardsComponent,
     DeckComponent,
     LoginComponent,
     RegisterComponent
@@ -27,11 +27,12 @@ import {LoginComponent} from '@dbsdecks/app/shared/modals';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CardsModule,
     HttpClientModule,
     SharedModule,
     NgbModule,
     FormsModule,
-    //
+    InfiniteScrollModule, 
     InfrastructureModule.forRoot(),
     ModalModule.forRoot()
   ],
