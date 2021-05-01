@@ -40,4 +40,6 @@ Route::prefix('api')->group(function () {
 
 });
 
-Route::any('/{any}', [AngularController::class, 'index'])->where('any', '^(?!api).*$');
+Route::get('/{any}', function () {
+    return file_get_contents(public_path('index.html'));
+})->where('any', '.*');
