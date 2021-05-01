@@ -10,10 +10,9 @@ use App\Http\Controllers\ScraperController;
 
 
 */
+// Marks Routes
+Route::get('/scraper', [ScraperController::class, 'index']);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
-// Marks Routes
-Route::get('/scraper', [ScraperController::class, 'index']);

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from "@angular/common/http"
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule} from '@angular/forms';
+import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
@@ -31,6 +32,7 @@ import { CardsModule } from './cards/cards.module';
     HttpClientModule,
     SharedModule,
     NgbModule,
+    ReactiveFormsModule,
     FormsModule,
     InfiniteScrollModule, 
     InfrastructureModule.forRoot(),

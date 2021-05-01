@@ -26,11 +26,12 @@ export class RegisterComponent{
     private authService: AuthService
   ) { }
 
-  submitRegistration(){
-    this.authService.registerNew(this.credentials).subscribe(res =>{
-      res ? this.router.navigate(['/home']) : console.log("register failure");
-      
-    });
+  async submitRegistration(){
+    try{
+      this.authService.registerNew(this.credentials);
+    }catch(err){
+      console.log(err.error.errors)
+    }
   }
 
 }
