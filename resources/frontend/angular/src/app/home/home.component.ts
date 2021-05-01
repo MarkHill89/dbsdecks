@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import fetch from 'node-fetch';
 
 @Component({
   selector: 'app-home',
