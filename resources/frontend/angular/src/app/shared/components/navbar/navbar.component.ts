@@ -27,15 +27,6 @@ export class NavbarComponent {
     this.modalRef = this.modalService.show(LoginComponent);
   }
   logout(){
-    this.authService.logout().toPromise()
-    .then(result => {
-      if(result){
         localStorage.removeItem('token');
-        console.log("success");
-      } else{
-        console.log(result);
-      }
-      
-    });
   }
 }
