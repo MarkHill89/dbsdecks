@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlertModule} from 'ngx-bootstrap/alert';
 import { ErrorModalComponent } from './modals/error-modal/error-modal.component';
 
 
@@ -18,6 +19,7 @@ import { ErrorModalComponent } from './modals/error-modal/error-modal.component'
     CommonModule,
     RouterModule,
     ModalModule.forRoot(),
+    AlertModule.forRoot(),
     ReactiveFormsModule,
     NgbModule,
     ChartsModule

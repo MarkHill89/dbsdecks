@@ -3,6 +3,7 @@ import {HttpClientModule} from "@angular/common/http"
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
@@ -13,8 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardsComponent } from './cards/cards.component';
 import { InfrastructureModule } from  "./infrastructure/infrastructure.module";
 import { DeckComponent } from './deck/deck.component';
-// Modals
-import {LoginComponent} from '@dbsdecks/app/shared/modals';
+import {LoginComponent} from '@dbsdecks/app/login/login.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import {LoginComponent} from '@dbsdecks/app/shared/modals';
     FormsModule,
     //
     InfrastructureModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

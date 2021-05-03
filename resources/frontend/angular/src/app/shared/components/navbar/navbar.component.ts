@@ -1,6 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import {LoginComponent} from '@dbsdecks/app/shared/modals/login/login.component';
+import { Component, OnInit } from '@angular/core';
 import {AuthService} from "@dbsdecks/app/infrastructure/services/";
 
 @Component({
@@ -10,23 +8,29 @@ import {AuthService} from "@dbsdecks/app/infrastructure/services/";
 })
 
 export class NavbarComponent {
-  modalRef?: BsModalRef;
+  isAuthenticated = false;
   show:boolean =  false;
   loading = false;
  
   constructor(
     private authService: AuthService,
-    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
   
   }
-
-  openLogin() {
-    this.modalRef = this.modalService.show(LoginComponent);
+  checkAuth(){
+    this.authService.check().subscribe(res =>{
+      console.log(res);
+    });
   }
+
+
   logout(){
-        localStorage.removeItem('token');
+    this.authService.logout().subscribe(res=>{
+      localStorage.removeItem('token');
+      console.log(res);
+    })
+        
   }
 }

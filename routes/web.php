@@ -25,18 +25,19 @@ Route::prefix('api')->group(function () {
     Route::prefix('auth')->group(function() {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register-new', [AuthController::class, 'register']);
-        Route::post('/logout', [AuthController::class, 'logout'] );
+        Route::get('/authlog', [UserController::class, 'index']);
+        
     });
 
     // Protected Routes
-    Route::group(['middleware'=> ['auth:sanctum']], function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::prefix('auth')->group(function() {
+            Route::get('/check', [AuthController::class, 'check']);
+            Route::post('/logout', [AuthController::class, 'logout'] );
+        });
         Route::get('/deck/list', [CardController::class, 'all']);
     });
 
-    Route::prefix('auth')->group(function () {
-        Route::post('login', [AuthController::class, 'login']);
-        Route::get('authlog', [UserController::class, 'index']);
-    });
 
 });
 

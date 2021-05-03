@@ -44,7 +44,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputPath": "../../../public/assets/angular",
+              "outputPath": "../../../public/",
               "deployUrl": "/home/",
               "optimization": true,
               "outputHashing": "all",
