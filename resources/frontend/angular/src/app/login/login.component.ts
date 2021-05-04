@@ -36,9 +36,10 @@ export class LoginComponent {
   submitLogin(){
 
     this.authService.login(this.loginForm.value).subscribe(res =>{
-      localStorage.setItem('token', res.token);
       if(res){
+        localStorage.setItem('token', res.token);
         this.error = null;
+        this.authService.isAuthenticated.next(true);
         this._location.back();
       }
 

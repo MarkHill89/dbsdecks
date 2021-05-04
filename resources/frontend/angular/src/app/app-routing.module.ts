@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'deck/list', component: DeckListComponent, canActivate:[AuthService]},
   { path: 'register/new', component:RegisterComponent},
   { path: 'login', component:LoginComponent},
+  { path: 'portal', component:LoginComponent},
   { path: '**', redirectTo: '/home' }
 ];
 

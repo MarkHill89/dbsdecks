@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\Hash;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -17,12 +19,11 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-        var_dump(auth()->user());
         
         if (Auth::check()) {
-            return response(["message" => "user authenticated"], 200);
+            return response(true);
         } else {
-            return response(["message" => "user not authenticated"], 400);
+            return response(false);
         }
     }
 
@@ -47,7 +48,7 @@ class AuthController extends Controller
             'password'=> bcrypt($allFields['credentials']['password'])
         ]);
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
+        $token = $user->createToken('dbs decks')->plainTextToken;
 
         $response = [
             'user' => $user,
@@ -58,7 +59,8 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
+    {   
+
         $fields = $request->all();
         
         $username = $fields['formValue']['username'];
@@ -73,7 +75,8 @@ class AuthController extends Controller
         }
         
         // Check Password is md5
-        if ($user->password == hash('md5', $password)) {
+        if ($user->password == hash('md5', $password))
+        {
             $user->password = bcrypt($request->input('password'));
             $user->save();
         }
@@ -83,9 +86,9 @@ class AuthController extends Controller
         // Check Password is updated
         if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
-            $token = $user->createToken("dbs decks")->accessToken;
+            $token = $user->createToken("dbs decks")->plainTextToken;
             $response = ['token' => $token];
-            return response($response, 200);
+            return response($response, 201);
         } else {
             return response([
                 'message' => "Invalid Credentials"
@@ -102,17 +105,17 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        auth()->user()->tokens()->delete();
 
-        $user = $request->user();
-        var_dump($user);
-        Auth::logout();
+        return [
+            'message' => 'Successfully logged out'
+        ];
 
+    }
 
-        return response()->json([
-            'status_code' => 200,
-            'message' => 'Successfully logged'
-        ]);
-
+    public function user(Request $request)
+    {
+        return $request->user();
     }
     
 }

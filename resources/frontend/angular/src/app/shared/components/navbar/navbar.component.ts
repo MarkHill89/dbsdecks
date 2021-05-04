@@ -8,20 +8,27 @@ import {AuthService} from "@dbsdecks/app/infrastructure/services/";
 })
 
 export class NavbarComponent {
-  isAuthenticated = false;
+  authenticated = false;
   show:boolean =  false;
   loading = false;
+  user:any;
  
   constructor(
     private authService: AuthService,
-  ) {}
-
-  ngOnInit() {
-  
+  ) {
+    this.authService.isAuthenticated.subscribe(res => {
+      this.checkAuth()
+    })
   }
+
   checkAuth(){
     this.authService.check().subscribe(res =>{
-      console.log(res);
+      if(res ==1){
+        this.authenticated = true;
+        this.getCurrentUser();
+      } else{
+        this.authenticated = false;
+      }
     });
   }
 
@@ -29,8 +36,14 @@ export class NavbarComponent {
   logout(){
     this.authService.logout().subscribe(res=>{
       localStorage.removeItem('token');
-      console.log(res);
+      this.authService.isAuthenticated.next(false);
+      this.authenticated = false;
     })
         
+  }
+  getCurrentUser(){
+    this.authService.getUser().subscribe(res =>{
+      this.user = res;
+    })
   }
 }
