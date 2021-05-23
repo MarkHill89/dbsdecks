@@ -1,0 +1,59 @@
+.card-wrapper {
+    width: 200px;
+    display: inline-block;
+    margin: 0 auto;
+    .card-wrapper-image {
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.filter-btn-wrapper {
+    position: fixed;
+    left: 25px;
+    bottom: 25px;
+    z-index: 100;
+    .filter-btn {
+        background-color: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.mode-btn-wrapper {
+    position: fixed;
+    left: 25px;
+    bottom: 110px;
+    z-index: 100;
+    .mode-btn {
+        border-radius: 50%;
+        cursor: pointer;
+        width: 80px;
+        height: 80px;
+        font-size: 14px;
+    }
+}
+
+.scroll-to-top-btn-wrapper {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 100;
+    opacity: 0;
+    .scroll-to-top-btn {
+        background-color: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 80px;
+        height: 80px;
+       
+        transition: all .2s ease-in-out;
+    }
+}
+.show-scrollTop {
+    opacity: 1;
+    transition: all .2s ease-in-out;
+}

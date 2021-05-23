@@ -1,0 +1,157 @@
+<div class='container-fluid' [ngSwitch]="view$ | async">
+    <div class='filter-btn-wrapper' *ngSwitchCase="1">
+        <button class='btn btn-lg btn-light filter-btn' (click)="openFilters('Leader')">
+            LF
+        </button>
+    </div>
+    <div class='filter-btn-wrapper' *ngSwitchCase="2">
+        <div class='mode-btn-wrapper'  [ngSwitch]="entryMode">
+            <button class='btn btn-lg btn-light mode-btn'  *ngSwitchCase="'main'" (click)="entryMode = 'side'">
+                Entry Mode<br>
+                Main
+            </button>
+            <button class='btn btn-lg btn-dark mode-btn'  *ngSwitchCase="'side'" (click)="entryMode = 'main'">
+                Entry Mode<br>
+                Side
+            </button>
+        </div>
+        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('Unison')">
+            UF
+        </button>
+    </div>
+    <div class='filter-btn-wrapper' *ngSwitchCase="3">
+        <div class='mode-btn-wrapper'  [ngSwitch]="entryMode">
+            <button class='btn btn-lg btn-light mode-btn'  *ngSwitchCase="'main'" (click)="entryMode = 'side'">
+                Entry Mode<br>
+                Main
+            </button>
+            <button class='btn btn-lg btn-dark mode-btn'  *ngSwitchCase="'side'" (click)="entryMode = 'main'">
+                Entry Mode<br>
+                Side
+            </button>
+        </div>
+        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('Battle/Extra')">
+            CF
+        </button>
+    </div>
+    <div class='scroll-to-top-btn-wrapper' [ngClass]="{'show-scrollTop': windowScrolled}">
+        <button class='btn btn-lg btn-light scroll-to-top-btn' (click)="scrollToTop()">
+            ^    
+        </button>
+    </div>
+    <section class="row mb-3">
+        <div class='col'>
+            <div class='btn-group d-flex w-100'>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 0, 'btn-outline-warning': (view$ | async) != 0}" (click)="switchView(0)">Stats</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 1, 'btn-outline-warning': (view$ | async) != 1}"(click)="switchView(1)">Leader</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 2, 'btn-outline-warning': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 3, 'btn-outline-warning': (view$ | async) != 3}"(click)="switchView(3)">Battle/Extra</button>
+                <button class='btn btn-sm btn-danger' (click)="clearDeck()">Reset</button>
+                <button class='btn btn-sm btn-success'  [disabled]="!(deckIsValid$ | async)">Save</button>
+            </div>
+        </div>
+    </section>
+    <div class="row my-3" *ngSwitchCase="0">
+        <section class="col">
+            <div class='row'>
+                <div class='col-md-3'>
+                    <h4 class='text-light'>Leader Card</h4>
+                    <img src="{{(leaderCard$ | async).thumbnail | imageString }}" />
+                </div>
+                <div class='col-md-9'>  
+                    <h4 class='text-light'>Deck List</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class='text-light'>Main Deck ({{ (mainDeck$ | async).length }})</h5>
+                            <ul class='list-group'>
+                                <li *ngFor="let card of packDeck(mainDeck$ | async)" class='list-group-item'>
+                                    {{card?.title}} {{card?.qty}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class='text-light'>Side Deck ({{ (sideDeck$ | async).length }})</h5>
+                            <ul class='list-group'>
+                                <li *ngFor="let card of packDeck(sideDeck$ | async)" class='list-group-item'>
+                                    {{card?.title}} {{card?.qty}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class='row'>
+                <div class='col-12'>
+                    <h4 class='text-light'>Deck Layout</h4>
+                </div>
+            </div>
+            <div class='row'>
+                
+            </div>
+        </section>
+    </div>
+    <div class="row my-3" *ngSwitchCase="1"
+    infinite-scroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="300"
+    (scrolled)="onScrollDown()">
+        <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
+            <div class='card-wrapper d-flex flex-column justify-content-center'>
+                <div class='card-wrapper-image'>
+                    <img src="{{card.thumbnail | imageString }}" />
+                </div>
+                <div class='card-wrapper-buttons w-100'>
+                    <div class='btn-group d-inline-block d-flex w-100'>
+                        <button class='btn btn-sm btn-primary'>Flip</button>
+                        <button class='btn btn-sm btn-info' (click)="setLeaderCard(card)">
+                            {{ (leaderCard$ | async).cardNumber === card.cardNumber ? 'Selected' : 'Select'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="row my-3" *ngSwitchCase="2"
+    infinite-scroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="300"
+    (scrolled)="onScrollDown()">
+        <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
+            <div class='card-wrapper d-flex flex-column justify-content-center'>
+                <div class='card-wrapper-image'>
+                    <img src="{{card.thumbnail | imageString }}" />
+                </div>
+                <div class='card-wrapper-buttons w-100'>
+                    <div class='btn-group d-inline-block d-flex w-100'>
+                        <button class='btn btn-sm btn-primary' (click)="removeCard(card)">-</button>
+                        <button class='btn btn-sm btn-light' disabled='true'>{{getMainCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-dark' disabled='true'>{{getSideCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-primary' (click)="addCard(card)">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="row my-3" *ngSwitchCase="3"
+    infinite-scroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="300"
+    (scrolled)="onScrollDown()">
+        <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
+            <div class='card-wrapper d-flex flex-column justify-content-center'>
+                <div class='card-wrapper-image'>
+                    <img src="{{card.thumbnail | imageString }}" />
+                </div>
+                <div class='card-wrapper-buttons w-100'>
+                    <div class='btn-group d-inline-block d-flex w-100'>
+                        <button class='btn btn-sm btn-primary' (click)="removeCard(card)">-</button>
+                        <button class='btn btn-sm btn-light' disabled='true'>{{getMainCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-dark' disabled='true'>{{getSideCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-primary' (click)="addCard(card)">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

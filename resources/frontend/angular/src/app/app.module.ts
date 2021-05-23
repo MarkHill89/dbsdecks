@@ -16,6 +16,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 // Modals
 import {LoginComponent} from '@dbsdecks/app/shared/modals';
 import { CardsModule } from './cards/cards.module';
+import { DeckBuilderComponent } from './deck-builder/deck-builder.component';
+import { DeckBuilderModule } from './deck-builder/deck-builder.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { CardsModule } from './cards/cards.module';
     BrowserModule,
     AppRoutingModule,
     CardsModule,
+    DeckBuilderModule,
     HttpClientModule,
     SharedModule,
     NgbModule,
