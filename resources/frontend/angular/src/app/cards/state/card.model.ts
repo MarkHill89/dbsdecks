@@ -4,7 +4,7 @@ export interface Card {
     id: ID;
     cardCharacter: string;
     cardId ?: string;
-    cardLimit: string;
+    cardLimit: number;
     title: string;
     cardNumber: string;
     description: string;
@@ -26,7 +26,8 @@ export interface Card {
     rarity: string;
     specialTrait: string;    
     url: string;
-}
+    qty ?: number;
+} 
 
 export function createCard(params: Partial<Card>) {
     return {} as Card;

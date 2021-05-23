@@ -9,6 +9,7 @@ import {AuthService} from './infrastructure/services/auth.service';
 const routes: Routes = [
   { path: 'cards', loadChildren: () => import('./cards/cards.module').then(cards => cards.CardsModule)},
   { path: 'deck/list', component: DeckListComponent, canActivate:[AuthService]},
+  { path: 'deckbuilder', loadChildren: () => import('./deck-builder/deck-builder.module').then(deckbuilder => deckbuilder.DeckBuilderModule)},
   { path: 'register/new', component:RegisterComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
