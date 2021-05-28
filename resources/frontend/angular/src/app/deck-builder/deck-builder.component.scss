@@ -57,3 +57,34 @@
     opacity: 1;
     transition: all .2s ease-in-out;
 }
+
+
+.list-group-item-danger-primary {
+    background: linear-gradient(to right, #f5c6cb, #b8daff);
+    color: #000 !important;
+}
+
+.list-group-item-danger-success {
+    background: linear-gradient(to right, #f5c6cb, #c3e6cb);
+    color: #000 !important;
+}
+
+.list-group-item-danger-warning {
+    background: linear-gradient(to right, #f5c6b6, #ffeeba);
+    color: #000 !important;
+}
+
+.list-group-item-primary-success {
+    background: linear-gradient(to right, #bad8ff, #c3e6cb);
+    color: #000 !important;
+}
+
+.list-group-item-primary-warning {
+    background: linear-gradient(to right, #b8daff, #ffeeba);
+    color: #000 !important;
+}
+
+.list-group-item-success-warning {
+    background: linear-gradient(to right, #c3e6cb, #ffeeba);
+    color: #000 !important;
+}
