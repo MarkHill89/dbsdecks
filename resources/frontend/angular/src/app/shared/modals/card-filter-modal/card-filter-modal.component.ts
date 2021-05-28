@@ -22,13 +22,23 @@ export class CardFilterModalComponent implements OnInit {
   
 
   ngOnInit(): void {
+    const title = this.cardFilters.title || '';
+    const description = this.cardFilters.description || '';
+    
     this.filterForm = this.formBuilder.group({
-      title: [''],
-      description: ['']
+      title: [title],
+      description: [description]
     });
 
     this.filterForm.valueChanges.subscribe((formValues: any) => {
       this.cardFilterValues.emit(formValues);
+    });
+  }
+
+  clear() {
+    this.filterForm.reset({
+      title: '',
+      description: ''
     });
   }
 

@@ -11,8 +11,8 @@ import { DateTimePipe } from './pipes/date-time.pipe';
 import { CardTextPipe } from './pipes/card-text.pipe';
 import { ImageStringPipe } from './pipes/image-string.pipe';
 import { CardFilterModalComponent } from './modals/card-filter-modal/card-filter-modal.component';
-import { DeckListComponent } from './components/deck/deck-list/deck-list.component';
-import { DeckSpreadComponent } from './components/deck/deck-spread/deck-spread.component';
+import { CardInfoModalComponent } from './modals/card-info-modal/card-info-modal.component';
+import { DeckComponent } from './components/deck/deck.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +21,9 @@ import { DeckSpreadComponent } from './components/deck/deck-spread/deck-spread.c
     DateTimePipe,
     CardTextPipe,
     ImageStringPipe,
+    CardInfoModalComponent,
     CardFilterModalComponent,
-    DeckListComponent,
-    DeckSpreadComponent
+    DeckComponent
   ],
   imports: [
     CommonModule,
@@ -35,8 +35,10 @@ import { DeckSpreadComponent } from './components/deck/deck-spread/deck-spread.c
     ChartsModule
   ],
   exports: [
+    CardInfoModalComponent,
     CardFilterModalComponent,
     NavbarComponent,
+    DeckComponent,
     DateTimePipe,
     CardTextPipe,
     ImageStringPipe

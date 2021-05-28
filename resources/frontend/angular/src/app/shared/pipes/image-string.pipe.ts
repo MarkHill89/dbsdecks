@@ -9,7 +9,7 @@ export class ImageStringPipe implements PipeTransform {
     if(src === void 0 || typeof src === 'undefined' || src.length === 0 || src === null){
       return;
     }
-    return src.split(';').sort()[0];
+    return src.split(';').sort((a,b) => b.length - a.length)[0];
   }
 
 }
