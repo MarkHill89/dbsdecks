@@ -11,10 +11,10 @@ import { SharedModule } from '@dbsdecks/app/shared/shared.module';
     DeckBuilderComponent
   ],
   imports: [
+    CommonModule,
     SharedModule,
     InfiniteScrollModule,
     DeckBuilderRoutingModule,
-    CommonModule
   ]
 })
 export class DeckBuilderModule { }

@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import { DOCUMENT } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CardFilterModalComponent } from '@dbsdecks/app/shared/modals/card-filter-modal/card-filter-modal.component';
-import { CardFilter } from '@dbsdecks/app/infrastructure/classes/card-filter.class';
+import { FilterCards } from '@dbsdecks/app/infrastructure/classes/card-filter.class';
 import { CardInfoModalComponent } from '@dbsdecks/app/shared/modals/card-info-modal/card-info-modal.component';
 
 @Component({
@@ -23,16 +23,14 @@ export class DeckBuilderComponent implements OnInit {
   private battleAndExtraCards: Card[] = [];
   private scrollSum = 24;
 
-  private cardFilter: CardFilter = new CardFilter();
-
   private leaderCardFilters = {};
   private unisonCardFilters = {};
   private battleAndExtraCardFilters = {};
 
   deckIsValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   leaderCard$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
-  mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([]);
-  sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([]);
+  mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
+  sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   view$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   
   activeCards: Card[] = [];
@@ -110,16 +108,16 @@ export class DeckBuilderComponent implements OnInit {
     this.scrollSum = 24;
     switch(view) {
       case 1:
-        this.activeCards = this.cardFilter.filterCards(this.leaderCards, this.leaderCardFilters).slice(0, this.scrollSum);
+        this.activeCards = FilterCards(this.leaderCards, this.leaderCardFilters).slice(0, this.scrollSum);
         break;
       case 2:
-        this.activeCards = this.cardFilter.filterCards(this.unisonCards, this.unisonCardFilters).slice(0, this.scrollSum);
+        this.activeCards = FilterCards(this.unisonCards, this.unisonCardFilters).slice(0, this.scrollSum);
         break;
       case 3:
-        this.activeCards = this.cardFilter.filterCards(this.battleAndExtraCards, this.battleAndExtraCardFilters).slice(0, this.scrollSum);
+        this.activeCards = FilterCards(this.battleAndExtraCards, this.battleAndExtraCardFilters).slice(0, this.scrollSum);
         break;
       default:
-        this.activeCards = this.cardFilter.filterCards(this.leaderCards, this.leaderCardFilters).slice(0, this.scrollSum);
+        this.activeCards = FilterCards(this.leaderCards, this.leaderCardFilters).slice(0, this.scrollSum);
         break;
     }
    
@@ -129,16 +127,16 @@ export class DeckBuilderComponent implements OnInit {
     let cardsToAdd = [];
     switch(this.view$.getValue()) {
       case 1:
-        cardsToAdd = this.cardFilter.filterCards(this.leaderCards, this.leaderCardFilters).slice(this.scrollSum, this.scrollSum + 12);
+        cardsToAdd = FilterCards(this.leaderCards, this.leaderCardFilters).slice(this.scrollSum, this.scrollSum + 12);
         break;
       case 2:
-        cardsToAdd = this.cardFilter.filterCards(this.unisonCards, this.unisonCardFilters).slice(this.scrollSum, this.scrollSum + 12);
+        cardsToAdd = FilterCards(this.unisonCards, this.unisonCardFilters).slice(this.scrollSum, this.scrollSum + 12);
         break;
       case 3:
-        cardsToAdd = this.cardFilter.filterCards(this.battleAndExtraCards, this.battleAndExtraCardFilters).slice(this.scrollSum, this.scrollSum + 12);
+        cardsToAdd = FilterCards(this.battleAndExtraCards, this.battleAndExtraCardFilters).slice(this.scrollSum, this.scrollSum + 12);
         break;
       default:
-        cardsToAdd = this.cardFilter.filterCards(this.leaderCards, this.leaderCardFilters).slice(this.scrollSum, this.scrollSum + 12);
+        cardsToAdd = FilterCards(this.leaderCards, this.leaderCardFilters).slice(this.scrollSum, this.scrollSum + 12);
         break;
     }
     this.scrollSum += 12;
@@ -260,15 +258,15 @@ export class DeckBuilderComponent implements OnInit {
       this.scrollToTop();
       switch(this.view$.getValue()) {
         case 1:
-          this.activeCards = this.cardFilter.filterCards(this.leaderCards, cardFilterValues).slice(0, this.scrollSum);
+          this.activeCards = FilterCards(this.leaderCards, cardFilterValues).slice(0, this.scrollSum);
           this.leaderCardFilters = cardFilterValues;
           break;
         case 2:
-          this.activeCards = this.cardFilter.filterCards(this.unisonCards, cardFilterValues).slice(0, this.scrollSum);
+          this.activeCards = FilterCards(this.unisonCards, cardFilterValues).slice(0, this.scrollSum);
           this.unisonCardFilters = cardFilterValues;
           break;
         case 3:
-          this.activeCards = this.cardFilter.filterCards(this.battleAndExtraCards, cardFilterValues).slice(0, this.scrollSum);
+          this.activeCards = FilterCards(this.battleAndExtraCards, cardFilterValues).slice(0, this.scrollSum);
           this.battleAndExtraCardFilters = cardFilterValues;
           break;
       }
