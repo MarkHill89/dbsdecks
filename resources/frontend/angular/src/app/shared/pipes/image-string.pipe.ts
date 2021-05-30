@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ImageStringPipe implements PipeTransform {
 
-  transform(src: string): any {
+  transform(src: string | undefined): any {
     if(src === void 0 || typeof src === 'undefined' || src.length === 0 || src === null){
       return;
     }

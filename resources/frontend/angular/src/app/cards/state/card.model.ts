@@ -26,7 +26,7 @@ export interface Card {
     rarity: string;
     specialTrait: string;    
     url: string;
-    qty ?: number;
+    qty?: number;
 } 
 
 export function createCard(params: Partial<Card>) {

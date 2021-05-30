@@ -51,7 +51,7 @@
             </div>
         </div>
     </section>
-    <app-deck 
+    <app-deck
         [leader]="leaderCard$ | async"
         [mainDeck]="mainDeck$ | async"
         [sideDeck]="sideDeck$ | async"
@@ -70,7 +70,7 @@
                     <div class='btn-group d-inline-block d-flex w-100'>
                         <button class='btn btn-sm btn-primary'>Flip</button>
                         <button class='btn btn-sm btn-info' (click)="setLeaderCard(card)">
-                            {{ (leaderCard$ | async).cardNumber === card.cardNumber ? 'Selected' : 'Select'}}
+                            {{ (leaderCard$ | async)?.cardNumber === card.cardNumber ? 'Selected' : 'Select'}}
                         </button>
                     </div>
                 </div>
