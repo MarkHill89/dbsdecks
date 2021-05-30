@@ -13,23 +13,22 @@
             </li>
         </ul>
         <ul class='navbar-nav ml-auto'>
-            <li class='nav-item'>
-                <a (click)="logout()" class="nav-link cursor-pointer text-primary">Logout</a>
-             </li>
-            <li class='nav-item'>
-               <a (click)="openLogin()" class="nav-link cursor-pointer text-primary">Login</a>
+            
+            <li class='nav-item' *ngIf="!authenticated">
+               <a routerLink="./login" class="nav-link cursor-pointer text-primary">Login</a>
             </li>
-            <li class='nav-item d-none d-md-block'  display="dynamic" placement="bottom-right">
-                <a class='nav-link cursor-pointer'  id="profileDropdown" role="button">
-                    User
-                </a>
-            </li>
-            <li class='nav-item d-block d-md-none'>
-                <a class='cursor-pointer nav-link' routerLink="/portal">Portal</a>
-            </li>
-            <li class='nav-item d-block d-md-none' >
-                <a class='cursor-pointer nav-link'>Logout</a>
-            </li>
+            <div class="btn-group" dropdown *ngIf="authenticated">
+                <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                        aria-controls="dropdown-basic">
+                        {{user.username}} <span class="caret"></span>
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                    role="menu" aria-labelledby="button-basic">
+                  <li role="menuitem"><a class='dropdown-item' routerLink="/portal">Portal</a></li>
+                  <li role="menuitem"><a (click)="logout()" class='dropdown-item'>Logout</a></li>
+                </ul>
+            </div>
+
         </ul>
     </div>
 </nav>

@@ -1,0 +1,82 @@
+<div class="row my-3">
+    <section class="col">
+        <div class='row'>
+            <div class='col-md-3' *ngIf="leader">
+                <h4 class='text-light'>Leader Card</h4>
+                <img src="{{leader?.thumbnail | imageString }}" />
+            </div>
+            <div class='col-md-9'>  
+                <h4 class='text-light'>Deck List</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class='text-light'>Main Deck ({{ mainDeck?.length }})</h5>
+                        <ul class='list-group' *ngIf="mainDeck?.length">
+                            <a href="{{card?.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=DeckListView&utm_source=DBSDecks" 
+                                [ngClass]="{
+                                    'list-group-item-danger': card?.color == 'Red',
+                                    'list-group-item-primary': card?.color == 'Blue',
+                                    'list-group-item-success' : card?.color == 'Green',
+                                    'list-group-item-warning' : card?.color == 'Yellow',
+                                    'list-group-item-dark' : card?.color == 'Black',
+                                    'list-group-item-danger-primary' : card?.color == 'Blue;Red',
+                                    'list-group-item-danger-success' : card?.color == 'Green;Red',
+                                    'list-group-item-danger-warning' : card?.color == 'Red;Yellow',
+                                    'list-group-item-primary-success' : card?.color == 'Blue;Green',
+                                    'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
+                                    'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
+                                class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small'
+                                target="_blank"
+                                *ngFor="let card of packDeck(mainDeck)" >
+                                <div class='d-flex flex-fill justify-content-between'>
+                                    <div class='d-flex'>
+                                        <div class='mr-2 font-weight-bold'>{{card?.qty}}</div>
+                                        <div>{{card?.title}}</div>
+                                    </div>
+                                    <div>{{ 0 | currency }}</div>
+                                </div>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class='text-light'>Side Deck ({{ sideDeck?.length }})</h5>
+                        <ul class='list-group'>
+                            <a href="{{card?.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=DeckListView&utm_source=DBSDecks" 
+                                [ngClass]="{
+                                    'list-group-item-danger': card?.color == 'Red',
+                                    'list-group-item-primary': card?.color == 'Blue',
+                                    'list-group-item-success' : card?.color == 'Green',
+                                    'list-group-item-warning' : card?.color == 'Yellow',
+                                    'list-group-item-dark' : card?.color == 'Black',
+                                    'list-group-item-danger-primary' : card?.color == 'Blue;Red',
+                                    'list-group-item-danger-success' : card?.color == 'Green;Red',
+                                    'list-group-item-danger-warning' : card?.color == 'Red;Yellow',
+                                    'list-group-item-primary-success' : card?.color == 'Blue;Green',
+                                    'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
+                                    'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
+                                class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small'
+                                target="_blank"
+                                *ngFor="let card of packDeck(sideDeck)" >
+                                <div class='d-flex flex-fill justify-content-between'>
+                                    <div class='d-flex'>
+                                        <div class='mr-2 font-weight-bold'>{{card?.qty}}</div>
+                                        <div>{{card?.title}}</div>
+                                    </div>
+                                    <div>{{ 0 | currency }}</div>
+                                </div>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class='row'>
+            <div class='col-12'>
+                <h4 class='text-light'>Deck Layout</h4>
+            </div>
+        </div>
+        <div class='row'>
+            
+        </div>
+    </section>
+</div>
