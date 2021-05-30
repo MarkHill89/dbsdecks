@@ -20,23 +20,24 @@ Route::prefix('api')->group(function () {
 
     // Public Routes
     Route::get('/card', [CardController::class, 'allCards']);
+    Route::get('/deck/list', [CardController::class, 'all']);
 
-    // Public Routes with auth
+    
+    // Public Routes with auth prefix
     Route::prefix('auth')->group(function() {
         Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register-new', [AuthController::class, 'register']);
-        Route::post('/logout', [AuthController::class, 'logout'] );
+        Route::post('/register-new', [AuthController::class, 'register']);        
     });
 
     // Protected Routes
-    Route::group(['middleware'=> ['auth:sanctum']], function () {
-        Route::get('/deck/list', [CardController::class, 'all']);
+    Route::group(['middleware' => ['auth:sanctum']], function() {
+        Route::prefix('auth')->group(function() {
+            Route::get('/check', [AuthController::class, 'check']);
+            Route::get('/user', [AuthController::class, 'user']);
+            Route::post('/logout', [AuthController::class, 'logout'] );
+        });
     });
 
-    Route::prefix('auth')->group(function () {
-        Route::post('login', [AuthController::class, 'login']);
-        Route::get('authlog', [UserController::class, 'index']);
-    });
 
 });
 

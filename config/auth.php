@@ -42,9 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'passport',
-            'provider' => 'users',
-            'hash' => 'md5',
+            'driver' => 'sanctum',
+            'provider' => 'users'
         ],
     ],
 

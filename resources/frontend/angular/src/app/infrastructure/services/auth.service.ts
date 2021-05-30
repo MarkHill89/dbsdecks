@@ -1,5 +1,5 @@
-import { Injectable, TemplateRef } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable, OnInit, TemplateRef } from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from '@dbsdecks/environments/environment'
 import { BehaviorSubject, Observable } from "rxjs";
 import { Router} from "@angular/router";
@@ -9,15 +9,17 @@ import { ErrorModalComponent } from '@dbsdecks/app/shared/modals';
 @Injectable()
 export class AuthService {
     modalRef?: BsModalRef;
-
+    isAuthenticated: BehaviorSubject<boolean>;
     private baseUrl: string = environment.baseUrl;
-    public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(
         private router: Router,
         private modalService: BsModalService,
-        private http: HttpClient) { 
-    }
+        private http: HttpClient) {
+            this.isAuthenticated = new BehaviorSubject<boolean>(false);
+        }
+
+    
 
     canActivate():boolean{
         let token = localStorage.getItem('token');
@@ -30,14 +32,34 @@ export class AuthService {
         return true;
     }
 
-    login(username:string, password:string):Observable<any>{
-        return this.http.post(this.baseUrl + "auth/login", {username, password});
+    check(){
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        });
+        return this.http.get(this.baseUrl + "auth/check",{headers});
     }
+
+    login(formValue:Object):Observable<any>{
+        return this.http.post(this.baseUrl + "auth/login", {formValue});
+    }
+
     registerNew(credentials:object):Observable<any>{
         return this.http.post(this.baseUrl + "auth/register-new", {credentials});
     }
-    logout():Observable<any>{
-        return this.http.post(this.baseUrl + "auth/logout",{})
+
+    logout(){
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        });
+        console.log(headers);
+        return this.http.post(this.baseUrl + "auth/logout",null,{headers});
+    }
+
+    getUser(){
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        });
+        return this.http.get(this.baseUrl + "auth/user",{headers});
     }
   
   

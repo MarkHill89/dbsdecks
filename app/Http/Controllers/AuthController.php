@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\Hash;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -12,6 +15,16 @@ class AuthController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    public function check(Request $request)
+    {
+        
+        if (Auth::check()) {
+            return response(true);
+        } else {
+            return response(false);
+        }
     }
 
     public function register(Request $request)
@@ -35,7 +48,7 @@ class AuthController extends Controller
             'password'=> bcrypt($allFields['credentials']['password'])
         ]);
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
+        $token = $user->createToken('dbs decks')->plainTextToken;
 
         $response = [
             'user' => $user,
@@ -46,15 +59,24 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $fields = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string'
-        ]);        
+    {   
+
+        $fields = $request->all();
         
-        $user = User::where('username', $fields['username'])->first();
+        $username = $fields['formValue']['username'];
+        $password = $fields['formValue']['password'];
+
+        $user = User::where('username', $username)->first();
+        
+        if(!$user){
+            return response([
+                'message' => "Username not found"
+            ], 401);
+        }
+        
         // Check Password is md5
-        if ($user->password == hash('md5', $fields['password'])) {
+        if ($user->password == hash('md5', $password))
+        {
             $user->password = bcrypt($request->input('password'));
             $user->save();
         }
@@ -62,12 +84,11 @@ class AuthController extends Controller
         
 
         // Check Password is updated
-        if (Auth::attempt(['username' => $fields['username'], 'password' => $fields['password']]))
+        if (Auth::attempt(['username' => $username, 'password' => $password]))
         {
-            Auth::login($user);
-            return response([
-                'token' => "validated-creds"
-            ], 200);
+            $token = $user->createToken("dbs decks")->plainTextToken;
+            $response = ['token' => $token];
+            return response($response, 201);
         } else {
             return response([
                 'message' => "Invalid Credentials"
@@ -77,18 +98,24 @@ class AuthController extends Controller
         
 
     }
-
+    
+     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function logout(Request $request)
     {
-        $user = $request->user();
-
         auth()->user()->tokens()->delete();
 
+        return [
+            'message' => 'Successfully logged out'
+        ];
 
-        return response()->json([
-            'status_code' => 200,
-            'message' => 'Successfully logged'
-        ]);
+    }
+
+    public function user(Request $request)
+    {
+        return $request->user();
     }
     
 }

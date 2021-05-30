@@ -1,36 +1,16 @@
 <div class='modal-header'>
-    <h4 class='modal-title'>{{card.cardName}}</h4>
+    <h4 class='modal-title'>{{card.title}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="dismiss()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class='modal-body'>
-    <div *ngIf="showPrice && !showLineChart">TCGplayer.com Low Price {{findProductPrice(card.productId).lowPrice | currency}}</div>
-    <div *ngIf="showLineChart">TCGplayer.com Low Price {{lowPrice | currency}}</div>
-    <div *ngIf="showLineChart">
-        <h5 class='text-dark'>Card Pricing Data</h5>
-        <div style="display: block">
-            <canvas baseChart width="100%" height="75px"
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"
-                [plugins]="lineChartPlugins">
-            </canvas>
-        </div>
-    </div>
-    <p class='text-dark' [innerHTML]='card?.cardText | cardText'></p>
+    <p class='text-dark' [innerHTML]='card?.description | cardText'></p>
 </div>
 <div class='modal-footer w-100'>
-    <a href="{{card.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=DeckListView&utm_source=DBSDecks" 
+    <a href="{{card.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=CardPopup&utm_source=DBSDecks" 
        target="_blank" 
-       class='btn btn-info' 
-       *ngIf="showBuyLink">Buy on TCGPlayer.com</a>
+       class='btn btn-info'>Buy on TCGPlayer.com</a>
     
-    <button *ngIf="!isDeckBuilder" type='button' class='btn btn-success' (click)="dismiss()">Close</button>
-    <button *ngIf="isDeckBuilder && card.cardType == 'Leader'" type='button' class='btn btn-success' (click)="close(card)">Choose Leader</button>
-    <button *ngIf="isDeckBuilder && card.cardType != 'Leader'" type='button' class='btn btn-success' (click)="close({card : card, board: 'main'})">Add to Main</button>
-    <button *ngIf="isDeckBuilder && card.cardType != 'Leader'" type='button' class='btn btn-success' (click)="close({card : card, board: 'side'})">Add to Side</button>
+    <button type='button' class='btn btn-success' (click)="dismiss()">Close</button>
 </div>
