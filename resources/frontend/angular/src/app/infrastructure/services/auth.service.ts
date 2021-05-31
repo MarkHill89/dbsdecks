@@ -25,7 +25,7 @@ export class AuthService {
         let token = localStorage.getItem('token');
 
         if(!token){
-            this.modalRef = this.modalService.show(ErrorModalComponent);
+            this.router.navigateByUrl('/login');
             return false;
         } else{
         }

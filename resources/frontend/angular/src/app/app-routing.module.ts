@@ -10,8 +10,8 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: 'cards', loadChildren: () => import('./cards/cards.module').then(cards => cards.CardsModule)},
-  { path: 'deck/list', component: DeckListComponent, canActivate:[AuthService]},
-  { path: 'deckbuilder', loadChildren: () => import('./deck-builder/deck-builder.module').then(deckbuilder => deckbuilder.DeckBuilderModule)},
+  { path: 'deck/list', component: DeckListComponent},
+  { path: 'deckbuilder', loadChildren: () => import('./deck-builder/deck-builder.module').then(deckbuilder => deckbuilder.DeckBuilderModule), canActivate:[AuthService]},
   { path: 'register/new', component:RegisterComponent},
   { path: 'login', component:LoginComponent},
   { path: 'portal', component:LoginComponent},
