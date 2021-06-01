@@ -13,9 +13,11 @@ class CardController extends Controller
         return $dataService->getAllCards();
     }
 
-    public function all()
+    public function get_deck_lists_all(Request $request, DataService $dataService)
     {
-        return "hello test";
+        $isPublic = $request->input('isPublic');
+        $leaderCardNumber = $request->input('leaderCard');
 
+        return $dataService->getAllDecks($isPublic, $leaderCardNumber);
     }
 }

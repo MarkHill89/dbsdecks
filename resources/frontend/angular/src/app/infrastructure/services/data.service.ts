@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from '@dbsdecks/environments/environment'
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class DataService {
@@ -13,6 +13,17 @@ export class DataService {
     return this.http
             .get(this.baseUrl + "card")
             .pipe(map(data => {return data}))
+  }
+
+  getDeckListAll(isPublic:any, leaderCardNumber:string){
+    let params = new HttpParams();
+    params = params.append('isPublic', isPublic);
+    params = params.append('leaderCard', leaderCardNumber);
+
+    return this.http
+            .get(this.baseUrl + "deck/list", {params: params})
+            .pipe(map(data => {return data}))
+            .toPromise();
   }
   
 }

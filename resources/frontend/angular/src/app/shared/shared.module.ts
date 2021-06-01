@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule} from 'ngx-bootstrap/alert';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ErrorModalComponent } from './modals/error-modal/error-modal.component';
 import { DateTimePipe } from './pipes/date-time.pipe';
@@ -32,6 +33,7 @@ import { DeckComponent } from './components/deck/deck.component';
     RouterModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),
+    PaginationModule.forRoot(),
     BsDropdownModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,

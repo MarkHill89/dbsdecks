@@ -1,0 +1,37 @@
+deck-list{
+    .recent-decks{
+        .table{
+            tbody{
+                tr{
+                    color:#ffffff;
+                    background-color: rgba(#000000, .8);
+                    &:nth-of-type(odd){
+                        background-color: rgba(#000000, .4);
+                    }
+                    td{
+                        font-size:14px;
+                        padding:5px;
+                        span{
+                            &.primaryLine{
+                                font-weight: bold;
+                            }
+                            &.secondaryLine{
+                                font-size: 10px;
+                            }
+                        }
+                        
+                    }
+                    &:hover{
+                        color:#000000;
+                        background-color: rgba(#ffffff, .8);
+                        transition:.15s all ease;
+                    &:nth-of-type(odd){
+                        background-color: rgba(#ffffff, .4);
+                    }
+                    }
+                 }
+            }
+         
+        }
+    }
+}

@@ -31,8 +31,35 @@
         </div>
     </div>
     <div class='row'>
-        <section class='col-md-6' *ngIf="decks; else loading">
-            <!-- <app-recent-decks [recentDecks]="decks" [returnUrl]="returnUrl"></app-recent-decks> -->
+        <section class='col-md-6' >
+            <div class="recent-decks" *ngIf="deckListsLoaded">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Community Decks</h2>
+                    </div>
+                    <div class="col-md-12">
+                    </div>
+                    <div class="col-md-12">
+                        <pagination
+                            [boundaryLinks]="showBoundaryLinks" 
+                            [directionLinks]="showDirectionLinks" 
+                            [totalItems]="total"
+                            [itemsPerPage]="10"
+                            [maxSize]=maxSize
+                            (pageChanged)="pageChanged($event)">
+                        </pagination>
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr *ngFor="let deckList of returnedDeckList">
+                                    <td><span class="primaryLine">{{deckList.title}}</span>
+                                     <br/><span class="secondaryLine">Posted by: {{deckList.userId}} on {{deckList.submitDate}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>   
+            </div>
         </section>
         <section class='col d-block d-sm-none my-2'></section>
 		<section class='col-md-3'>
