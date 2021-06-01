@@ -23,7 +23,7 @@ export class DeckListComponent implements OnInit{
     protected dataService:DataService
   ) {}
 
-  ngOnInit(): void{
+  ngOnInit(){
     this.fetchData();
   }
 

@@ -51,8 +51,11 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr *ngFor="let deckList of returnedDeckList">
-                                    <td><span class="primaryLine">{{deckList.title}}</span>
-                                     <br/><span class="secondaryLine">Posted by: {{deckList.userId}} on {{deckList.submitDate}}</span>
+                                    <td>
+                                        <a routerLink="/deck/view/{{deckList.id}}">
+                                            <span class="primaryLine">{{deckList.title}}</span>
+                                            <br/><span class="secondaryLine">Posted by: {{deckList.userId}} on {{deckList.submitDate}}</span>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
