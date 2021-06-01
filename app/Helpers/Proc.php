@@ -15,4 +15,12 @@ class Proc {
         return DB::select($str);
 
     }
+
+    public static function callParm(string $procedureName, array $parms) {
+
+        $str = "call " . $procedureName . '(  :' . join(', :', array_keys($parms)) . ')';
+
+        return DB::select($str, $parms);
+
+    }
 }

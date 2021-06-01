@@ -20,13 +20,15 @@ Route::prefix('api')->group(function () {
 
     // Public Routes
     Route::get('/card', [CardController::class, 'allCards']);
-    Route::get('/deck/list', [CardController::class, 'all']);
-
     
     // Public Routes with auth prefix
     Route::prefix('auth')->group(function() {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register-new', [AuthController::class, 'register']);        
+    });
+
+    Route::prefix('deck')->group(function() {
+        Route::get('/list', [CardController::class, 'get_deck_lists_all']);
     });
 
     // Protected Routes

@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import {HttpClientModule} from "@angular/common/http"
+import { NgModule } from '@angular/core';  
+import {HttpClientModule} from "@angular/common/http";
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
@@ -16,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfrastructureModule } from  "./infrastructure/infrastructure.module";
 import { DeckComponent } from './deck/deck.component';
 import {LoginComponent} from '@dbsdecks/app/login/login.component';
+import {DeckListComponent} from '@dbsdecks/app/deck/deck-list/deck-list.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 // Modals
 import { CardsModule } from './cards/cards.module';
@@ -27,6 +29,7 @@ import { DeckBuilderModule } from './deck-builder/deck-builder.module';
     AppComponent,
     HomeComponent,
     DeckComponent,
+    DeckListComponent,
     LoginComponent,
     RegisterComponent
   ],
@@ -44,6 +47,7 @@ import { DeckBuilderModule } from './deck-builder/deck-builder.module';
     InfrastructureModule.forRoot(),
     ModalModule.forRoot(),
     AlertModule.forRoot(),
+    PaginationModule.forRoot(),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
   ],
