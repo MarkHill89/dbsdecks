@@ -6,6 +6,7 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="assets/angular/favicon.ico">
+  
 <link rel="stylesheet" href="/assets/angular/styles.09e2c710755c8867a460.css"></head>
 <body>
   <app-root></app-root>
