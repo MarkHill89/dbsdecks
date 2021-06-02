@@ -34,7 +34,7 @@
                 <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary text-center mr-2">Login</button>
                 <a routerLink="/register/new" class="btn btn-primary text-center">Register</a>
                 <br>
-                <small class="text-center">Forgot Password</small>
+                <small (click)="forgotPassword()" class="text-center">Forgot Password</small>
 
             </form>
         </section>

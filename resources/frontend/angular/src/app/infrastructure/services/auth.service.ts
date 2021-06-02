@@ -61,6 +61,10 @@ export class AuthService {
         });
         return this.http.get(this.baseUrl + "auth/user",{headers});
     }
+
+    forgotPassword(email:string):Observable<any>{
+        return this.http.post(this.baseUrl + "auth/password-forgot", {email});
+    }
   
   
 }
