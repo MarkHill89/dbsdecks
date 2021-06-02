@@ -24,7 +24,10 @@ Route::prefix('api')->group(function () {
     // Public Routes with auth prefix
     Route::prefix('auth')->group(function() {
         Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register-new', [AuthController::class, 'register']);        
+        Route::post('/register-new', [AuthController::class, 'register']);  
+        Route::post('/password-forgot', [AuthController::class, 'forgot'])
+        ->middleware('guest')
+        ->name('password.email');
     });
 
     Route::prefix('deck')->group(function() {

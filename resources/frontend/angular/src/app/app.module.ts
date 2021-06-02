@@ -23,6 +23,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CardsModule } from './cards/cards.module';
 import { DeckBuilderComponent } from './deck-builder/deck-builder.component';
 import { DeckBuilderModule } from './deck-builder/deck-builder.module';
+import { ForgotComponent } from './login/forgot/forgot.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { DeckBuilderModule } from './deck-builder/deck-builder.module';
     DeckComponent,
     DeckListComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ForgotComponent
   ],
   imports: [
     BrowserModule,

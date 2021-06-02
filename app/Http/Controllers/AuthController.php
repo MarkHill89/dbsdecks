@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\Hash;
+use Illuminate\Support\Facades\Password;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -116,6 +118,18 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return $request->user();
+    }
+    public function forgot(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+                    ? back()->with(['status' => __($status)])
+                    : back()->withErrors(['email' => __($status)]);
     }
     
 }
