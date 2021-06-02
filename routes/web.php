@@ -16,7 +16,14 @@ use App\Http\Controllers\CardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::prefix('api')->group(function () {
+
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+        ->middleware('guest')->name('password.update');
+
+        Route::get('/reset-password/{token}', [AuthController::class, 'resetPasswordToken'])
+        ->middleware('guest')->name('password.reset');
 
     // Public Routes
     Route::get('/card', [CardController::class, 'allCards']);
@@ -25,9 +32,9 @@ Route::prefix('api')->group(function () {
     Route::prefix('auth')->group(function() {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register-new', [AuthController::class, 'register']);  
-        Route::post('/password-forgot', [AuthController::class, 'forgot'])
+        Route::get('/password-forgot', [AuthController::class, 'forgot'])
         ->middleware('guest')
-        ->name('password.email');
+        ->name('password.request');
     });
 
     Route::prefix('deck')->group(function() {
