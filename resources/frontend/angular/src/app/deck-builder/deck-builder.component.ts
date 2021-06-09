@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener, NgModuleRef } from '@angular/core';
+import { Component, OnInit, Inject, HostListener, NgModuleRef, OnDestroy } from '@angular/core';
 import { CardsQuery } from '@dbsdecks/app/cards/state/cards.query';
 import { CardsService } from '@dbsdecks/app/cards/state/cards.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
@@ -9,13 +9,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CardFilterModalComponent } from '@dbsdecks/app/shared/modals/card-filter-modal/card-filter-modal.component';
 import { FilterCards } from '@dbsdecks/app/infrastructure/classes/card-filter.class';
 import { CardInfoModalComponent } from '@dbsdecks/app/shared/modals/card-info-modal/card-info-modal.component';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { DataService } from '@dbsdecks/app/infrastructure/services';
+import { DeckService } from './state/deck-builder.service';
+import { Router } from '@angular/router';
+import { ErrorModalComponent } from '../shared/modals/error-modal/error-modal.component';
 
 @Component({
   selector: 'app-deck-builder',
   templateUrl: './deck-builder.component.html',
   styleUrls: ['./deck-builder.component.scss']
 })
-export class DeckBuilderComponent implements OnInit {
+export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   private cards: Card[] = [];
   private leaderCards: Card[] = [];
@@ -27,6 +32,7 @@ export class DeckBuilderComponent implements OnInit {
   private unisonCardFilters = {};
   private battleAndExtraCardFilters = {};
 
+  title: FormControl;
   deckIsValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   leaderCard$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
@@ -43,9 +49,13 @@ export class DeckBuilderComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private cardQuery: CardsQuery,
     private cardsService: CardsService,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private fb: FormBuilder,
+    private dataService: DataService,
+    private deckService: DeckService,
+    private router: Router
   ) { 
-    
+    this.title = fb.control({value: ''});
   }
 
   ngOnInit(): void {
@@ -86,11 +96,11 @@ export class DeckBuilderComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    if(window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop > 100) {
-      this.windowScrolled = true;
-    }else if (this.windowScrolled && window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop < 10) {
-      this.windowScrolled = false;
-    }
+      if(window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop > 100) {
+        this.windowScrolled = true;
+      }else if (this.windowScrolled && window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop < 10) {
+        this.windowScrolled = false;
+      }
   }
 
   scrollToTop() {
@@ -273,6 +283,22 @@ export class DeckBuilderComponent implements OnInit {
     })
   }
 
+  submitDeck() {
+    const deck = { 
+      title : this.title.value,
+      leader: this.leaderCard$.getValue(),
+      mainDeck: this.mainDeck$.getValue(),
+      sideDeck: this.sideDeck$.getValue()
+    };
+    this.subscriptions.add(this.dataService.submitDeck(deck).subscribe((deckId) => {
+      this.deckService.updateDeck(deck);
+      this.router.navigate(['/deck/view', deckId]);
+    }, (error) => {
+      const modalRef = this.modal.open(ErrorModalComponent);
+      modalRef.componentInstance.error = error;
+    }))
+  }
+
   clearDeck() {
     this.leaderCard$.next({} as Card);
     this.mainDeck$.next([]);
@@ -280,4 +306,7 @@ export class DeckBuilderComponent implements OnInit {
     this.deckIsValid$.next(false);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

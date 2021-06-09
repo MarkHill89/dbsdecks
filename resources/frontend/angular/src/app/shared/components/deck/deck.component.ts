@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Card } from '@dbsdecks/app/cards/state/card.model';
+import { CardInfoModalComponent } from '../../modals/card-info-modal/card-info-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-deck',
@@ -8,7 +10,9 @@ import { Card } from '@dbsdecks/app/cards/state/card.model';
 })
 export class DeckComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modal: NgbModal) { }
+    
   @Input() leader: Card | null = {} as Card;
   @Input() mainDeck: Card[] | null = [];
   @Input() sideDeck: Card[] | null = [];
@@ -33,4 +37,10 @@ export class DeckComponent implements OnInit {
       return accum;
     }, [] as Card[]);
   }
+
+  showCardInfo(card: Card) {
+    const modalRef = this.modal.open(CardInfoModalComponent);
+    modalRef.componentInstance.card = card;
+  }
+
 }
