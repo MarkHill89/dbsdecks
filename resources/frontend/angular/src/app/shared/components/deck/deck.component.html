@@ -24,7 +24,7 @@
                                     'list-group-item-primary-success' : card?.color == 'Blue;Green',
                                     'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
                                     'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
-                                class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small'
+                                class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small text-decor-none'
                                 target="_blank"
                                 *ngFor="let card of packDeck(mainDeck)" >
                                 <div class='d-flex flex-fill justify-content-between'>
@@ -53,7 +53,7 @@
                                     'list-group-item-primary-success' : card?.color == 'Blue;Green',
                                     'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
                                     'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
-                                class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small'
+                                class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small text-decor-none'
                                 target="_blank"
                                 *ngFor="let card of packDeck(sideDeck)" >
                                 <div class='d-flex flex-fill justify-content-between'>
@@ -72,11 +72,14 @@
         <hr />
         <div class='row'>
             <div class='col-12'>
-                <h4 class='text-light'>Deck Layout</h4>
+                <h4 class='text-light'>Visual Layout</h4>
+                <p class='text-light'><small>*Visiual layout is still a prototype, you may see visual or performance errors</small></p>
             </div>
         </div>
         <div class='row'>
-            
+            <div class='col-md-2 mb-3' *ngFor="let card of packDeck(mainDeck)">
+                <img src="{{card?.thumbnail}}" class="rounded-img" (click)="showCardInfo(card)" />
+            </div>
         </div>
     </section>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 
 @Component({
   selector: 'error-modal-component',
@@ -9,7 +9,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class ErrorModalComponent implements OnInit {
 
   constructor() { }
-
+  @Input() error = '';
   ngOnInit(): void {
   }
 
