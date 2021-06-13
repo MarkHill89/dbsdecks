@@ -20,4 +20,9 @@ class CardController extends Controller
 
         return $dataService->getAllDecks($isPublic, $leaderCardNumber);
     }
+
+    public function get_leaders(Request $request, DataService $dataService)
+    {
+        return $dataService->getAllLeaders();
+    }
 }

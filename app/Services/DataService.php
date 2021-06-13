@@ -56,4 +56,17 @@ class DataService
             ];
         });
     }
+
+    public function getAllLeaders()
+    {
+        return collect(Proc::call('get_leaders'))
+        ->map(function ($row) {
+            return [
+                'id' => $row != null ? $row->id : 0,
+                'cardSetNumber' => $row != null ? $row->card_set_number : '',
+                'cardName' => $row != null ? $row->card_name : 0,
+                'tcgUrl' => $row != null ? $row->tcg_url : ''
+            ];
+        });
+    }
 }

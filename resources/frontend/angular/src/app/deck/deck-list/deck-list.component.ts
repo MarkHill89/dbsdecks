@@ -10,14 +10,19 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 export class DeckListComponent implements OnInit{
   deckLists:any= [];
+  leadersLists:any = [];
   returnedDeckList:any = [];
   deckListsLoaded = false;
   maxSize = 5;
   page = 1;
-  pageSize = 10;
-  total = 0;
+  pageSize:number = 10;
+  total:number = 0;
   showBoundaryLinks: boolean = true;
   showDirectionLinks: boolean = true;
+  filter:any = undefined;
+  selectedLeader:any = undefined;
+  selectedLeaderName:any = undefined;
+  
 
   constructor(
     protected dataService:DataService
@@ -27,22 +32,46 @@ export class DeckListComponent implements OnInit{
     this.fetchData();
   }
 
+  // --- Sorting ---
+  key = "submitDate";
+  reverse = false; // Default sort ascending
+  // reverse = true; // Default sort descending
+
+  // Sorting function
+  sort(key: string) {
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
+  // --- End Sorting ---
+
    async fetchData(): Promise<any> {
     try{
+        this.leadersLists = await this.dataService.getLeaders();
         this.deckLists = await this.dataService.getDeckListAll(1,'0');
-        this.returnedDeckList = this.deckLists.slice(0, 10);
         this.total = this.deckLists.length;
         this.deckListsLoaded = true;
+
+        this.sort(this.key);
        
     } catch(e){
       console.log(e);
     }
    }
 
-   pageChanged(event: PageChangedEvent): void {
-    const startItem = (event.page - 1) * event.itemsPerPage;
-    const endItem = event.page * event.itemsPerPage;
-    this.returnedDeckList = this.deckLists.slice(startItem, endItem);
+  search(){
+    if(this.filter){
+      this.ngOnInit();
+    } else{
+      this.deckLists = this.deckLists.filter((res:any) => {
+        return res.title.toLocaleLowerCase().match(this.filter.toLocaleLowerCase());
+      })
+    }
   }
+
+  selectLeader(event:any){
+    this.selectedLeaderName = event.cardName;
+    
+  }
+
   
 }

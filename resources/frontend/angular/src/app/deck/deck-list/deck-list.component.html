@@ -5,21 +5,33 @@
                 <form>
                     <div class='row'>
                         <div class='col-md-4 col-lg-3'>
-                            <input type='text' class='form-control form-control-sm rounded-0 mt-1' placeholder='Search by username'/>
+                            <input 
+                            class='form-control form-control-sm rounded-0 mt-1'
+                            type='text'
+                            name="searchInput"
+                            placeholder='Search by username'
+                            id="searchInput"
+                            [(ngModel)]="filter"
+                            />
+`
                         </div>
                         <div class='col-md-4 col-lg-3'>
-                            <select class='form-control form-control-sm rounded-0 mt-1' placeholder='Search by username'>
-                                <option value="" selected="selected">-- Leader Card --</option>
-                                <option>test</option>
+                            <select 
+                                *ngIf="deckListsLoaded"
+                                name="leader"
+                                class="form-control form-control-sm rounded-0 mt-1"
+                                [(ngModel)]="selectedLeader"
+                                (ngModelChange)="selectLeader($event)"
+                                placeholder="Search by username"
+                                
+                            >
+                            <option [nvValue]=''>-- See All --</option>
+                                <option
+                                    *ngFor="let leader of leadersLists; let n = index"
+                                    [ngValue]="leader">
+                                        {{leader.cardName}}
+                                </option>
                             </select>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col'>
-                            <div class='btn-group mt-2'>
-                                <button class='btn btn-success btn-sm d-block rounded-0' type="submit">Apply</button>
-                                <button class='btn btn-danger btn-sm d-block rounded-0' type="reset" >Clear</button>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -40,17 +52,10 @@
                     <div class="col-md-12">
                     </div>
                     <div class="col-md-12">
-                        <pagination
-                            [boundaryLinks]="showBoundaryLinks" 
-                            [directionLinks]="showDirectionLinks" 
-                            [totalItems]="total"
-                            [itemsPerPage]="10"
-                            [maxSize]=maxSize
-                            (pageChanged)="pageChanged($event)">
-                        </pagination>
+                        <pagination-controls (pageChange)="page = $event"></pagination-controls>
                         <table class="table table-striped">
                             <tbody>
-                                <tr *ngFor="let deckList of returnedDeckList">
+                                <tr *ngFor="let deckList of deckLists  | orderBy: key : reverse | filter:filter | filter:selectedLeaderName | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index">
                                     <td>
                                         <a routerLink="/deck/view/{{deckList.id}}">
                                             <span class="primaryLine">{{deckList.title}}</span>
