@@ -7,4 +7,8 @@ export class DeckQuery extends Query<DeckState> {
     constructor(protected store: DeckStore) {
         super(store)
     }
+
+    get isDeckStored() {
+        return this.getValue().mainDeck.length > 0;
+    }
 }

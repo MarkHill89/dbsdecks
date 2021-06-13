@@ -15,7 +15,15 @@ import { CardChartComponent } from './deck-view/card-chart/card-chart.component'
 import { ColorChartComponent } from './deck-view/color-chart/color-chart.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 @NgModule({
-  declarations: [DeckComponent, DeckListComponent, DeckViewComponent, DeckViewListComponent, DeckViewSpreadComponent, CardChartComponent, ColorChartComponent],
+  declarations: [
+    DeckComponent,
+    DeckListComponent,
+    DeckViewComponent,
+    DeckViewListComponent,
+    DeckViewSpreadComponent,
+    CardChartComponent,
+    ColorChartComponent
+  ],
   imports: [
     RouterModule,
     CommonModule,
