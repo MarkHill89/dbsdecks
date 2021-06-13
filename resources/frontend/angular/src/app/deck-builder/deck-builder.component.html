@@ -10,7 +10,7 @@
             <i class="fas fa-filter fa-lg"></i>
         </button>
     </div>
-    <div class='filter-btn-wrapper' *ngIf="(view$ | async) > 1">
+    <div class='filter-btn-wrapper' *ngIf="(view$ | async)">
         <div class='mode-btn-wrapper'  [ngSwitch]="entryMode">
             <button class='btn btn-lg btn-orange mode-btn'  *ngSwitchCase="'main'" (click)="entryMode = 'side'">
                 Entry Mode<br>
