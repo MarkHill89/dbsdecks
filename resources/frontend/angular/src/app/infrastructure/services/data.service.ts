@@ -25,5 +25,14 @@ export class DataService {
             .pipe(map(data => {return data}))
             .toPromise();
   }
+
+  getLeaders(){
+    return this.http
+    .get(this.baseUrl + "deck/get-leaders")
+    .pipe(map(data =>{
+      return data
+    }))
+    .toPromise();
+  }
   
 }
