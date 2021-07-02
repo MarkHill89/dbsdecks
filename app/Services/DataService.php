@@ -36,6 +36,20 @@ class DataService
             ];
         });
     }
+    public function getDeckListData(int $id)
+    {
+        return collect(Proc::callParm('get_deck_list_data', [
+            'id' => $id
+        ]))
+        ->map(function ($row) {
+            return [
+                'cardNumber' => $row != null ? $row->cardNumber : '',
+                'cleanName' => $row != null ? $row->cleanName : '',
+                'imageUrl' =>$row != null ? $row->imageUrl : '',
+                'mainDeckQty' =>$row != null ? $row->mainDeckQty : '',
+            ];
+        });
+    }
 
     public function getAllDecks(int $isPublic, string $leaderCardNumber)
     {
@@ -46,13 +60,12 @@ class DataService
         ->map(function ($row) {
             return [
                 'id' => $row != null ? $row->id : 0,
-                'userId' => $row != null ? $row->userId : 0,
                 'title' => $row != null ? $row->title : 0,
-                'leader' => $row != null ? $row->leader: 0,
                 'isPrivate' => $row != null ? $row->isPrivate: 0,
                 'isActive' => $row != null ? $row->isActive: 0,
                 'submitDate' => $row != null ? $row->submitDate: 0,
                 'leaderCardNumber' => $row != null ? $row->leaderCardNumber: 0,
+                'username' => $row != null ? $row->username:''
             ];
         });
     }

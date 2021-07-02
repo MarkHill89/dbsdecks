@@ -17,6 +17,7 @@ import { InfrastructureModule } from  "./infrastructure/infrastructure.module";
 import { DeckComponent } from './deck/deck.component';
 import {LoginComponent} from '@dbsdecks/app/login/login.component';
 import {DeckListComponent} from '@dbsdecks/app/deck/deck-list/deck-list.component';
+import {DeckListViewComponent} from '@dbsdecks/app/deck/deck-list/view/view.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
@@ -33,6 +34,7 @@ import { ForgotComponent } from './login/forgot/forgot.component';
     HomeComponent,
     DeckComponent,
     DeckListComponent,
+    DeckListViewComponent,
     LoginComponent,
     RegisterComponent,
     ForgotComponent
