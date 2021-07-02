@@ -292,6 +292,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       mainDeck: this.mainDeck$.getValue(),
       sideDeck: this.sideDeck$.getValue()
     };
+    console.log(deck);
     this.subscriptions.add(this.dataService.submitDeck(deck).subscribe((deckId) => {
       this.deckService.updateDeck(deck);
       this.router.navigate(['/deck/view', deckId]);

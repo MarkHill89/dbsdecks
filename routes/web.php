@@ -39,6 +39,8 @@ Route::prefix('api')->group(function () {
 
     Route::prefix('deck')->group(function() {
         Route::get('/list', [CardController::class, 'get_deck_lists_all']);
+        Route::get('/get-leaders', [CardController::class, 'get_leaders']);
+        
     });
 
     // Protected Routes
