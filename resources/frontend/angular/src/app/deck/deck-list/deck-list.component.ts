@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import {DataService} from '@dbsdecks/app/infrastructure/services/data.service';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+
 @Component({
   selector: 'deck-list',
   templateUrl: './deck-list.component.html',

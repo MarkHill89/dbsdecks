@@ -25,6 +25,16 @@ export class DataService {
             .pipe(map(data => {return data}))
             .toPromise();
   }
+  getDeckListData(id:any){
+    let params = new HttpParams();
+    params = params.append('deckId', id);
+
+    return this.http
+      .get(this.baseUrl + "deck/list/view/", {params: params})
+      .pipe(map(data => {return data}))
+      .toPromise();
+  }
+
 
   getLeaders(){
     return this.http
