@@ -36,6 +36,7 @@ class DataService
             ];
         });
     }
+    
     public function getDeckListData(int $id)
     {
         return collect(Proc::callParm('get_deck_list_data', [
@@ -46,7 +47,8 @@ class DataService
                 'cardNumber' => $row != null ? $row->cardNumber : '',
                 'cleanName' => $row != null ? $row->cleanName : '',
                 'imageUrl' =>$row != null ? $row->imageUrl : '',
-                'mainDeckQty' =>$row != null ? $row->mainDeckQty : '',
+                'mainDeckQty' =>$row != null ? $row->mainDeckQty : 0,
+                'sideDeckQty' =>$row != null ? $row->sideDeckQty : 0,
             ];
         });
     }

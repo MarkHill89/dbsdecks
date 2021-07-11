@@ -40,6 +40,7 @@ Route::prefix('api')->group(function () {
     Route::prefix('deck')->group(function() {
         Route::get('/list', [CardController::class, 'get_deck_lists_all']);
         Route::get('/list/view', [CardController::class, 'get_deck_list_data']);
+        Route::get('/list/view-deck', [CardController::class, 'get_deck_view_data']);
         Route::get('/get-leaders', [CardController::class, 'get_leaders']);
         
     });
