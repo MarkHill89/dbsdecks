@@ -24,11 +24,12 @@ class ScraperController extends Controller
 
     public Crawler $crawler;
     public $array = array();
+    public $groupId = "428417";
     public function index()
     {
         $array = array();
         $client = new Client();
-        $this->crawler = $client->request('GET', 'http://www.dbs-cardgame.com/us-en/cardlist/?search=true&category=428013');
+        $this->crawler = $client->request('GET', "http://www.dbs-cardgame.com/us-en/cardlist/?search=true&category={$this->groupId}");
         $this->crawler->filter('.list-inner > li')->each(function(Crawler $listInner){
 
             $listInner->filter('.cardFront')->each(function($cardFront) {
@@ -183,7 +184,8 @@ class ScraperController extends Controller
                 $lb = preg_replace("/ï¼/", "{", $gt);
                 $rb = preg_replace("/ï¼/", "}", $lb);
                 $ns = preg_replace("/ã»/", "", $rb);
-                return addslashes($ns);
+                $na = preg_replace("/â/", "'", $ns);
+                return addslashes($na);
             };
 
             $cardData = [];
@@ -202,7 +204,7 @@ class ScraperController extends Controller
             $cardData['Era'] = $this->era;
             $cardData['Character'] = $this->character;
             $cardData['productId'] = $productId();
-            $cardData['groupId'] = "428013";
+            $cardData['groupId'] = $this->groupId;
             $cardData['url'] = $url();
             $cardData['imageUrl'] = "https://dbs-decks.com/img/{$this->cardNumber}.png";
             if($cardData['CardType'] === "Leader") {
