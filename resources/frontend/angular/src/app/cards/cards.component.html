@@ -1,11 +1,21 @@
 <div class="container-fluid">
+    <div class='filter-btn-wrapper'>
+        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('')">
+            <i class="fas fa-filter fa-lg"></i>
+        </button>
+    </div>
+    <div class='scroll-to-top-btn-wrapper' [ngClass]="{'show-scrollTop': windowScrolled}">
+        <button class='btn btn-lg btn-light scroll-to-top-btn' (click)="scrollToTop()">
+            <i class="fas fa-arrow-up fa-lg"></i>
+        </button>
+    </div>
     <div class="row my-3"
     infinite-scroll
     [infiniteScrollDistance]="1"
     [infiniteScrollThrottle]="300"
     (scrolled)="onScrollDown()">
         <section *ngFor="let card of scrollCards; trackBy: cardId" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
-            <div class="d-flex card-db-list-item text-decoration-none text-white rounded border cursor-pointer">
+            <div class="d-flex card-db-list-item text-decoration-none text-white rounded border cursor-pointer" (click)="openCardView(card)">
                 <img [src]="cardImage(card.thumbnail)" class='card-db-image mr-2 rounded-lg' alt="{{card.title}}" />
                 <div class="card-db-info">
                     <div class="">
