@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, NgModule,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgModule, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import {ForgotComponent} from './forgot/forgot.component';
 
 import {AuthService} from "@dbsdecks/app/infrastructure/services/";

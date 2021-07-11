@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '@dbsdecks/environments/environment'
 import {HttpClient, HttpParams} from '@angular/common/http';
 
@@ -59,4 +59,11 @@ export class DataService {
     .toPromise();
   }
   
+  submitDeck(deck: any) {
+    return this.http.post(this.baseUrl + "deck/submit", deck)
+            .pipe(
+              map(data => {return data}),
+              catchError(error => error)
+            )
+  }
 }
