@@ -1,66 +1,61 @@
-<div class='container-fluid' [ngSwitch]="view$ | async">
+<div class='container-fluid' 
+    infinite-scroll
+    (scrolled)="onScrollDown()"
+    [scrollWindow]="(view$ | async) == 0 ? false : true"
+    [infiniteScrollDisabled]="(view$ | async) == 0 ? true : false"
+    [fromRoot]="true"
+    [ngSwitch]="view$ | async">
     <div class='filter-btn-wrapper' *ngSwitchCase="1">
         <button class='btn btn-lg btn-light filter-btn' (click)="openFilters('Leader')">
-            LF
+            <i class="fas fa-filter fa-lg"></i>
         </button>
     </div>
-    <div class='filter-btn-wrapper' *ngSwitchCase="2">
+    <div class='filter-btn-wrapper' *ngIf="(view$ | async)">
         <div class='mode-btn-wrapper'  [ngSwitch]="entryMode">
-            <button class='btn btn-lg btn-light mode-btn'  *ngSwitchCase="'main'" (click)="entryMode = 'side'">
+            <button class='btn btn-lg btn-orange mode-btn'  *ngSwitchCase="'main'" (click)="entryMode = 'side'">
                 Entry Mode<br>
                 Main
             </button>
-            <button class='btn btn-lg btn-dark mode-btn'  *ngSwitchCase="'side'" (click)="entryMode = 'main'">
+            <button class='btn btn-lg btn-black mode-btn'  *ngSwitchCase="'side'" (click)="entryMode = 'main'">
                 Entry Mode<br>
                 Side
             </button>
         </div>
-        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('Unison')">
-            UF
+        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('Unison')"  *ngSwitchCase="2">
+            <i class="fas fa-filter fa-lg"></i>
+        </button>
+        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('Battle/Extra')" *ngSwitchCase="3">
+            <i class="fas fa-filter fa-lg"></i>
         </button>
     </div>
-    <div class='filter-btn-wrapper' *ngSwitchCase="3">
-        <div class='mode-btn-wrapper'  [ngSwitch]="entryMode">
-            <button class='btn btn-lg btn-light mode-btn'  *ngSwitchCase="'main'" (click)="entryMode = 'side'">
-                Entry Mode<br>
-                Main
-            </button>
-            <button class='btn btn-lg btn-dark mode-btn'  *ngSwitchCase="'side'" (click)="entryMode = 'main'">
-                Entry Mode<br>
-                Side
-            </button>
-        </div>
-        <button class='btn btn-lg btn-light filter-btn'  (click)="openFilters('Battle/Extra')">
-            CF
-        </button>
-    </div>
-    <div class='scroll-to-top-btn-wrapper' [ngClass]="{'show-scrollTop': windowScrolled}">
+    <div class='scroll-to-top-btn-wrapper' [ngClass]="{'show-scrollTop': windowScrolled}" *ngIf="(view$ | async) != 0">
         <button class='btn btn-lg btn-light scroll-to-top-btn' (click)="scrollToTop()">
-            ^    
+            <i class="fas fa-arrow-up fa-lg"></i>
         </button>
     </div>
     <section class="row mb-3">
         <div class='col'>
             <div class='btn-group d-flex w-100'>
-                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 0, 'btn-outline-warning': (view$ | async) != 0}" (click)="switchView(0)">Stats</button>
-                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 1, 'btn-outline-warning': (view$ | async) != 1}"(click)="switchView(1)">Leader</button>
-                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 2, 'btn-outline-warning': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
-                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 3, 'btn-outline-warning': (view$ | async) != 3}"(click)="switchView(3)">Battle/Extra</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 0, 'btn-outline-white': (view$ | async) != 0}" (click)="switchView(0)">Stats</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 1, 'btn-outline-white': (view$ | async) != 1}"(click)="switchView(1)">Leader</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 2, 'btn-outline-white': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 3, 'btn-outline-white': (view$ | async) != 3}"(click)="switchView(3)">Battle/Extra</button>
                 <button class='btn btn-sm btn-danger' (click)="clearDeck()">Reset</button>
-                <button class='btn btn-sm btn-success'  [disabled]="!(deckIsValid$ | async)">Save</button>
+                <button class='btn btn-sm btn-black'  [disabled]="!(deckIsValid$ | async)">Save</button>
             </div>
         </div>
     </section>
+    <div class='row my-3' *ngSwitchCase="0">
+        <div class='col'>
+            <input formControlName="title" class='form-control form-control' placeholder="Deck Title"/>
+        </div>
+    </div>
     <app-deck
         [leader]="leaderCard$ | async"
         [mainDeck]="mainDeck$ | async"
         [sideDeck]="sideDeck$ | async"
         *ngSwitchCase="0"></app-deck>
-    <div class="row my-3" *ngSwitchCase="1"
-    infinite-scroll
-    [infiniteScrollDistance]="1"
-    [infiniteScrollThrottle]="300"
-    (scrolled)="onScrollDown()">
+    <div class="row my-3" *ngSwitchCase="1">
         <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
             <div class='card-wrapper d-flex flex-column justify-content-center'>
                 <div class='card-wrapper-image'>
@@ -68,8 +63,8 @@
                 </div>
                 <div class='card-wrapper-buttons w-100'>
                     <div class='btn-group d-inline-block d-flex w-100'>
-                        <button class='btn btn-sm btn-primary'>Flip</button>
-                        <button class='btn btn-sm btn-info' (click)="setLeaderCard(card)">
+                        <button class='btn btn-sm btn-black'>Flip</button>
+                        <button class='btn btn-sm btn-orange' (click)="setLeaderCard(card)">
                             {{ (leaderCard$ | async)?.cardNumber === card.cardNumber ? 'Selected' : 'Select'}}
                         </button>
                     </div>
@@ -77,11 +72,7 @@
             </div>
         </section>
     </div>
-    <div class="row my-3" *ngSwitchCase="2"
-    infinite-scroll
-    [infiniteScrollDistance]="1"
-    [infiniteScrollThrottle]="300"
-    (scrolled)="onScrollDown()">
+    <div class="row my-3" *ngSwitchCase="2">
         <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
             <div class='card-wrapper d-flex flex-column justify-content-center'>
                 <div class='card-wrapper-image'>
@@ -89,20 +80,16 @@
                 </div>
                 <div class='card-wrapper-buttons w-100'>
                     <div class='btn-group d-inline-block d-flex w-100'>
-                        <button class='btn btn-sm btn-primary' (click)="removeCard(card)">-</button>
-                        <button class='btn btn-sm btn-light' disabled='true'>{{getMainCardCount(card)}}</button>
-                        <button class='btn btn-sm btn-dark' disabled='true'>{{getSideCardCount(card)}}</button>
-                        <button class='btn btn-sm btn-primary' (click)="addCard(card)">+</button>
+                        <button class='btn btn-sm btn-black' (click)="removeCard(card)">-</button>
+                        <button class='btn btn-sm btn-black' disabled='true'>{{getMainCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-black' disabled='true'>{{getSideCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-black' (click)="addCard(card)">+</button>
                     </div>
                 </div>
             </div>
         </section>
     </div>
-    <div class="row my-3" *ngSwitchCase="3"
-    infinite-scroll
-    [infiniteScrollDistance]="1"
-    [infiniteScrollThrottle]="300"
-    (scrolled)="onScrollDown()">
+    <div class="row my-3" *ngSwitchCase="3">
         <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
             <div class='card-wrapper d-flex flex-column justify-content-center'>
                 <div class='card-wrapper-image'>
@@ -110,10 +97,10 @@
                 </div>
                 <div class='card-wrapper-buttons w-100'>
                     <div class='btn-group d-inline-block d-flex w-100'>
-                        <button class='btn btn-sm btn-primary' (click)="removeCard(card)">-</button>
-                        <button class='btn btn-sm btn-light' disabled='true'>{{getMainCardCount(card)}}</button>
-                        <button class='btn btn-sm btn-dark' disabled='true'>{{getSideCardCount(card)}}</button>
-                        <button class='btn btn-sm btn-primary' (click)="addCard(card)">+</button>
+                        <button class='btn btn-sm btn-black' (click)="removeCard(card)">-</button>
+                        <button class='btn btn-sm btn-black' disabled='true'>{{getMainCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-black' disabled='true'>{{getSideCardCount(card)}}</button>
+                        <button class='btn btn-sm btn-black' (click)="addCard(card)">+</button>
                     </div>
                 </div>
             </div>

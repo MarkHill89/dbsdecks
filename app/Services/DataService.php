@@ -62,7 +62,7 @@ class DataService
         ->map(function ($row) {
             return [
                 'id' => $row != null ? $row->id : 0,
-                'title' => $row != null ? $row->title : 0,
+                'title' => $row != null ? $row->title : '',
                 'isPrivate' => $row != null ? $row->isPrivate: 0,
                 'isActive' => $row != null ? $row->isActive: 0,
                 'submitDate' => $row != null ? $row->submitDate: 0,

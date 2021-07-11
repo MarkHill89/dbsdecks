@@ -14,9 +14,18 @@ import { ChartsModule } from 'ng2-charts';
 import { CardChartComponent } from './deck-view/card-chart/card-chart.component';
 import { ColorChartComponent } from './deck-view/color-chart/color-chart.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { ViewComponent } from './deck-list/view/view.component';
+import { DeckListViewComponent } from './deck-list/view/view.component';
+
 @NgModule({
-  declarations: [DeckComponent, DeckListComponent, DeckViewComponent, DeckViewListComponent, DeckViewSpreadComponent, CardChartComponent, ColorChartComponent, ViewComponent],
+  declarations: [
+    DeckComponent,
+    DeckListComponent,
+    DeckViewComponent,
+    DeckViewListComponent,
+    DeckViewSpreadComponent,
+    CardChartComponent,
+    ColorChartComponent,
+    DeckListViewComponent],
   imports: [
     RouterModule,
     CommonModule,

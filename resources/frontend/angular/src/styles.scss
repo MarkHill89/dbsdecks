@@ -1,10 +1,15 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-
+@import './styles/styles';
 /* You can add global styles to this file, and also import other style files */
 
 body {
     background: #333;
+    height: 100%;
+}
+
+.text-decor-none {
+    text-decoration: none !important;
 }
 
 .cursor-pointer {
@@ -63,7 +68,7 @@ body {
     &.yellow {
         mark {
             background-color: #ffef02;
-            color: #ffffff !important;        
+            color: #000000 !important;        
         }
     }
 }
