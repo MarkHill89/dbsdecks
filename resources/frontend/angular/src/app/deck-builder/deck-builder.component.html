@@ -41,7 +41,7 @@
                 <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 2, 'btn-outline-white': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
                 <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 3, 'btn-outline-white': (view$ | async) != 3}"(click)="switchView(3)">Battle/Extra</button>
                 <button class='btn btn-sm btn-danger' (click)="clearDeck()">Reset</button>
-                <button class='btn btn-sm btn-black'  [disabled]="!(deckIsValid$ | async)">Save</button>
+                <button class='btn btn-sm btn-black' (click)="submitDeck()"  [disabled]="!(deckIsValid$ | async)">Save</button>
             </div>
         </div>
     </section>

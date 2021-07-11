@@ -43,4 +43,13 @@ class CardController extends Controller
     {
         return $dataService->getAllLeaders();
     }
+
+    public function submitDeck(Request $request, DataService $dataService)
+    {
+        $input = $request->all();
+        $id = $input['deck']['id'];
+        $leader = $input['deck']['leader'];
+        $mainDeck = $input['deck']['mainDeck'];
+        $sideDeck = $input['deck']['sideDeck'];
+    }
 }
