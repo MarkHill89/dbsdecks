@@ -21,10 +21,22 @@ class CardController extends Controller
         return $dataService->getAllDecks($isPublic, $leaderCardNumber);
     }
 
+    public function get_deck_view_data(Request $request)
+    {
+        $id = $request->input('deckId');
+
+        return collect(DB::table('deck')
+                        ->where('id', $id)
+                        ->first()
+                );
+    }
+    
+
     public function get_deck_list_data(Request $request, DataService $dataService)
     {
         $id = $request->input('deckId');
         return $dataService->getDeckListData($id);
+        
     }
 
     public function get_leaders(Request $request, DataService $dataService)
