@@ -42,6 +42,7 @@ Route::prefix('api')->group(function () {
         Route::get('/list/view', [CardController::class, 'get_deck_list_data']);
         Route::get('/list/view-deck', [CardController::class, 'get_deck_view_data']);
         Route::get('/get-leaders', [CardController::class, 'get_leaders']);
+        Route::post('/submit', [CardController::class, 'submitDeck']);
         
     });
 

@@ -6,7 +6,6 @@ const cardFilters: any = {
 } as const
 
 export function FilterCards(cards: Card[], filters: any) {
-    console.log(filters);
     const filterFn: any = Object.keys(Object.assign({},filters)).map((key: string) => {
         if(filters[key].length) return cardFilters[key]
     }).filter(x => x !== undefined);
