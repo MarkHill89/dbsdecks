@@ -13,6 +13,11 @@ class CardController extends Controller
         return $dataService->getAllCards();
     }
 
+    public function get_trending_leaders(Request $request, DataService $dataService)
+    {
+        return $dataService->getTrendingLeaders();
+    }
+
     public function get_deck_lists_all(Request $request, DataService $dataService)
     {
         $isPublic = $request->input('isPublic');
@@ -70,10 +75,9 @@ class CardController extends Controller
         $currentCardNumber = '';
         
         DB::table('deck')->updateOrInsert(
-            ['id' =>$id,'userId' => $userId],
+            ['userId' => $userId],
             [
-                'title' => $title,
-                'leaderCardNumber' => strval($leaderCardNumber)
+                'title' => $title
             ]
         );
 
