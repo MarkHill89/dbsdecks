@@ -1,4 +1,39 @@
 deck-list{
+    .deck-list-header {
+        margin-left: 0;
+        margin-right: 0;
+        background-color: #111;
+        .pagination-wrapper {
+            padding-left: 0;
+        }
+    }
+    .pagination-controls {
+        .ngx-pagination {
+            margin-left: -40px;
+            margin-bottom: 0;
+
+
+            .ellipsis {
+                overflow: inherit;
+            }
+            li {
+                background-color: #222;
+                color: #e5e5e5;
+                
+            }
+            .disabled:hover {
+                background-color: #222;
+                cursor: not-allowed;
+            }
+            a:hover {
+                background: #F67B0B;
+            }
+            .current {
+                background: #F67B0B;
+                color: #000;
+            }
+        }
+    }
     .recent-decks{
         .table{
             tbody{
@@ -11,6 +46,10 @@ deck-list{
                     td{
                         font-size:14px;
                         padding:5px;
+                        a {
+                            color: #fff;
+                            text-decoration: none;
+                        }
                         span{
                             &.primaryLine{
                                 font-weight: bold;
@@ -25,6 +64,9 @@ deck-list{
                         color:#000000;
                         background-color: rgba(#ffffff, .8);
                         transition:.15s all ease;
+                        a {
+                            color: #000;
+                        }
                     &:nth-of-type(odd){
                         background-color: rgba(#ffffff, .4);
                     }

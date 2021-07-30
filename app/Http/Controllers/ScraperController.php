@@ -24,7 +24,8 @@ class ScraperController extends Controller
 
     public Crawler $crawler;
     public $array = array();
-    public $groupId = "428417";
+    public $groupId = "428014";
+    public $setName = 'cross-spirits';
     public function index()
     {
         $array = array();
@@ -108,6 +109,7 @@ class ScraperController extends Controller
                 $this->energy = str_replace('../../images/cardlist/common/blue_ball.png', 'B', $this->energy);
                 $this->energy = str_replace('../../images/cardlist/common/green_ball.png', 'G', $this->energy);
                 $this->energy = str_replace('../../images/cardlist/common/yellow_ball.png', 'Y', $this->energy);
+                $this->energy = str_replace('../../images/cardlist/common/black_ball.png', 'K', $this->energy);
                 if(strlen($this->energy)) {
                     $this->energy = str_replace(')', '', $this->energy).")";
                 }
@@ -168,7 +170,7 @@ class ScraperController extends Controller
                 $removeLeaderSplit = str_replace(" // ", " ", $noAst);
                 $noSpaces = str_replace(" ", "-", $removeLeaderSplit);
                 $lowerCase = strtolower($noSpaces);
-                return "https://store.tcgplayer.com/dragon-ball-super-ccg/supreme-rivalry/$lowerCase";
+                return "https://store.tcgplayer.com/dragon-ball-super-ccg/{$this->setName}/$lowerCase";
             };
             
             $cleanName = function() {
@@ -179,7 +181,10 @@ class ScraperController extends Controller
             };
             
             $skill = function() {
-                $lt = preg_replace("/ã/", "", $this->skill);
+                $nm = preg_replace("/１/", "1", $this->skill);
+                $cl = preg_replace("/\?ã¼/", ":<br>", $nm);
+                $sp = preg_replace("/ï¼/", " ", $cl);
+                $lt = preg_replace("/ã/", "", $sp);
                 $gt = preg_replace("/ã/", "", $lt);
                 $lb = preg_replace("/ï¼/", "{", $gt);
                 $rb = preg_replace("/ï¼/", "}", $lb);
@@ -189,20 +194,20 @@ class ScraperController extends Controller
             };
 
             $cardData = [];
-            $cardData['name'] = addSlashes($this->cardName);
-            $cardData['cleanName'] =  $cleanName();
+            $cardData['name'] = utf8_decode(addSlashes($this->cardName));
+            $cardData['cleanName'] =  utf8_decode($cleanName());
             $cardData['Rarity'] = preg_replace("/\[\w+\]/", "", $this->rarity);
             $cardData['Number'] = $this->cardNumber;
             $cardData['Description'] = $skill();
             $cardData['CardType'] = ucfirst(strtolower($this->cardType));
             $cardData['Color'] = $this->color;
-            $cardData['EnergyColorCost'] = $this->energy;
+            $cardData['EnergyColorCost'] = preg_replace("/１/", "1", $this->energy);
             $cardData['SpecialTrait'] = $this->specialTrait;
             $cardData['Power'] = $this->power;
             $cardData['ComboPower'] = $this->comboPower;
             $cardData['ComboEnergy'] = $this->comboEnergy;
             $cardData['Era'] = $this->era;
-            $cardData['Character'] = $this->character;
+            $cardData['Character'] = utf8_decode($this->character);
             $cardData['productId'] = $productId();
             $cardData['groupId'] = $this->groupId;
             $cardData['url'] = $url();
@@ -211,10 +216,9 @@ class ScraperController extends Controller
                 $cardData['imageUrl'] = $cardData['imageUrl'].";https://dbs-decks.com/img/{$this->cardNumber}_b.png";
             }
             $cardData['GTIN'] = 0;
-            DB::table('tcgplayer_card')->upsert($cardData,'groupId');
+            DB::table('tcgplayer_card')->updateOrInsert(['Number' => $this->cardNumber, 'groupId' => $this->groupId], $cardData);
             array_push($this->array, $cardData);
         });
-        
         return json_encode($this->array);
     }
 

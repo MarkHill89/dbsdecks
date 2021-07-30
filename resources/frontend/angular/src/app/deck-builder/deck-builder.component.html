@@ -33,9 +33,9 @@
             <i class="fas fa-arrow-up fa-lg"></i>
         </button>
     </div>
-    <section class="row mb-3">
+    <section class="row mb-0">
         <div class='col'>
-            <div class='btn-group d-flex w-100'>
+            <div class='btn-group d-flex w-100 mb-0'>
                 <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 0, 'btn-outline-white': (view$ | async) != 0}" (click)="switchView(0)">Stats</button>
                 <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 1, 'btn-outline-white': (view$ | async) != 1}"(click)="switchView(1)">Leader</button>
                 <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 2, 'btn-outline-white': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
@@ -45,9 +45,13 @@
             </div>
         </div>
     </section>
-    <div class='row my-3' *ngSwitchCase="0">
-        <div class='col'>
-            <input formControlName="title" class='form-control form-control' placeholder="Deck Title"/>
+    <div class='row my-0' *ngSwitchCase="0">
+        <div class='col pt-0'>
+            <div class='input-group mt-0'>
+                <input formControlName="title" class='form-control form-control' placeholder="Deck Title"/>
+                <button class='btn btn-black' *ngIf="(isPrivate$ | async) === false" (click)="setDeckVisibility(true)">Public</button>
+                <button class='btn btn-black' *ngIf="(isPrivate$ | async) === true" (click)="setDeckVisibility(false)" >Private</button>
+            </div>
         </div>
     </div>
     <app-deck
