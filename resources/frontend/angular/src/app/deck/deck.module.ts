@@ -13,7 +13,7 @@ import { DeckViewSpreadComponent } from './deck-view/deck-view-spread/deck-view-
 import { ChartsModule } from 'ng2-charts';
 import { CardChartComponent } from './deck-view/card-chart/card-chart.component';
 import { ColorChartComponent } from './deck-view/color-chart/color-chart.component';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DeckListViewComponent } from './deck-list/view/view.component';
 
 @NgModule({
@@ -34,7 +34,7 @@ import { DeckListViewComponent } from './deck-list/view/view.component';
     ReactiveFormsModule,
     SharedModule,
     ChartsModule,
-    PaginationModule.forRoot(),
+    NgxPaginationModule,
     NgbModule,
   ]
 })
