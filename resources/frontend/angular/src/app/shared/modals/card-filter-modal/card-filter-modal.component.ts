@@ -24,10 +24,12 @@ export class CardFilterModalComponent implements OnInit {
   ngOnInit(): void {
     const title = this.cardFilters.title || '';
     const description = this.cardFilters.description || '';
+    const cardNumber = this.cardFilters.cardNumber || '';
     
     this.filterForm = this.formBuilder.group({
       title: [title],
-      description: [description]
+      description: [description],
+      cardNumber: [cardNumber]
     });
 
     this.filterForm.valueChanges.subscribe((formValues: any) => {
@@ -38,7 +40,8 @@ export class CardFilterModalComponent implements OnInit {
   clear() {
     this.filterForm.reset({
       title: '',
-      description: ''
+      description: '',
+      cardNumber: ''
     });
   }
 

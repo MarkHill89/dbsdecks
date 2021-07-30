@@ -12,6 +12,7 @@ export class DeckListComponent implements OnInit{
   deckLists:any= [];
   leadersLists:any = [];
   returnedDeckList:any = [];
+  trendingLeaders:any = [];
   deckListsLoaded = false;
   maxSize = 5;
   page = 1;
@@ -48,6 +49,8 @@ export class DeckListComponent implements OnInit{
     try{
         this.leadersLists = await this.dataService.getLeaders();
         this.deckLists = await this.dataService.getDeckListAll(1,'0');
+        this.trendingLeaders = await this.dataService.getTrendingLeaders();
+
         this.total = this.deckLists.length;
         this.deckListsLoaded = true;
 

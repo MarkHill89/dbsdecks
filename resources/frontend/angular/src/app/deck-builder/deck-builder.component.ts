@@ -39,7 +39,8 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   view$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  
+  isPrivate$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   activeCards: Card[] = [];
   subscriptions: Subscription = new Subscription;
   
@@ -200,6 +201,10 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     })
   }
 
+  setDeckVisibility(status: boolean) {
+    this.isPrivate$.next(status);
+  }
+
   private deckCheck(card: Card): boolean {
     let deckList = this.mainDeck$.getValue().concat(this.sideDeck$.getValue());
     if(deckList.length === 0) {
@@ -288,6 +293,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     const deck = { 
       id: this.deckId$.getValue(), 
       title : this.title.value,
+      isPrivate: this.isPrivate$.getValue(),
       leader: this.leaderCard$.getValue(),
       mainDeck: this.mainDeck$.getValue(),
       sideDeck: this.sideDeck$.getValue()
@@ -306,6 +312,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     this.mainDeck$.next([]);
     this.sideDeck$.next([]);
     this.deckIsValid$.next(false);
+    this.isPrivate$.next(false);
   }
 
   ngOnDestroy() {

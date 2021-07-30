@@ -11,9 +11,7 @@
                             name="searchInput"
                             placeholder='Search by username'
                             id="searchInput"
-                            [(ngModel)]="filter"
-                            />
-`
+                            [(ngModel)]="filter"/>
                         </div>
                         <div class='col-md-4 col-lg-3'>
                             <select 
@@ -22,9 +20,7 @@
                                 class="form-control form-control-sm rounded-0 mt-1"
                                 [(ngModel)]="selectedLeader"
                                 (ngModelChange)="selectLeader($event)"
-                                placeholder="Search by username"
-                                
-                            >
+                                placeholder="Search by username">
                             <option [ngValue]=''>-- See All --</option>
                                 <option
                                     *ngFor="let leader of leadersLists; let n = index"
@@ -39,27 +35,29 @@
         </section>
     </div>
     <div class='row'>
-        <div class='col-md-4 col-lg-3'>
-        </div>
-    </div>
-    <div class='row'>
         <section class='col-md-6' >
             <div class="recent-decks" *ngIf="deckListsLoaded">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>Community Decks</h2>
+                        <h3 class='text-light'>Community Decks</h3>
                     </div>
                     <div class="col-md-12">
-                    </div>
-                    <div class="col-md-12">
-                        <pagination-controls (pageChange)="page = $event"></pagination-controls>
-                        <table class="table table-striped">
+                        <div class='row deck-list-header'>
+                            <div class='col-12 pagination-wrapper'>
+                                <pagination-controls 
+                                    class='pagination-controls' 
+                                    (pageChange)="page = $event"
+                                    responsive="true">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                        <table class="table table-striped my-0">
                             <tbody>
-                                <tr *ngFor="let deckList of deckLists  | orderBy: key : reverse | filter:filter | filter:selectedLeaderName | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index">
+                                <tr *ngFor="let deckList of deckLists | filter:filter | filter:selectedLeaderName | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index">
                                     <td>
-                                        <a routerLink="/deck/view/{{deckList.id}}">
-                                            <span class="primaryLine">{{deckList.title}}</span>
-                                            <br/><span class="secondaryLine">Posted by: {{deckList.username}} on {{deckList.submitDate}}</span>
+                                        <a routerLink="/deck/view/{{deckList.id}}" class='w-100'>
+                                            <span class="primaryLine w-100">{{deckList.title}}</span>
+                                            <br/><span class="secondaryLine w-100">Posted by: {{deckList.username}} on {{deckList.submitDate}}</span>
                                         </a>
                                     </td>
                                 </tr>
@@ -69,10 +67,9 @@
                 </div>   
             </div>
         </section>
-        <section class='col d-block d-sm-none my-2'></section>
+        
 		<section class='col-md-3'>
         </section>
-        <section class='col d-block d-sm-none my-2'></section>
 		<section class='col-md-3'>
 		</section>
     </div>
