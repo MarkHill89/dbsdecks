@@ -85,4 +85,17 @@ class DataService
             ];
         });
     }
+
+    public function getTrendingLeaders()
+    {
+        return collect(Proc::call('get_trending_leaders'))
+        ->map(function ($row) {
+            return [
+                'cardName' => $row != null ? $row->cardName : '',
+                'cardNumber' => $row != null ? $row->cardNumber : '',
+                'imageUrl' => $row != null ? $row->imageUrl : '',
+                'leaderCount' => $row != null ? $row->leaderCount : 0,
+            ];
+        });
+    }
 }

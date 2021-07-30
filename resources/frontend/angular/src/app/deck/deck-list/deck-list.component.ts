@@ -50,7 +50,6 @@ export class DeckListComponent implements OnInit{
         this.leadersLists = await this.dataService.getLeaders();
         this.deckLists = await this.dataService.getDeckListAll(1,'0');
         this.trendingLeaders = await this.dataService.getTrendingLeaders();
-
         this.total = this.deckLists.length;
         this.deckListsLoaded = true;
 
