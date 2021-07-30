@@ -60,6 +60,15 @@ export class DataService {
     .toPromise();
   }
   
+  getTrendingLeaders(){
+    return this.http
+    .get(this.baseUrl + "deck/trending-leaders")
+    .pipe(map(data =>{
+      return data
+    }))
+    .toPromise();
+  }
+  
   submitDeck(deck:Object):Observable<any>{
     return this.http.post(this.baseUrl + "deck/submit", {deck})
             .pipe(
