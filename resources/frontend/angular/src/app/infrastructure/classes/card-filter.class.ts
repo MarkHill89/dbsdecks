@@ -2,7 +2,8 @@ import { Card } from '../../cards/state/card.model';
 
 const cardFilters: any = {
     'title' : (card: Card, filters: any) : boolean  => card.title.toLowerCase().indexOf(filters.title.toLowerCase()) > -1,
-    'description' : (card: Card, filters: any) : boolean => card.description.toLowerCase().indexOf(filters.description.toLowerCase()) > -1
+    'description' : (card: Card, filters: any) : boolean => card.description.toLowerCase().indexOf(filters.description.toLowerCase()) > -1,
+    'cardNumber': (card: Card, filters: any) : boolean => card.cardNumber.toLowerCase().indexOf(filters.cardNumber.toLowerCase()) > -1
 } as const
 
 export function FilterCards(cards: Card[], filters: any) {

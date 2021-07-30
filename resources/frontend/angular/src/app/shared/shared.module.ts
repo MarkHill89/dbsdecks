@@ -20,6 +20,7 @@ import { ImageStringPipe } from './pipes/image-string.pipe';
 import { CardFilterModalComponent } from './modals/card-filter-modal/card-filter-modal.component';
 import { CardInfoModalComponent } from './modals/card-info-modal/card-info-modal.component';
 import { DeckComponent } from './components/deck/deck.component';
+import { LeaderCardComponent } from './components/leader-card/leader-card.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { DeckComponent } from './components/deck/deck.component';
     ImageStringPipe,
     CardInfoModalComponent,
     CardFilterModalComponent,
-    DeckComponent
+    DeckComponent,
+    LeaderCardComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,8 @@ import { DeckComponent } from './components/deck/deck.component';
     DateTimePipe,
     CardTextPipe,
     FilterPipe,
-    ImageStringPipe
+    ImageStringPipe,
+    LeaderCardComponent
   ]
 })
 export class SharedModule { 
