@@ -1,0 +1,28 @@
+.list-group-item {
+    overflow: hidden;
+    background-color: #000;
+    color: #e5e5e5;
+    display: block;
+    p {
+        padding: 0;
+        z-index: 1;
+    }
+    .card-name, .leader-count {
+        z-index: 1;
+        position: relative;
+        display: block;
+    }
+    .leader-count {
+        font-size: 12px;
+    };
+    .leader-image {
+        display: block;
+        width: 280px;
+        right: 0;
+        top: -75px;
+        position: absolute;
+        clip: rect(50px,280px,200px,50px);
+        z-index: 0;
+        -webkit-mask-image: -webkit-gradient(linear,left top,right top,from(transparent),to(#000));
+    }
+}
