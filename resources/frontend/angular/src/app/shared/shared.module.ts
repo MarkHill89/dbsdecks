@@ -15,12 +15,13 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ErrorModalComponent } from './modals/error-modal/error-modal.component';
 import { DateTimePipe } from './pipes/date-time.pipe';
 import { CardTextPipe } from './pipes/card-text.pipe';
-import {FilterPipe} from './pipes/filter.pipe';
+import {FilterPipe} from '@dbsdecks/app/shared/pipes/filter.pipe';
 import { ImageStringPipe } from './pipes/image-string.pipe';
 import { CardFilterModalComponent } from './modals/card-filter-modal/card-filter-modal.component';
 import { CardInfoModalComponent } from './modals/card-info-modal/card-info-modal.component';
 import { DeckComponent } from './components/deck/deck.component';
 import { LeaderCardComponent } from './components/leader-card/leader-card.component';
+import { TrendingLeadersComponent } from './components/trending-leaders/trending-leaders.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LeaderCardComponent } from './components/leader-card/leader-card.compon
     CardInfoModalComponent,
     CardFilterModalComponent,
     DeckComponent,
-    LeaderCardComponent
+    LeaderCardComponent,
+    TrendingLeadersComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { LeaderCardComponent } from './components/leader-card/leader-card.compon
     CardTextPipe,
     FilterPipe,
     ImageStringPipe,
-    LeaderCardComponent
+    LeaderCardComponent,
+    TrendingLeadersComponent
   ]
 })
 export class SharedModule { 
