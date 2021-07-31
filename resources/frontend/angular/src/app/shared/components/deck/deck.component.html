@@ -26,7 +26,7 @@
                                     'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
                                 class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small text-decor-none'
                                 target="_blank"
-                                *ngFor="let card of packDeck(mainDeck)" >
+                                *ngFor="let card of _mainDeck" >
                                 <div class='d-flex flex-fill justify-content-between'>
                                     <div class='d-flex'>
                                         <div class='mr-2 font-weight-bold'>{{card?.qty}}</div>
@@ -55,7 +55,7 @@
                                     'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
                                 class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small text-decor-none'
                                 target="_blank"
-                                *ngFor="let card of packDeck(sideDeck)" >
+                                *ngFor="let card of _sideDeck" >
                                 <div class='d-flex flex-fill justify-content-between'>
                                     <div class='d-flex'>
                                         <div class='mr-2 font-weight-bold'>{{card?.qty}}</div>
@@ -76,8 +76,19 @@
                 <p class='text-light'><small>*Visiual layout is still a prototype, you may see visual or performance errors</small></p>
             </div>
         </div>
-        <div class='row'>
-            <div class='col-md-2 mb-3' *ngFor="let card of packDeck(mainDeck)">
+        <div class='row' *ngIf="mainDeck?.length">
+            <div class='col-md-12'>
+                <h4 class='text-light'>Main Deck</h4>
+            </div>
+            <div class='col-md-2 mb-3' *ngFor="let card of _mainDeck">
+                <img src="{{card?.thumbnail}}" class="rounded-img" (click)="showCardInfo(card)" />
+            </div>
+        </div>
+        <div class='row' *ngIf="sideDeck?.length">
+            <div class='col-md-12'>
+                <h4 class='text-light'>Side Deck</h4>
+            </div>
+            <div class='col-md-2 mb-3' *ngFor="let card of _sideDeck">
                 <img src="{{card?.thumbnail}}" class="rounded-img" (click)="showCardInfo(card)" />
             </div>
         </div>
