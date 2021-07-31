@@ -1,5 +1,8 @@
 import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import {DataService} from '@dbsdecks/app/infrastructure/services/data.service';
+import { NavigationEnd, Router } from '@angular/router';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'deck-list',
@@ -26,8 +29,17 @@ export class DeckListComponent implements OnInit{
   
 
   constructor(
-    protected dataService:DataService
-  ) {}
+    protected dataService:DataService,
+    public router: Router
+  ) {
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd) {
+        gtag('config', 'UA-114061835-1', {
+            'page_path': event.urlAfterRedirects
+        });
+      }
+    })
+  }
 
   ngOnInit(){
     this.fetchData();
