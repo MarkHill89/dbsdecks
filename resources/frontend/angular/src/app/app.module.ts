@@ -27,6 +27,7 @@ import { CardsModule } from './cards/cards.module';
 import { DeckBuilderComponent } from './deck-builder/deck-builder.component';
 import { DeckBuilderModule } from './deck-builder/deck-builder.module';
 import { ForgotComponent } from './login/forgot/forgot.component';
+import { GoogleAnalyticsService } from './infrastructure/services/google-analytics.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,7 @@ import { ForgotComponent } from './login/forgot/forgot.component';
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
   ],
-  providers: [],
+  providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

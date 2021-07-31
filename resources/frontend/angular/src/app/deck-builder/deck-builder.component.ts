@@ -11,9 +11,11 @@ import { FilterCards } from '@dbsdecks/app/infrastructure/classes/card-filter.cl
 import { CardInfoModalComponent } from '@dbsdecks/app/shared/modals/card-info-modal/card-info-modal.component';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { DataService } from '@dbsdecks/app/infrastructure/services';
-import { DeckService } from './state/deck-builder.service';
-import { Router } from '@angular/router';
+import { DeckService } from '@dbsdecks/app/deck-builder/state/deck-builder.service';
+import { NavigationEnd, Router } from '@angular/router';
 import { ErrorModalComponent } from '../shared/modals/error-modal/error-modal.component';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-deck-builder',
@@ -58,6 +60,13 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     private router: Router
   ) { 
     this.title = fb.control({value: ''});
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd) {
+        gtag('config', 'UA-114061835-1', {
+            'page_path': event.urlAfterRedirects
+        });
+      }
+    })
   }
 
   ngOnInit(): void {
