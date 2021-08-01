@@ -10,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DeckComponent implements OnInit {
 
+  _mainDeck: Card[] = [];
+  _sideDeck: Card[] = [];
   constructor(
     private modal: NgbModal) { }
     
@@ -18,26 +20,25 @@ export class DeckComponent implements OnInit {
   @Input() sideDeck: Card[] | null = [];
 
   ngOnInit(): void {
+    this._mainDeck = this.packDeck(this.mainDeck);
+    this._sideDeck = this.packDeck(this.sideDeck);
   }
-
   packDeck(deck: Card[] | null) {
-    if(!deck) return [];
-    return deck.reduce((accum, value) => {
-      const dupeIdx = accum.findIndex((item: Card) => item.cardNumber === value.cardNumber)
-      if(dupeIdx === -1) {
-        accum.push({qty: 1, ...value});
-        return accum;
-      }
-      accum[dupeIdx].qty = deck.reduce((sum: number, n: any) => {
+    if(deck === null) return [];
+    let cards: Card[] = deck.reduce((acc: any, value) => {
+      acc.push({qty: deck.reduce((sum: number, n: any) => {
         if(n.cardNumber === value.cardNumber) {
           sum++;
         }
         return sum;
-      }, 0)
-      return accum;
+      }, 0), ...value});
+      return acc;
     }, [] as Card[]);
+    let ids = cards.map((o: any) => o.cardNumber);
+    let filteredCards = cards.filter(({cardNumber}, index)=> !ids.includes(cardNumber, index+1));
+    return filteredCards;
   }
-
+  
   showCardInfo(card: Card) {
     const modalRef = this.modal.open(CardInfoModalComponent);
     modalRef.componentInstance.card = card;
