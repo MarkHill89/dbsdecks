@@ -35,7 +35,6 @@ export class DataService {
             .pipe(map(data =>{
               return data
             }))
-            .toPromise();
   }
 
   getDeckViewData(id:any){
@@ -47,7 +46,6 @@ export class DataService {
             .pipe(map(data =>{
               return data
             }))
-            .toPromise();
   }
 
 

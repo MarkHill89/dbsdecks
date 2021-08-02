@@ -17,7 +17,7 @@ export interface Card {
     energyCost: string;
     era: string;
     groupId: number;
-    thumbnail : string;
+    thumbnail : string [] | undefined;
     isSuperCombo : boolean;
     isDragonBall : boolean;
     isUltimate : boolean;
@@ -27,6 +27,7 @@ export interface Card {
     specialTrait: string;    
     url: string;
     qty?: number;
+    imageUrl ?: string[] | undefined;
 } 
 
 export function createCard(params: Partial<Card>) {

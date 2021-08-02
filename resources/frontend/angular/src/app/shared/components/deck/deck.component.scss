@@ -18,12 +18,15 @@
     color: #fff;
 }
 .rounded-img {
-    border-radius: 6px;
+    border-radius: 8px;
     width: 200px;
     height: 280px;
 }
 .deck-spread {
     justify-content: center;
+}
+.leader-iamge {
+    width: 280px;
 }
 @media (min-width: 692px) {
     .deck-card {
@@ -51,5 +54,17 @@
     }
     .deck-spread {
         justify-content: left;
+    }
+}
+
+.card-wrapper {
+    width: 200px;
+    display: inline-block;
+    margin: 0 auto;
+    .card-wrapper-image {
+        cursor: pointer;
+        img {
+            width: 100%;
+        }
     }
 }

@@ -4,7 +4,7 @@ import { CardInfoModalComponent } from '../../modals/card-info-modal/card-info-m
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-deck',
+  selector: 'app-deck-layout',
   templateUrl: './deck.component.html',
   styleUrls: ['./deck.component.scss']
 })
@@ -12,6 +12,7 @@ export class DeckComponent implements OnInit {
 
   _mainDeck: Card[] = [];
   _sideDeck: Card[] = [];
+
   constructor(
     private modal: NgbModal) { }
     
@@ -23,6 +24,7 @@ export class DeckComponent implements OnInit {
     this._mainDeck = this.packDeck(this.mainDeck);
     this._sideDeck = this.packDeck(this.sideDeck);
   }
+
   packDeck(deck: Card[] | null) {
     if(deck === null) return [];
     let cards: Card[] = deck.reduce((acc: any, value) => {
