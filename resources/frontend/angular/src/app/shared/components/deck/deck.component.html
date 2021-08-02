@@ -3,14 +3,15 @@
         <div class='row'>
             <div class='col-md-3' *ngIf="leader">
                 <h4 class='text-light'>Leader Card</h4>
-                <img src="{{leader?.thumbnail | imageString }}" />
+                <img *ngIf="leader?.thumbnail" class='leader-image rounded-img' src="{{leader?.thumbnail | imageString }}" />
+                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img' src="{{leader?.imageUrl[0] | imageString }}" />
             </div>
             <div class='col-md-9'>  
                 <h4 class='text-light'>Deck List</h4>
                 <div class="row">
                     <div class="col-md-6">
                         <h5 class='text-light'>Main Deck ({{ mainDeck?.length }})</h5>
-                        <ul class='list-group' *ngIf="mainDeck?.length">
+                        <ul class='list-group' *ngIf="_mainDeck?.length">
                             <a href="{{card?.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=DeckListView&utm_source=DBSDecks" 
                                 [ngClass]="{
                                     'list-group-item-danger': card?.color == 'Red',
@@ -76,20 +77,38 @@
                 <p class='text-light'><small>*Visiual layout is still a prototype, you may see visual or performance errors</small></p>
             </div>
         </div>
-        <div class='row' *ngIf="mainDeck?.length">
+        <div class='row' *ngIf="_mainDeck?.length">
             <div class='col-md-12'>
                 <h4 class='text-light'>Main Deck</h4>
             </div>
             <div class='col-md-2 mb-3' *ngFor="let card of _mainDeck">
-                <img src="{{card?.thumbnail}}" class="rounded-img" (click)="showCardInfo(card)" />
+                <div class='card-wrapper d-flex flex-column justify-content-center'>
+                    <div class='card-wrapper-image'>
+                        <img class='rounded-img' src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
+                    </div>
+                    <div class='card-wrapper-buttons w-100'>
+                        <div class='btn-group d-inline-block d-flex w-100'>
+                            <span class='badge badge-dark'>{{card.qty}}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class='row' *ngIf="sideDeck?.length">
+        <div class='row' *ngIf="_sideDeck?.length">
             <div class='col-md-12'>
                 <h4 class='text-light'>Side Deck</h4>
             </div>
             <div class='col-md-2 mb-3' *ngFor="let card of _sideDeck">
-                <img src="{{card?.thumbnail}}" class="rounded-img" (click)="showCardInfo(card)" />
+                <div class='card-wrapper d-flex flex-column justify-content-center'>
+                    <div class='card-wrapper-image'>
+                        <img class='rounded-img' src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
+                    </div>
+                    <div class='card-wrapper-buttons w-100'>
+                        <div class='btn-group d-inline-block d-flex w-100'>
+                            <span class='badge badge-dark'>{{card.qty}}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

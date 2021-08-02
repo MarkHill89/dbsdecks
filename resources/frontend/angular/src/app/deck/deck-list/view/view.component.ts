@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ɵɵsetComponentScope, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {DataService} from '@dbsdecks/app/infrastructure/services/data.service';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Card } from '../../../cards/state/card.model';
 
 declare let gtag: Function;
 
@@ -11,17 +13,19 @@ declare let gtag: Function;
   encapsulation: ViewEncapsulation.None,
 })
 
-export class DeckListViewComponent implements OnInit{
+export class DeckListViewComponent implements OnInit, OnDestroy{
   deckId:any;
   deckList:any= [];
   deckInfo:any= [];
   deckListLoaded:boolean = false;
-  leaderImage:any;
   leaderFrontImage = '';
   leaderBackImage = '';
   mainDeckQty = 0;
   sideDeckQty = 0;
-
+  leader$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
+  mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
+  sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
+  subscriptions: Subscription = new Subscription;
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -38,20 +42,17 @@ export class DeckListViewComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.fetchData();
+    this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
+      this.mainDeck$.next(data.mainDeck);
+      this.sideDeck$.next(data.sideDeck);
+      console.log(this.mainDeck$.getValue());
+    }));
+    this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
+      this.leader$.next(JSON.parse(data.leader))
+    }));
   }
 
-  async fetchData(): Promise<any> {
-    try {
-      this.deckList = await this.dataService.getDeckListData(this.deckId);
-      this.deckInfo = await this.dataService.getDeckViewData(this.deckId);
-      this.mainDeckQty = this.deckList.reduce((m:any,r:any) => m + r.mainDeckQty, 0);
-      this.sideDeckQty = this.deckList.reduce((m:any,r:any) => m + r.sideDeckQty, 0);
-      this.leaderImage = JSON.parse(this.deckInfo.leader);
-      this.deckListLoaded = true;
-    } catch (e) {
-      Promise.reject(e);
-    }
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
-
 }

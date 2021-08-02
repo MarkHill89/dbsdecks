@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Helpers\Proc;
 use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Type\Integer;
+use Illuminate\Support\Facades\DB;
 
 class DataService
 {
@@ -39,18 +40,93 @@ class DataService
     
     public function getDeckListData(int $id)
     {
-        return collect(Proc::callParm('get_deck_list_data', [
+        $mainDeck = [];
+        $sideDeck = [];
+        $deckListArray = collect(Proc::callParm('get_deck_list_data', [
             'id' => $id
         ]))
         ->map(function ($row) {
             return [
                 'cardNumber' => $row != null ? $row->cardNumber : '',
                 'cleanName' => $row != null ? $row->cleanName : '',
-                'imageUrl' =>$row != null ? $row->imageUrl : '',
+                'thumbnail' =>$row != null ? $row->imageUrl : '',
                 'mainDeckQty' =>$row != null ? $row->mainDeckQty : 0,
                 'sideDeckQty' =>$row != null ? $row->sideDeckQty : 0,
+                'color' => $row != null ? $row->Color : ''
             ];
         });
+
+        // if the array returns empty, then that means the deck is old formats
+        // we will convert an old list here into a new list and return that
+        if(sizeof($deckListArray) === 0){
+            $deckListArray = $this->convertFromOldFormat($id);
+            foreach($deckListArray as $row) {
+                DB::table('deck_data_new')->insert([
+                    'deckId' => $row != null ? $row->deckId : '',
+                    'cardNumber' => $row != null ? $row->cardNumber : '',
+                    'mainDeckQty' =>$row != null ? $row->mainDeckQty : 0,
+                    'sideDeckQty' =>$row != null ? $row->sideDeckQty : 0
+                ]); 
+            }
+            $deckList = collect(Proc::callParm('get_deck_list_data', [
+                'id' => $id
+            ]))
+            ->map(function ($row) {
+                return [
+                    'cardNumber' => $row != null ? $row->cardNumber : '',
+                    'cleanName' => $row != null ? $row->cleanName : '',
+                    'thumbnail' =>$row != null ? $row->imageUrl : '',
+                    'mainDeckQty' =>$row != null ? $row->mainDeckQty : 0,
+                    'sideDeckQty' =>$row != null ? $row->sideDeckQty : 0,
+                    'color' => $row != null ? $row->Color : ''
+                ];
+            });
+           
+            foreach($deckList as $row) {
+                for($i = 0; $i < $row['mainDeckQty']; $i++) {
+                    array_push($mainDeck, [
+                        'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                        'title' => $row != null ? $row['cleanName'] : '',
+                        'thumbnail' =>$row != null ? $row['thumbnail'] : '',
+                        'color' => $row != null ? $row['color'] : ''
+                    ]);
+                }
+                for($i = 0; $i < $row['sideDeckQty']; $i++) {
+                    array_push($sideDeck, [
+                        'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                        'title' => $row != null ? $row['cleanName'] : '',
+                        'thumbnail' =>$row != null ? $row['thumbnail'] : '',
+                        'color' => $row != null ? $row['color'] : ''
+                    ]);
+                }
+            }
+            return [
+                "mainDeck" => $mainDeck,
+                "sideDeck" => $sideDeck
+            ];
+        }
+        foreach($deckListArray as $row) {
+            for($i = 0; $i < $row['mainDeckQty']; $i++) {
+                array_push($mainDeck, [
+                    'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                    'title' => $row != null ? $row['cleanName'] : '',
+                    'thumbnail' =>$row != null ? $row['thumbnail'] : '',
+                    'color' => $row != null ? $row['color'] : ''
+                ]);
+            }
+            for($i = 0; $i < $row['sideDeckQty']; $i++) {
+                array_push($sideDeck, [
+                    'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                    'title' => $row != null ? $row['cleanName'] : '',
+                    'thumbnail' =>$row != null ? $row['thumbnail'] : '',
+                    'color' => $row != null ? $row['color'] : ''
+                ]);
+            }
+        }
+        return [
+            "mainDeck" => $mainDeck,
+            "sideDeck" => $sideDeck
+        ];
     }
 
     public function getAllDecks(int $isPublic, string $leaderCardNumber)
@@ -97,5 +173,23 @@ class DataService
                 'leaderCount' => $row != null ? $row->leaderCount : 0,
             ];
         });
+    }
+
+    public function convertFromOldFormat($id) {
+        $deck = DB::table('deck_data')
+        ->select('deckId', 'mainDeckList', 'sideDeckList')
+        ->where('deckId', $id)
+        ->first(0);
+        return  array_map(function($m) use ($deck) {
+            return (object) [
+                "deckId" => $deck->deckId,
+                "cardNumber" => $m->cardNumber,
+                "mainDeckQty" => $m->count,
+                "sideDeckQty" => (function($m, $sideDeckList) {
+                    $key = array_search($m->cardNumber, array_column($sideDeckList, "cardNumber"));
+                    return ($key > -1) ? $sideDeckList[$key]['count'] : 0;
+                })($m, json_decode($deck->sideDeckList))
+            ];
+        }, json_decode($deck->mainDeckList));
     }
 }

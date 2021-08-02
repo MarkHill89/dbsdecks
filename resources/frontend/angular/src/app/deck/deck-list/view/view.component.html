@@ -1,23 +1,15 @@
 <div class='p-2 bg-super-dark border-color-super-dark'>
     <h1>{{deckInfo.title}}</h1>
-    <p>Main: {{mainDeckQty}} Side: {{sideDeckQty}}</p>
+    <p>Main: {{deckList?.mainDeck?.length}} Side: {{deckList?.sideDeck?.length}}</p>
 </div>
 <div class="container-fluid">
     <div class="main-deck">
         <div class="row">
-            <div class="col-md-2">
-                <img src="{{leaderImage?.imageUrl[0]}}" alt="">
-                <img src="{{leaderImage?.imageUrl[1]}}" alt="">
-            </div>
-            <div class="col-md-10">
-                <div *ngIf="deckListLoaded" class="row">
-                    <div class="col-md-2" *ngFor="let deck of deckList">
-                        <div class="quantity text-right">
-                            <span class="qtyColor">{{deck.mainDeckQty}}</span>
-                        </div>
-                        <img src="{{deck.imageUrl}}" alt="">
-                    </div>
-                </div>
+            <div class="col-md-12">
+                <app-deck-layout *ngIf="(mainDeck$ | async)?.length"
+                [leader]="leader$ | async"
+                [mainDeck]="mainDeck$ | async"
+                [sideDeck]="sideDeck$ | async"></app-deck-layout>
             </div>
         </div>
     </div>
