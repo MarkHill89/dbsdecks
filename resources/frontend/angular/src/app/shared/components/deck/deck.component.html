@@ -4,7 +4,7 @@
             <div class='col-md-3' *ngIf="leader">
                 <h4 class='text-light'>Leader Card</h4>
                 <img *ngIf="leader?.thumbnail" class='leader-image rounded-img' src="{{leader?.thumbnail | imageString }}" />
-                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img' src="{{leader?.imageUrl[0] | imageString }}" />
+                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img' src="{{leader?.imageUrl | imageString }}" />
             </div>
             <div class='col-md-9'>  
                 <h4 class='text-light'>Deck List</h4>
@@ -51,7 +51,7 @@
                                     'list-group-item-danger-primary' : card?.color == 'Blue;Red',
                                     'list-group-item-danger-success' : card?.color == 'Green;Red',
                                     'list-group-item-danger-warning' : card?.color == 'Red;Yellow',
-                                    'list-group-item-primary-success' : card?.color == 'Blue;Green',
+                                    'list-group-item-primary-success' : card?.color == 'Blue/Green',
                                     'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
                                     'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
                                 class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small text-decor-none'
@@ -84,7 +84,7 @@
             <div class='col-md-2 mb-3' *ngFor="let card of _mainDeck">
                 <div class='card-wrapper d-flex flex-column justify-content-center'>
                     <div class='card-wrapper-image'>
-                        <img class='rounded-img' src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
+                        <img class='rounded-img' src="{{card?.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
                     </div>
                     <div class='card-wrapper-buttons w-100'>
                         <div class='btn-group d-inline-block d-flex w-100'>
@@ -101,7 +101,7 @@
             <div class='col-md-2 mb-3' *ngFor="let card of _sideDeck">
                 <div class='card-wrapper d-flex flex-column justify-content-center'>
                     <div class='card-wrapper-image'>
-                        <img class='rounded-img' src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
+                        <img class='rounded-img' src="{{card?.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
                     </div>
                     <div class='card-wrapper-buttons w-100'>
                         <div class='btn-group d-inline-block d-flex w-100'>
