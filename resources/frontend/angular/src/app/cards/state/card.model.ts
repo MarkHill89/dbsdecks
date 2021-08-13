@@ -17,7 +17,7 @@ export interface Card {
     energyCost: string;
     era: string;
     groupId: number;
-    thumbnail : string [] | undefined;
+    thumbnail : string [];
     isSuperCombo : boolean;
     isDragonBall : boolean;
     isUltimate : boolean;
