@@ -10,6 +10,7 @@
                 <p>{{user.name}}<br/>
                     {{user.email}}
                 </p>
+                <a (click)="updatePassword()">Update Password</a>
             </div>
         </div>
     </div>
@@ -34,9 +35,8 @@
 
                 <table class="table table-striped my-0">
                     <tbody>
-                        <tr *ngFor="let deckList of deckLists  | orderBy: key : reverse | filter:filter | filter:selectedLeaderName | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index">
-                            <td *ngIf="deckList.isPrivate">Private
-
+                        <tr 
+                            *ngFor="let deckList of deckLists  | orderBy: key : reverse | paginate: { itemsPerPage: pageSize, currentPage: page };">
                             <td>
                                 <a routerLink="/deck/view/{{deckList.id}}" class='w-100'>
                                     <span class="primaryLine w-100">{{deckList.title}}</span>

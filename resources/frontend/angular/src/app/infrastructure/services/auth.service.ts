@@ -69,6 +69,14 @@ export class AuthService {
             'email':email
         }});
     }
+
+    updatePassword(password:string):Observable<any>{
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        });
+
+        return this.http.post(this.baseUrl + "auth/update-password", {password:password}, {headers})
+    }
   
   
 }

@@ -29,6 +29,16 @@ class AuthController extends Controller
             return response(false);
         }
     }
+    public function updatePassword(Request $request)
+    {
+        $fields = $request->validate([
+            'password' => 'required|string'
+        ]);
+        $password = $request->input('password');
+        $request->user()->password = bcrypt($password);
+        $request->user()->save();
+        return response(['data' => 'password updated']);
+    }
 
     public function register(Request $request)
     {
