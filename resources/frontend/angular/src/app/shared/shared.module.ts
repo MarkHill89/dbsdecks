@@ -22,6 +22,7 @@ import { CardInfoModalComponent } from './modals/card-info-modal/card-info-modal
 import { DeckComponent } from './components/deck/deck.component';
 import { LeaderCardComponent } from './components/leader-card/leader-card.component';
 import { TrendingLeadersComponent } from './components/trending-leaders/trending-leaders.component';
+import { UpdatePasswordComponent } from './modals/update-password/update-password.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TrendingLeadersComponent } from './components/trending-leaders/trending
     CardFilterModalComponent,
     DeckComponent,
     LeaderCardComponent,
-    TrendingLeadersComponent
+    TrendingLeadersComponent,
+    UpdatePasswordComponent
   ],
   imports: [
     CommonModule,

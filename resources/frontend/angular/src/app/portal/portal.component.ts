@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {DataService, AuthService} from "@dbsdecks/app/infrastructure/services/";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import {DataService, AuthService} from "@dbsdecks/app/infrastructure/services/";
+import { UpdatePasswordComponent } from '@dbsdecks/app/shared/modals/update-password/update-password.component';
 @Component({
   selector: 'portal-view',
   templateUrl: './portal.component.html',
@@ -19,6 +21,7 @@ export class PortalComponent implements OnInit {
   deckListsLoaded = false;
 
   constructor(
+    private modal: NgbModal,
     private dataService:DataService,
     private authService: AuthService){
   }
@@ -43,8 +46,8 @@ export class PortalComponent implements OnInit {
 
   async fetchData(): Promise<any>{
     try{
-      await this.getCurrentUser();
-      await this.dataService.getDeckByUser().subscribe(data => {
+      this.getCurrentUser();
+      this.dataService.getDeckByUser().subscribe(data => {
         this.deckLists = data;
       });
 
@@ -53,6 +56,9 @@ export class PortalComponent implements OnInit {
     } catch(e){
       console.log(e);
     }
+  }
+  updatePassword(){
+    this.modal.open(UpdatePasswordComponent);
   }
 
 }

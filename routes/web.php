@@ -52,6 +52,7 @@ Route::prefix('api')->group(function () {
             Route::get('/check', [AuthController::class, 'check']);
             Route::get('/user', [AuthController::class, 'user']);
             Route::post('/logout', [AuthController::class, 'logout']);
+            Route::post('/update-password', [AuthController::class, 'updatePassword']);
             Route::get('/deck-by-user', [CardController::class, 'get_deck_by_user']);
         });
     });
