@@ -43,7 +43,6 @@ Route::prefix('api')->group(function () {
         Route::get('/list/view', [CardController::class, 'get_deck_list_data']);
         Route::get('/list/view-deck', [CardController::class, 'get_deck_view_data']);
         Route::get('/get-leaders', [CardController::class, 'get_leaders']);
-        Route::post('/submit', [CardController::class, 'submitDeck']);
     });
 
     // Protected Routes
@@ -54,6 +53,7 @@ Route::prefix('api')->group(function () {
             Route::post('/logout', [AuthController::class, 'logout']);
             Route::post('/update-password', [AuthController::class, 'updatePassword']);
             Route::get('/deck-by-user', [CardController::class, 'get_deck_by_user']);
+            Route::post('/deck-submit', [CardController::class, 'submitDeck']);
         });
     });
 });

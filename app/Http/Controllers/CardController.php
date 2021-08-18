@@ -71,9 +71,8 @@ class CardController extends Controller
         ]);
 
         $input = $request->all();
-        // $id = $input['deck']['id']; TODO Ask Mark how to handle deckIDS and how to create new ones
-        $id = 9999999;
-        $userId = 6171;
+
+        $userId = auth()->user()->id;
         $title = 'this is a test for the new DBS Decks';
         $leader = $input['deck']['leader'];
         $mainDeck = $input['deck']['mainDeck'];
@@ -87,12 +86,25 @@ class CardController extends Controller
         $sideQty = 0;
         $currentCardNumber = '';
 
-        DB::table('deck')->updateOrInsert(
-            ['userId' => $userId],
+        //  insert into dbsdecks_one.deck   (userId, title, isPrivate, isActive,submitDate,leaderNumber) 
+        //                          values  (6171, 'manual sql insert', 0,1, now(), 'BT1-001');
+
+        DB::table('deck')->insert(
             [
-                'title' => $title
+                'userId' => $userId,
+                'title' => $title,
+                'isPrivate' => $isPrivate,
+                'isActive' => $isActive,
+                'submitDate' => $submitDate,
+                'leaderNumber' => $leaderCardNumber
             ]
         );
+
+        $id = DB::table('deck')
+            ->select('id')
+            ->orderBy('id', 'desc')
+            ->first();
+
 
         DB::table('deck_data_new')->where('deckId', $id)->delete();
 
