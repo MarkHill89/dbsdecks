@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { map, catchError } from 'rxjs/operators';
-import { environment } from '@dbsdecks/environments/environment'
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { environment } from '@dbsdecks/environments/environment';
+
+import { Router} from "@angular/router";
+import {HttpClient,HttpHeaders, HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class DataService {
@@ -46,6 +48,13 @@ export class DataService {
             .pipe(map(data =>{
               return data
             }))
+  }
+  getDeckByUser(){
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+
+    return this.http.get(this.baseUrl + "auth/deck-by-user/", {headers})
   }
 
 
