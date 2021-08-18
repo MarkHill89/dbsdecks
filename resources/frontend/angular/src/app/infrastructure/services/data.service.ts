@@ -75,7 +75,11 @@ export class DataService {
   }
   
   submitDeck(deck:Object):Observable<any>{
-    return this.http.post(this.baseUrl + "deck/submit", {deck})
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+
+    return this.http.post(this.baseUrl + "auth/deck-submit", {deck}, {headers})
             .pipe(
               map(data => {return data}),
               catchError(error => error)
