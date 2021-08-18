@@ -22,7 +22,7 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-        
+
         if (Auth::check()) {
             return response(true);
         } else {
@@ -40,15 +40,15 @@ class AuthController extends Controller
             'credentials.password' => 'required|string|confirmed',
             'credentials.password_confirmation' => 'required|string',
             'credentials.emailAddress' => 'required|string|confirmed|unique:users,email',
-            'credentials.emailAddress_confirmation' => 'required|string',            
+            'credentials.emailAddress_confirmation' => 'required|string',
         ]);
 
 
         $user = User::create([
             'name' => $allFields['credentials']['firstName'] . ' ' . $allFields['credentials']['lastName'],
-            'username' => $allFields['credentials']['userName'], 
+            'username' => $allFields['credentials']['userName'],
             'email' => $allFields['credentials']['emailAddress'],
-            'password'=> bcrypt($allFields['credentials']['password'])
+            'password' => bcrypt($allFields['credentials']['password'])
         ]);
 
         $token = $user->createToken('dbs decks')->plainTextToken;
@@ -62,34 +62,33 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {   
+    {
 
         $fields = $request->all();
-        
+
         $username = $fields['formValue']['username'];
         $password = $fields['formValue']['password'];
 
         $user = User::where('username', $username)->first();
-        
-        if(!$user){
+
+        if (!$user) {
             return response([
                 'message' => "Username not found"
             ], 401);
         }
-        
+
         // Check Password is md5
-        if ($user->password == hash('md5', $password))
-        {
+        if ($user->password == hash('md5', $password)) {
             $user->password = bcrypt($request->input('password'));
             $user->save();
         }
-           
-        
+
+
 
         // Check Password is updated
-        if (Auth::attempt(['username' => $username, 'password' => $password]))
-        {
+        if (Auth::attempt(['username' => $username, 'password' => $password])) {
             $token = $user->createToken("dbs decks")->plainTextToken;
+            Auth::login($user);
             $response = ['token' => $token];
             return response($response, 201);
         } else {
@@ -97,12 +96,9 @@ class AuthController extends Controller
                 'message' => "Invalid Credentials"
             ], 401);
         }
-
-        
-
     }
-    
-     /**
+
+    /**
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
@@ -113,14 +109,13 @@ class AuthController extends Controller
         return [
             'message' => 'Successfully logged out'
         ];
-
     }
 
     public function user(Request $request)
     {
         return $request->user();
     }
-    
+
     public function forgot(Request $request)
     {
         $request->validate(['email' => 'required|email']);
@@ -130,8 +125,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
     public function resetPassword(Request $request)
@@ -141,28 +136,27 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
-    
+
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
-    
+
                 $user->save();
-    
+
                 event(new PasswordReset($user));
             }
         );
-    
+
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('/login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('/login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 
     public function resetPasswordToken($token)
     {
         return view('auth.reset-password', ['token' => $token]);
     }
-    
 }

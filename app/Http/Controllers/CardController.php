@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\DataService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller
@@ -30,19 +32,30 @@ class CardController extends Controller
     {
         $id = $request->input('deckId');
 
-        return collect(DB::table('deck')
-                        ->where('id', $id)
-                        ->first()
-                );
+        return collect(
+            DB::table('deck')
+                ->where('id', $id)
+                ->first()
+        );
     }
-    
+
+    public function get_deck_by_user(Request $request)
+    {
+        $user = auth()->user();
+        $deckLists = DB::table('deck')
+            ->where('userId', $user->id)
+            ->get();
+
+        return json_decode($deckLists);
+    }
+
 
     public function get_deck_list_data(Request $request, DataService $dataService)
     {
         $id = $request->input('deckId');
         return $dataService->getDeckListData($id);
-        
     }
+
 
     public function get_leaders(Request $request, DataService $dataService)
     {
@@ -52,11 +65,11 @@ class CardController extends Controller
     public function submitDeck(Request $request, DataService $dataService)
     {
         $request->validate([
-        'deck.id' => 'required',
-        'deck.leader' => 'required',
-        'deck.mainDeck' => 'required'
+            'deck.id' => 'required',
+            'deck.leader' => 'required',
+            'deck.mainDeck' => 'required'
         ]);
-        
+
         $input = $request->all();
         // $id = $input['deck']['id']; TODO Ask Mark how to handle deckIDS and how to create new ones
         $id = 9999999;
@@ -69,11 +82,11 @@ class CardController extends Controller
         $isActive = 1;
         $submitDate = now();
         $leaderCardNumber = $leader['cardNumber'];
-        
+
         $mainQty = 0;
         $sideQty = 0;
         $currentCardNumber = '';
-        
+
         DB::table('deck')->updateOrInsert(
             ['userId' => $userId],
             [
@@ -85,34 +98,33 @@ class CardController extends Controller
 
         foreach ($mainDeck as $value) {
             $cardNumber = $value['cardNumber'];
-            if($cardNumber === $currentCardNumber){
+            if ($cardNumber === $currentCardNumber) {
                 $mainQty++;
                 $currentCard = $cardNumber;
             } else {
-                $mainQty= 1;
+                $mainQty = 1;
                 $currentCardNumber = $cardNumber;
             }
 
             DB::table('deck_data_new')->updateOrInsert(
-                ['deckId' => $id,'cardNumber' => $cardNumber],
+                ['deckId' => $id, 'cardNumber' => $cardNumber],
                 ['mainDeckQty' => $mainQty]
             );
         }
 
         foreach ($sideDeck as $value) {
             $cardNumber = $value['cardNumber'];
-            if($cardNumber === $currentCardNumber){
+            if ($cardNumber === $currentCardNumber) {
                 $sideQty++;
                 $currentCard = $cardNumber;
             } else {
-                $sideQty= 1;
+                $sideQty = 1;
                 $currentCardNumber = $cardNumber;
             }
             DB::table('deck_data_new')->updateOrInsert(
-                ['deckId' => 1,'cardNumber' => $cardNumber],
+                ['deckId' => 1, 'cardNumber' => $cardNumber],
                 ['sideDeckQty' => $sideQty]
             );
         }
-
     }
 }

@@ -6,6 +6,7 @@ import {DeckListComponent} from './deck/deck-list/deck-list.component';
 import {DeckListViewComponent} from './deck/deck-list/view/view.component';
 import {AuthService} from './infrastructure/services/auth.service';
 import { LoginComponent } from './login/login.component';
+import { PortalComponent } from './portal/portal.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: 'deckbuilder', loadChildren: () => import('./deck-builder/deck-builder.module').then(deckbuilder => deckbuilder.DeckBuilderModule), canActivate:[AuthService]},
   { path: 'register/new', component:RegisterComponent},
   { path: 'login', component:LoginComponent},
-  { path: 'portal', component:LoginComponent},
+  { path: 'portal', component:PortalComponent, canActivate:[AuthService]},
   { path: 'home', component: HomeComponent},
   { path: '**', redirectTo: '/home' }
 ];

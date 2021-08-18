@@ -28,6 +28,7 @@ import { DeckBuilderComponent } from './deck-builder/deck-builder.component';
 import { DeckBuilderModule } from './deck-builder/deck-builder.module';
 import { ForgotComponent } from './login/forgot/forgot.component';
 import { GoogleAnalyticsService } from './infrastructure/services/google-analytics.service';
+import { PortalComponent } from './portal/portal.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { GoogleAnalyticsService } from './infrastructure/services/google-analyti
     DeckListViewComponent,
     LoginComponent,
     RegisterComponent,
-    ForgotComponent
+    ForgotComponent,
+    PortalComponent
   ],
   imports: [
     NgxPaginationModule,
