@@ -22,6 +22,9 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   leaderBackImage = '';
   mainDeckQty = 0;
   sideDeckQty = 0;
+  title='';
+
+
   leader$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
@@ -45,11 +48,19 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
     this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
       this.mainDeck$.next(data.mainDeck);
       this.sideDeck$.next(data.sideDeck);
-      console.log(this.mainDeck$.getValue());
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
-      this.leader$.next(JSON.parse(data.leader))
+      this.leader$.next(JSON.parse(data.leader));
+      this.title = data.title;
     }));
+  }
+
+  editDeck(){
+    this.router.navigateByUrl(`/deckbuilder?id=${this.deckId}&action=edit`);
+  }
+
+  copyDeck(){
+    this.router.navigateByUrl(`/deckbuilder?id=${this.deckId}&action=copy`);
   }
 
   ngOnDestroy() {

@@ -91,7 +91,7 @@ class CardController extends Controller
         $deckIndex = 0;
         $sideDeckIndex = 0;
 
-        
+
         DB::table('deck')->insert(
             [
                 'userId' => $userId,
@@ -113,25 +113,31 @@ class CardController extends Controller
         foreach ($mainDeck as $value) {
             $cardNumber = $value['cardNumber'];
 
+            // Check to see if the current card number is the same as the previous cardnumber in the loop
             if ($cardNumber === $currentCardNumber) {
+                // if the card number is the same increment the main quantity +1 and assign the card number as the current card
                 $mainQty++;
                 $currentCard = $cardNumber;
-                $newMaindeck[$deckIndex -1]['quantity'] = $mainQty;
+                // update the arrays 'quantity' value from it's previous to the new +1 value
+                $newMainDeck[$deckIndex - 1]['quantity'] = $mainQty;
             } else {
+                // if the card number is different start the main quantity over at 1
                 $mainQty = 1;
+                // increment the position of the deck index from the data coming from the website
                 $deckIndex++;
                 $currentCardNumber = $cardNumber;
-                $newMaindeck[] = ['cardNumber' => $currentCardNumber, 'quantity' => $mainQty];
+                // add a new array inside the $newMainDeck Array with the properties [cardNumber => $currentCardNumber,  quantity => $mainQty]
+                $newMainDeck[] = ['cardNumber' => $currentCardNumber, 'quantity' => $mainQty];
             }
         }
 
-        foreach($newMaindeck as $value){
+        foreach ($newMainDeck as $value) {
             $cardNumber = $value['cardNumber'];
             $quantity = $value['quantity'];
 
             DB::table('deck_data_new')->updateOrInsert(
-                  ['deckId' => $id->id, 'cardNumber' => $cardNumber],
-                  ['mainDeckQty' => $quantity]
+                ['deckId' => $id->id, 'cardNumber' => $cardNumber],
+                ['mainDeckQty' => $quantity]
             );
         }
 
@@ -140,7 +146,7 @@ class CardController extends Controller
             if ($cardNumber === $currentCardNumber) {
                 $mainQty++;
                 $currentCard = $cardNumber;
-                $newSideDeck[$sideDeckIndex -1]['quantity'] = $mainQty;
+                $newSideDeck[$sideDeckIndex - 1]['quantity'] = $mainQty;
             } else {
                 $mainQty = 1;
                 $sideDeckIndex++;
@@ -149,13 +155,13 @@ class CardController extends Controller
             }
         }
 
-        foreach($newSideDeck as $newSideValue){
+        foreach ($newSideDeck as $newSideValue) {
             $cardNumber = $newSideValue['cardNumber'];
             $quantity = $newSideValue['quantity'];
 
             DB::table('deck_data_new')->updateOrInsert(
-                  ['deckId' => $id->id, 'cardNumber' => $cardNumber],
-                  ['sideDeckQty' => $quantity]
+                ['deckId' => $id->id, 'cardNumber' => $cardNumber],
+                ['sideDeckQty' => $quantity]
             );
         }
     }
