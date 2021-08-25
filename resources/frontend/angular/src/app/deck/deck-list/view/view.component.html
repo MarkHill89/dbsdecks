@@ -1,6 +1,16 @@
 <div class='p-2 bg-super-dark border-color-super-dark'>
-    <h1>{{deckInfo.title}}</h1>
-    <p>Main: {{deckList?.mainDeck?.length}} Side: {{deckList?.sideDeck?.length}}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{{title }}</h1>
+            </div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-secondary mr-2" (click)="copyDeck()">Copy</button>
+                <button class="btn btn-secondary" (click)="editDeck()">Edit</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div class="container-fluid">
     <div class="main-deck">

@@ -1,127 +1,142 @@
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-@import './styles/styles';
+@import "~bootstrap/scss/bootstrap";
+@import "./styles/styles";
 /* You can add global styles to this file, and also import other style files */
 
 body {
-    background: #333;
-    height: 100%;
+  background: #333;
+  height: 100%;
 }
 
 .text-decor-none {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .page-header {
-    background: linear-gradient(to right, #fcba03 5px, black 5px, black);
-    color: white;
-    padding: 4px 20px;
+  background: linear-gradient(to right, #fcba03 5px, black 5px, black);
+  color: white;
+  padding: 4px 20px;
 }
 
 .bg-super-dark {
-    background-color: #222;
+  background-color: #222;
 }
 
 .border-color-super-dark {
-    border-color: black !important;
+  border-color: black !important;
 }
 
-.highlight-text{
+.highlight-text {
+  mark {
+    padding: 0 0.2em !important;
+  }
+  line-height: 1;
+  &.auto {
     mark {
-        padding: 0 .2em !important;
+      background-color: #1d9be1;
+      color: #ffffff !important;
     }
-    line-height: 1;
-    &.auto {
-        mark {
-            background-color: #1D9BE1;
-            color: #ffffff !important;        
-        }
+  }
+  &.green {
+    mark {
+      background-color: #1d9045;
+      color: #ffffff !important;
     }
-    &.green {
-        mark {
-            background-color: #1D9045;
-            color: #ffffff !important;        
-        }
+  }
+  &.main {
+    mark {
+      background-color: #eb7426;
+      color: #ffffff !important;
     }
-    &.main {
-        mark {
-            background-color: #EB7426;
-            color: #ffffff !important;        
-        }
+  }
+  &.red {
+    mark {
+      background-color: #de001e;
+      color: #ffffff !important;
     }
-    &.red {
-        mark {
-            background-color: #DE001E;
-            color: #ffffff !important;        
-        }
+  }
+  &.pink {
+    mark {
+      background-color: #dc0073;
+      color: #ffffff !important;
     }
-    &.pink {
-        mark {
-            background-color: #DC0073;
-            color: #ffffff !important;        
-        }
+  }
+  &.yellow {
+    mark {
+      background-color: #ffef02;
+      color: #000000 !important;
     }
-    &.yellow {
-        mark {
-            background-color: #ffef02;
-            color: #000000 !important;        
-        }
-    }
+  }
+}
+.close {
+  color: #f7f7f7;
+  &:hover {
+    transition: 0.15s all linear;
+    color: darken(#f7f7f7, 25%);
+  }
+  &:focus {
+    border: none;
+  }
 }
 
 .list-group-item-danger-primary {
-    background: linear-gradient(to right, #f5c6cb, #b8daff);
-    color: #000 !important;
+  background: linear-gradient(to right, #f5c6cb, #b8daff);
+  color: #000 !important;
 }
 
 .list-group-item-danger-success {
-    background: linear-gradient(to right, #f5c6cb, #c3e6cb);
-    color: #000 !important;
+  background: linear-gradient(to right, #f5c6cb, #c3e6cb);
+  color: #000 !important;
 }
 
 .list-group-item-danger-warning {
-    background: linear-gradient(to right, #f5c6b6, #ffeeba);
-    color: #000 !important;
+  background: linear-gradient(to right, #f5c6b6, #ffeeba);
+  color: #000 !important;
 }
 
 .list-group-item-primary-success {
-    background: linear-gradient(to right, #bad8ff, #c3e6cb);
-    color: #000 !important;
+  background: linear-gradient(to right, #bad8ff, #c3e6cb);
+  color: #000 !important;
 }
 
 .list-group-item-primary-warning {
-    background: linear-gradient(to right, #b8daff, #ffeeba);
-    color: #000 !important;
+  background: linear-gradient(to right, #b8daff, #ffeeba);
+  color: #000 !important;
 }
 
 .list-group-item-success-warning {
-    background: linear-gradient(to right, #c3e6cb, #ffeeba);
-    color: #000 !important;
+  background: linear-gradient(to right, #c3e6cb, #ffeeba);
+  color: #000 !important;
 }
 .dropdown-menu.show {
-    z-index: 5000;
+  z-index: 5000;
 }
 
 .ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .rounded-lg {
-    border-radius: 10px !important;
+  border-radius: 10px !important;
 }
-.tooltip{
-
-    opacity: 1 !important;
+.tooltip {
+  opacity: 1 !important;
 }
-.tooltip-inner{
-    max-width: 400px !important;
-    opacity: 1 !important;
-    text-align: left !important;
+.tooltip-inner {
+  max-width: 400px !important;
+  opacity: 1 !important;
+  text-align: left !important;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
