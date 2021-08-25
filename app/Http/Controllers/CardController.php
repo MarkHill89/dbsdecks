@@ -107,7 +107,8 @@ class CardController extends Controller
             ->select('id')
             ->orderBy('id', 'desc')
             ->first(0);
-        
+
+        DB::table('deck_data_new')->where('deckId', $id)->delete();
 
         foreach ($mainDeck as $value) {
             $cardNumber = $value['cardNumber'];
