@@ -17,7 +17,7 @@ export class PortalComponent implements OnInit {
   page = 1;
   pageSize:number = 15;
   key = "id";
-  reverse = true; // Default sort descending
+  reverse = false; // Default sort descending
   deckListsLoaded = false;
 
   constructor(

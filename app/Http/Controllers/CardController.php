@@ -66,6 +66,7 @@ class CardController extends Controller
     {
         $request->validate([
             'deck.id' => 'required',
+            'deck.title' => 'required',
             'deck.leader' => 'required',
             'deck.mainDeck' => 'required'
         ]);
@@ -73,11 +74,11 @@ class CardController extends Controller
         $input = $request->all();
 
         $userId = auth()->user()->id;
-        $title = 'this is a test for the new DBS Decks';
+        $title = $input['deck']['title'];
         $leader = $input['deck']['leader'];
         $mainDeck = $input['deck']['mainDeck'];
         $sideDeck = $input['deck']['sideDeck'];
-        $isPrivate = 0;
+        $isPrivate = $input['deck']['isPrivate'];
         $isActive = 1;
         $submitDate = now();
         $leaderCardNumber = $leader['cardNumber'];
@@ -85,10 +86,12 @@ class CardController extends Controller
         $mainQty = 0;
         $sideQty = 0;
         $currentCardNumber = '';
+        $newMainDeck = [];
+        $newSideDeck = [];
+        $deckIndex = 0;
+        $sideDeckIndex = 0;
 
-        //  insert into dbsdecks_one.deck   (userId, title, isPrivate, isActive,submitDate,leaderNumber) 
-        //                          values  (6171, 'manual sql insert', 0,1, now(), 'BT1-001');
-
+        
         DB::table('deck')->insert(
             [
                 'userId' => $userId,
@@ -103,39 +106,55 @@ class CardController extends Controller
         $id = DB::table('deck')
             ->select('id')
             ->orderBy('id', 'desc')
-            ->first();
-
-
-        DB::table('deck_data_new')->where('deckId', $id)->delete();
+            ->first(0);
+        
 
         foreach ($mainDeck as $value) {
             $cardNumber = $value['cardNumber'];
+
             if ($cardNumber === $currentCardNumber) {
                 $mainQty++;
                 $currentCard = $cardNumber;
+                $newMaindeck[$deckIndex -1]['quantity'] = $mainQty;
             } else {
                 $mainQty = 1;
+                $deckIndex++;
                 $currentCardNumber = $cardNumber;
+                $newMaindeck[] = ['cardNumber' => $currentCardNumber, 'quantity' => $mainQty];
             }
+        }
+
+        foreach($newMaindeck as $value){
+            $cardNumber = $value['cardNumber'];
+            $quantity = $value['quantity'];
 
             DB::table('deck_data_new')->updateOrInsert(
-                ['deckId' => $id, 'cardNumber' => $cardNumber],
-                ['mainDeckQty' => $mainQty]
+                  ['deckId' => $id->id, 'cardNumber' => $cardNumber],
+                  ['mainDeckQty' => $quantity]
             );
         }
 
-        foreach ($sideDeck as $value) {
-            $cardNumber = $value['cardNumber'];
+        foreach ($sideDeck as $sideValue) {
+            $cardNumber = $sideValue['cardNumber'];
             if ($cardNumber === $currentCardNumber) {
-                $sideQty++;
+                $mainQty++;
                 $currentCard = $cardNumber;
+                $newSideDeck[$sideDeckIndex -1]['quantity'] = $mainQty;
             } else {
-                $sideQty = 1;
+                $mainQty = 1;
+                $sideDeckIndex++;
                 $currentCardNumber = $cardNumber;
+                $newSideDeck[] = ['cardNumber' => $currentCardNumber, 'quantity' => $mainQty];
             }
+        }
+
+        foreach($newSideDeck as $newSideValue){
+            $cardNumber = $newSideValue['cardNumber'];
+            $quantity = $newSideValue['quantity'];
+
             DB::table('deck_data_new')->updateOrInsert(
-                ['deckId' => 1, 'cardNumber' => $cardNumber],
-                ['sideDeckQty' => $sideQty]
+                  ['deckId' => $id->id, 'cardNumber' => $cardNumber],
+                  ['sideDeckQty' => $quantity]
             );
         }
     }

@@ -80,9 +80,5 @@ export class DataService {
     });
 
     return this.http.post(this.baseUrl + "auth/deck-submit", {deck}, {headers})
-            .pipe(
-              map(data => {return data}),
-              catchError(error => error)
-            )
   }
 }
