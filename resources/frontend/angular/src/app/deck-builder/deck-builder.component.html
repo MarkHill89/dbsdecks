@@ -60,7 +60,7 @@
         infinite-scroll
         (scrolled)="onScrollDown()"
         [scrollWindow]="(view$ | async) == 0 ? false : true">
-        <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
+        <section *ngFor="let card of activeCards;" class="col-6 col-md-4 col-xl-2 mb-2">
             <div class='card-wrapper d-flex flex-column justify-content-center'>
                 <div class='card-wrapper-image'>
                     <img src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
@@ -80,7 +80,7 @@
         infinite-scroll
         (scrolled)="onScrollDown()"
         [scrollWindow]="(view$ | async) == 0 ? false : true">
-        <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
+        <section *ngFor="let card of activeCards;" class="col-6 col-md-4 col-xl-2 mb-2">
             <div class='card-wrapper d-flex flex-column justify-content-center'>
                 <div class='card-wrapper-image'>
                     <img src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
@@ -100,7 +100,7 @@
         infinite-scroll
         (scrolled)="onScrollDown()"
         [scrollWindow]="(view$ | async) == 0 ? false : true">
-        <section *ngFor="let card of activeCards;" class="col-sm-6 col-lg-4 col-xl-3 mb-2">
+        <section *ngFor="let card of activeCards;" class="col-6 col-md-4 col-xl-2 mb-2">
             <div class='card-wrapper d-flex flex-column justify-content-center'>
                 <div class='card-wrapper-image'>
                     <img src="{{card.thumbnail | imageString }}" (click)="showCardInfo(card)"/>

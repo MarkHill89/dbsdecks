@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\DataService;
+use App\Models\Deck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,11 +30,18 @@ class CardController extends Controller
     public function get_deck_view_data(Request $request)
     {
         $id = $request->input('deckId');
-
-        return collect(DB::table('deck')
-                        ->where('id', $id)
-                        ->first()
-                );
+        $deck = Deck::where('id', $id)->first();
+        return response()->json([
+            "id" => $deck->id,
+            "isActive" => $deck->isActive,
+            "isConverted" => $deck->isConverted,
+            "isPrivate" => $deck->isPrivate,
+            "leader" => json_decode($deck->leader),
+            "leaderCardNumber" => $deck->leaderCardNumber,
+            "submitDate" => $deck->submitDate,
+            "title" => $deck->title,
+            "userId" => $deck->userId
+        ]);
     }
     
 

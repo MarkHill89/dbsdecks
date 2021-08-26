@@ -21,16 +21,19 @@ class ScraperController extends Controller
     public int $comboEnergy = 0;
     public int $comboPower = 0;
     public string $skill = '';
-
+    public int $count = 0;
+    public int $count_check = 0;
     public Crawler $crawler;
     public $array = array();
-    public $groupId = "428014";
-    public $setName = 'cross-spirits';
+    public $groupId = "428419";
+    public $setName = 'special-anniversary-box-2021';
     public function index()
     {
         $array = array();
         $client = new Client();
         $this->crawler = $client->request('GET', "http://www.dbs-cardgame.com/us-en/cardlist/?search=true&category={$this->groupId}");
+        
+        
         $this->crawler->filter('.list-inner > li')->each(function(Crawler $listInner){
 
             $listInner->filter('.cardFront')->each(function($cardFront) {
@@ -189,7 +192,8 @@ class ScraperController extends Controller
                 $lb = preg_replace("/ï¼/", "{", $gt);
                 $rb = preg_replace("/ï¼/", "}", $lb);
                 $ns = preg_replace("/ã»/", "", $rb);
-                $na = preg_replace("/â/", "'", $ns);
+                $na_patterns = ['/(â)/', '/(ã)/', '/(ã)/'];
+                $na = preg_replace($na_patterns, "'", $ns);
                 return addslashes($na);
             };
 
@@ -216,8 +220,11 @@ class ScraperController extends Controller
                 $cardData['imageUrl'] = $cardData['imageUrl'].";https://dbs-decks.com/img/{$this->cardNumber}_b.png";
             }
             $cardData['GTIN'] = 0;
-            DB::table('tcgplayer_card')->updateOrInsert(['Number' => $this->cardNumber, 'groupId' => $this->groupId], $cardData);
-            array_push($this->array, $cardData);
+            if($this->count >= $this->count_check) {
+                DB::table('tcgplayer_card')->updateOrInsert(['Number' => $this->cardNumber, 'groupId' => $this->groupId], $cardData);
+                array_push($this->array, $cardData);
+            }
+            $this->count++;
         });
         return json_encode($this->array);
     }

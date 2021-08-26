@@ -1,0 +1,42 @@
+.color-circle {
+    width: 20px;
+    height: 20px;
+    margin: 0 15px 0 5px ;
+    border-radius: 50%;
+    background: #fff;
+    display: inline-block;
+    &.red {
+        background: #AE1712;
+    }
+    &.blue {
+        background: #2C7093;
+    }
+    &.green {
+        background: #398D48;
+    }
+    &.yellow {
+        background: #EACB19;
+    }
+    &.black {
+        border: solid 1px #fff;
+        background: #0F0F0F;
+    }
+    &.red-green {
+        background: linear-gradient(135deg, #AE1712, #AE1712 50%, #398D48 50%, #398D48); 
+    }
+    &.blue-yellow {
+        background: linear-gradient(135deg, #2C7093, #2C7093 50%, #EACB19 50%, #EACB19); 
+    }
+    &.red-yellow {
+        background: linear-gradient(135deg, #AE1712, #AE1712 50%, #EACB19 50%, #EACB19); 
+    }
+    &.blue-green {
+        background: linear-gradient(135deg, #2C7093, #2C7093 50%, #398D48 50%, #398D48); 
+    }
+    &.blue-red {
+        background: linear-gradient(135deg, #2C7093, #2C7093 50%, #AE1712 50%, #AE1712); 
+    }
+    &.green-yellow {
+        background: linear-gradient(135deg, #398D48, #398D48 50%, #EACB19 50%, #EACB19); 
+    }
+}

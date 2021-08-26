@@ -1,6 +1,5 @@
 <div class='p-2 bg-super-dark border-color-super-dark'>
-    <h1>{{deckInfo.title}}</h1>
-    <p>Main: {{deckList?.mainDeck?.length}} Side: {{deckList?.sideDeck?.length}}</p>
+    <h1>{{title$ | async}}</h1>
 </div>
 <div class="container-fluid">
     <div class="main-deck">
