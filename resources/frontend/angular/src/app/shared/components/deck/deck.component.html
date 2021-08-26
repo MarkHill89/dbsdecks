@@ -2,12 +2,13 @@
     <section class="col">
         <div class='row'>
             <div class='col-md-3' *ngIf="leader">
-                <h4 class='text-light'>Leader Card</h4>
+                <h4 class='text-light'>{{leader.cardName || leader.title}}</h4>
                 <img *ngIf="leader?.thumbnail" class='leader-image rounded-img' src="{{leader?.thumbnail | imageString }}" />
-                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img' src="{{leader?.imageUrl | imageString }}" />
+                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img w-50' [src]="leader?.imageUrl[0]" />
+                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img w-50' [src]="leader?.imageUrl[1]" />
+                <small><p [innerHTML]='leader.cardText | cardText' class='d-none d-md-block'></p></small>
             </div>
             <div class='col-md-9'>  
-                <h4 class='text-light'>Deck List</h4>
                 <div class="row">
                     <div class="col-md-6">
                         <h5 class='text-light'>Main Deck ({{ mainDeck?.length }})</h5>
@@ -71,17 +72,11 @@
             </div>
         </div>
         <hr />
-        <div class='row'>
-            <div class='col-12'>
-                <h4 class='text-light'>Visual Layout</h4>
-                <p class='text-light'><small>*Visiual layout is still a prototype, you may see visual or performance errors</small></p>
-            </div>
-        </div>
         <div class='row' *ngIf="_mainDeck?.length">
             <div class='col-md-12'>
                 <h4 class='text-light'>Main Deck</h4>
             </div>
-            <div class='col-md-2 mb-3' *ngFor="let card of _mainDeck">
+            <div class='col-6 col-md-2 mb-3' *ngFor="let card of _mainDeck">
                 <div class='card-wrapper d-flex flex-column justify-content-center'>
                     <div class='card-wrapper-image'>
                         <img class='rounded-img' src="{{card?.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
@@ -98,7 +93,7 @@
             <div class='col-md-12'>
                 <h4 class='text-light'>Side Deck</h4>
             </div>
-            <div class='col-md-2 mb-3' *ngFor="let card of _sideDeck">
+            <div class='col-6 col-md-2 mb-3' *ngFor="let card of _sideDeck">
                 <div class='card-wrapper d-flex flex-column justify-content-center'>
                     <div class='card-wrapper-image'>
                         <img class='rounded-img' src="{{card?.thumbnail | imageString }}" (click)="showCardInfo(card)"/>

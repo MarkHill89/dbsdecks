@@ -20,7 +20,10 @@
 .rounded-img {
     border-radius: 8px;
     width: 200px;
-    height: 280px;
+    // height: 280px;
+    @media (mid-width: 692px) {
+        height: 280px;
+    }
 }
 .deck-spread {
     justify-content: center;
@@ -28,43 +31,62 @@
 .leader-iamge {
     width: 280px;
 }
-@media (min-width: 692px) {
-    .deck-card {
-        max-width: calc( calc( 100% - 10px) / 5.5 );
-        margin: 5px;
-        position: relative;
-        display: block;
-        &.side-deck-card {
-            max-width: calc( calc( 100% - 10px) / 2.5 );
-        }
-    }
-    .deck-spread {
-        justify-content: left;
-    }
-}
-@media (min-width: 1290px) {
-    .deck-card {
-        max-width: calc( calc( 100% - 10px) / 7.5 );
-        margin: 5px;
-        position: relative;
-        display: block;
-        &.side-deck-card {
-            max-width: calc( calc( 100% - 10px) / 3.5 );
-        }
+
+.deck-card {
+    max-width: calc( calc(100% -10px) / 2);
+    margin: 5px;
+    position: relative;
+    display: block;
+    &.side-deck-card {
+        max-width: calc( calc( 100% - 10px) / 2);
     }
     .deck-spread {
         justify-content: left;
     }
 }
 
+
+// @media (min-width: 692px) {
+//     .deck-card {
+//         max-width: calc( calc( 100% - 10px) / 5.5 );
+//         margin: 5px;
+//         position: relative;
+//         display: block;
+//         &.side-deck-card {
+//             max-width: calc( calc( 100% - 10px) / 2.5 );
+//         }
+//     }
+//     .deck-spread {
+//         justify-content: left;
+//     }
+// }
+// @media (min-width: 1290px) {
+//     .deck-card {
+//         max-width: calc( calc( 100% - 10px) / 7.5 );
+//         margin: 5px;
+//         position: relative;
+//         display: block;
+//         &.side-deck-card {
+//             max-width: calc( calc( 100% - 10px) / 3.5 );
+//         }
+//     }
+//     .deck-spread {
+//         justify-content: left;
+//     }
+// }
+
 .card-wrapper {
-    width: 200px;
+    width: 100%;
+    @media(min-width: 692px) {
+        width: 200px;
+    }
     display: inline-block;
     margin: 0 auto;
     .card-wrapper-image {
         cursor: pointer;
         img {
             width: 100%;
+            box-shadow: 4px 4px 25px 5px rgba(0, 0, 0, 0.75);
         }
     }
 }

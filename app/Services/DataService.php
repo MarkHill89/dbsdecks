@@ -186,8 +186,14 @@ class DataService
                 "cardNumber" => $m->cardNumber,
                 "mainDeckQty" => $m->count,
                 "sideDeckQty" => (function($m, $sideDeckList) {
-                    $key = array_search($m->cardNumber, array_column($sideDeckList, "cardNumber"));
-                    return ($key > -1) ? $sideDeckList[$key]['count'] : 0;
+                    $key = -1;
+                    foreach($sideDeckList as $key_ => $side) {
+                        if($m->cardNumber === $side->cardNumber) {
+                            $key = $key_;
+                        }
+                    }
+                    // $key = array_search($m->cardNumber, array_column($sideDeckList, "cardNumber"));
+                    return ($key > -1) ? $sideDeckList[$key]->count : 0;
                 })($m, json_decode($deck->sideDeckList))
             ];
         }, json_decode($deck->mainDeckList));

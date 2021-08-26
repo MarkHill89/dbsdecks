@@ -22,6 +22,7 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   leaderBackImage = '';
   mainDeckQty = 0;
   sideDeckQty = 0;
+  title$ : BehaviorSubject<String> = new BehaviorSubject<String>('');
   leader$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
@@ -48,7 +49,8 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
       console.log(this.mainDeck$.getValue());
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
-      this.leader$.next(JSON.parse(data.leader))
+      this.leader$.next(data.leader)
+      this.title$.next(data.title)
     }));
   }
 
