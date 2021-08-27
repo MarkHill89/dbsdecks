@@ -18,13 +18,13 @@
                                 *ngIf="deckListsLoaded"
                                 name="leader"
                                 class="form-control form-control-sm rounded-0 mt-1"
-                                [(ngModel)]="selectedLeader"
+                                [(ngModel)]="leaderId"
                                 (ngModelChange)="selectLeader($event)"
-                                placeholder="Search by username">
+                                >
                             <option [ngValue]=''>-- See All --</option>
                                 <option
                                     *ngFor="let leader of leadersLists; let n = index"
-                                    [ngValue]="leader">
+                                    [ngValue]="leader.id">
                                         {{leader.cardName}}
                                 </option>
                             </select>
@@ -53,7 +53,7 @@
                         </div>
                         <table class="table table-striped my-0">
                             <tbody>
-                                <tr *ngFor="let deckList of deckLists | filter:filter | filter:selectedLeaderName | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index">
+                                <tr *ngFor="let deckList of deckLists | filter:filter | filter:selectedLeaderName  | paginate: { itemsPerPage: pageSize, currentPage: page }; let i = index">
                                     <td>
                                         <a routerLink="/deck/view/{{deckList.id}}" class='w-100'>
                                             <span class="primaryLine w-100">{{deckList.title}}</span>

@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import {DataService} from '@dbsdecks/app/infrastructure/services/data.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router,ActivatedRoute } from '@angular/router';
 
 declare let gtag: Function;
 
@@ -26,9 +26,11 @@ export class DeckListComponent implements OnInit{
   filter:any = undefined;
   selectedLeader:any = undefined;
   selectedLeaderName:any = undefined;
+  leaderId :any;
   
 
   constructor(
+    private route: ActivatedRoute,
     protected dataService:DataService,
     public router: Router
   ) {
@@ -38,7 +40,13 @@ export class DeckListComponent implements OnInit{
             'page_path': event.urlAfterRedirects
         });
       }
-    })
+    });
+    this.route.queryParams.subscribe(
+      params => {
+        this.leaderId = params.lead;
+      }
+    )
+      
   }
 
   ngOnInit(){
@@ -64,6 +72,7 @@ export class DeckListComponent implements OnInit{
         this.trendingLeaders = await this.dataService.getTrendingLeaders();
         this.total = this.deckLists.length;
         this.deckListsLoaded = true;
+            
 
         this.sort(this.key);
        
@@ -83,8 +92,9 @@ export class DeckListComponent implements OnInit{
   }
 
   selectLeader(event:any){
-    this.selectedLeaderName = event.cardName;
-    
+
+    this.selectedLeaderName = this.leadersLists.find((item: { id: any; }) =>  item.id === event).cardName;
+    this.leaderId = event.id;
   }
 
   
