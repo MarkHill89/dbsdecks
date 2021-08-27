@@ -15,6 +15,7 @@ declare let gtag: Function;
 
 export class DeckListViewComponent implements OnInit, OnDestroy{
   deckId:any;
+  leaderId:any;
   deckList:any= [];
   deckInfo:any= [];
   deckListLoaded:boolean = false;
