@@ -7,6 +7,12 @@
 <div class='modal-body'>
     <form [formGroup]="filterForm">
         <div class='form-group'>
+            <label formArrayName="color" *ngFor="let color of colorFormArray.controls; let i = index">
+                <input type="checkbox" [formControlName]="i">
+                <div class="color-circle {{colorData[i].name}}"></div>
+            </label>
+        </div>
+        <div class='form-group'>
             <label>Set Number</label>
             <input type="text" formControlName="cardNumber" class='form-control form-control-sm' />
         </div>

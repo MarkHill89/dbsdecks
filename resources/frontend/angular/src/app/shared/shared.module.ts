@@ -15,6 +15,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ErrorModalComponent } from './modals/error-modal/error-modal.component';
 import { DateTimePipe } from './pipes/date-time.pipe';
 import { CardTextPipe } from './pipes/card-text.pipe';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import {FilterPipe} from '@dbsdecks/app/shared/pipes/filter.pipe';
 import { ImageStringPipe } from './pipes/image-string.pipe';
 import { CardFilterModalComponent } from './modals/card-filter-modal/card-filter-modal.component';
@@ -32,6 +33,7 @@ import { UpdatePasswordComponent } from './modals/update-password/update-passwor
     CardTextPipe,
     FilterPipe,
     ImageStringPipe,
+    SafeHtmlPipe,
     CardInfoModalComponent,
     CardFilterModalComponent,
     DeckComponent,
@@ -62,6 +64,7 @@ import { UpdatePasswordComponent } from './modals/update-password/update-passwor
     CardTextPipe,
     FilterPipe,
     ImageStringPipe,
+    SafeHtmlPipe,
     LeaderCardComponent,
     TrendingLeadersComponent
   ]

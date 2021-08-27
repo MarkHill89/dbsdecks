@@ -1,5 +1,9 @@
+
 .card-wrapper {
-    width: 200px;
+    width: 143px;
+    @media(min-width: 442px) {
+        width: 200px;
+    }
     display: inline-block;
     margin: 0 auto;
     .card-wrapper-image {
