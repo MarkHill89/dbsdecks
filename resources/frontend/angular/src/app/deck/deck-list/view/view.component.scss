@@ -1,6 +1,13 @@
 decklist-view{
-    h1, p{
+    p {
         color:cornsilk;
+    }
+    h1 {
+        color:cornsilk;
+        font-size: 1.5rem;
+        @media(min-width: 692px) {
+            font-size: 2.5rem;
+        }
     }
     .main-deck{
         .quantity{
