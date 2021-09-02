@@ -75,15 +75,15 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         this.cards = cards;
         this.leaderCards = _.chain(this.cards)
           .filter((card: Card) => card.cardType == 'Leader')
-          .sortBy(['title'])
+          .sortBy(['cardName'])
           .value();
         this.unisonCards = _.chain(this.cards)
           .filter((card: Card) => card.cardType == 'Unison')
-          .sortBy(['title'])
+          .sortBy(['cardName'])
           .value();
         this.battleAndExtraCards =_.chain(this.cards)
           .filter((card:Card) => card.cardType != 'Leader' && card.cardType != 'Unison')
-          .sortBy(['title', 'energyCost'])
+          .sortBy(['cardName', 'energyCost'])
           .value();
         switch(this.view$.getValue()) {
           case 1:

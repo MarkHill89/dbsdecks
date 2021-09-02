@@ -38,7 +38,12 @@ class CardController extends Controller
             "isActive" => $deck->isActive,
             "isConverted" => $deck->isConverted,
             "isPrivate" => $deck->isPrivate,
-            "leader" => json_decode($deck->leader),
+            "leader" => (object) [
+                    "cardName" => json_decode($deck->leader)->cardName,
+                    "thumbnail" => json_decode($deck->leader)->imageUrl,
+                    "cardText" => json_decode($deck->leader)->cardText,
+                    "url" => json_decode($deck->leader)->url
+            ],
             "leaderCardNumber" => $deck->leaderCardNumber,
             "submitDate" => $deck->submitDate,
             "title" => $deck->title,
