@@ -6,8 +6,10 @@ export interface Card {
     cardId ?: string;
     cardLimit: number;
     title: string;
+    cardName: string;
     cardNumber: string;
-    description: string;
+    description ?: string;
+    cardText: string;
     cardType: string;
     color: string;
     comboPower: number;

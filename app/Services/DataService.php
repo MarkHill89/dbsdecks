@@ -15,10 +15,10 @@ class DataService
         return collect(Proc::call('all_cards'))
             ->map(function ($row) {
                 return [
-                    "title" => $row != null ? $row->cardName : '',
+                    "cardName" => $row != null ? $row->cardName : '',
                     "cardNumber" => $row != null ? $row->cardNumber : '',
                     "rarity" => $row != null ? $row->rarity : '',
-                    "description" => $row != null ? $row->cardText : '',
+                    "cardText" => $row != null ? $row->cardText : '',
                     "cardType" => $row != null ? $row->cardType : '',
                     "color" => $row != null ? $row->color : '',
                     "energyCost" => $row != null ? $row->energyCost : '',
@@ -29,7 +29,7 @@ class DataService
                     "era" => $row != null ? $row->era : '',
                     "cardCharacter" => $row != null ? $row->cardCharacter : '',
                     "url" => $row != null ? $row->url : '',
-                    "thumbnail" => $row != null ? $row->imageUrl : '',
+                    "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
                     "isUltimate" => $row != null ? $row->isUltimate : 0,
                     "isSuperCombo" => $row != null ? $row->isSuperCombo : 0,
                     "isDragonBall" => $row != null ? $row->isDragonBall : 0,
@@ -49,6 +49,7 @@ class DataService
                 return [
                     'cardNumber' => $row != null ? $row->cardNumber : '',
                     'cleanName' => $row != null ? $row->cleanName : '',
+                    'cardText' => $row != null ? $row->Description: '',
                     'thumbnail' => $row != null ? $row->imageUrl : '',
                     'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
@@ -75,6 +76,7 @@ class DataService
                     return [
                         'cardNumber' => $row != null ? $row->cardNumber : '',
                         'cleanName' => $row != null ? $row->cleanName : '',
+                        'cardText' => $row != null ? $row->Description : '',
                         'thumbnail' => $row != null ? $row->imageUrl : '',
                         'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                         'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
@@ -86,16 +88,18 @@ class DataService
                 for ($i = 0; $i < $row['mainDeckQty']; $i++) {
                     array_push($mainDeck, [
                         'cardNumber' => $row != null ? $row['cardNumber'] : '',
-                        'title' => $row != null ? $row['cleanName'] : '',
-                        'thumbnail' => $row != null ? $row['thumbnail'] : '',
+                        'cardText' => $row != null ? $row['cardText'] : '',
+                        'cardName' => $row != null ? $row['cleanName'] : '',
+                        'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                         'color' => $row != null ? $row['color'] : ''
                     ]);
                 }
                 for ($i = 0; $i < $row['sideDeckQty']; $i++) {
                     array_push($sideDeck, [
                         'cardNumber' => $row != null ? $row['cardNumber'] : '',
-                        'title' => $row != null ? $row['cleanName'] : '',
-                        'thumbnail' => $row != null ? $row['thumbnail'] : '',
+                        'cardText' => $row != null ? $row['cardText'] : '',
+                        'cardName' => $row != null ? $row['cleanName'] : '',
+                        'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                         'color' => $row != null ? $row['color'] : ''
                     ]);
                 }
@@ -108,18 +112,20 @@ class DataService
         foreach ($deckListArray as $row) {
             for ($i = 0; $i < $row['mainDeckQty']; $i++) {
                 array_push($mainDeck, [
-                    'cardNumber' => $row != null ? $row['cardNumber'] : '',
-                    'title' => $row != null ? $row['cleanName'] : '',
-                    'thumbnail' => $row != null ? $row['thumbnail'] : '',
-                    'color' => $row != null ? $row['color'] : ''
+                        'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                        'cardText' => $row != null ? $row['cardText'] : '',
+                        'cardName' => $row != null ? $row['cleanName'] : '',
+                        'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
+                        'color' => $row != null ? $row['color'] : ''
                 ]);
             }
             for ($i = 0; $i < $row['sideDeckQty']; $i++) {
                 array_push($sideDeck, [
-                    'cardNumber' => $row != null ? $row['cardNumber'] : '',
-                    'title' => $row != null ? $row['cleanName'] : '',
-                    'thumbnail' => $row != null ? $row['thumbnail'] : '',
-                    'color' => $row != null ? $row['color'] : ''
+                        'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                        'cardText' => $row != null ? $row['cardText'] : '',
+                        'cardName' => $row != null ? $row['cleanName'] : '',
+                        'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
+                        'color' => $row != null ? $row['color'] : ''
                 ]);
             }
         }

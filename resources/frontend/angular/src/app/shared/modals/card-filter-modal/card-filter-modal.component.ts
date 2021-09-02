@@ -25,7 +25,11 @@ export class CardFilterModalComponent implements OnInit {
     {id: 'Red;Yellow', name: 'red-yellow'},
     {id: 'Blue;Green', name: 'blue-green'},
     {id: 'Blue;Red', name: 'blue-red'},
-    {id: 'Green;Yellow', name: 'green-yellow'}
+    {id: 'Green;Yellow', name: 'green-yellow'},
+    {id: 'Black;Red', name: 'red-black'},
+    {id: 'Black;Blue', name: 'blue-black'},
+    {id: 'Black;Green', name: 'green-black'},
+    {id: 'Black;Yellow', name: 'yellow-black'}
   ];
 
   constructor(
@@ -34,8 +38,6 @@ export class CardFilterModalComponent implements OnInit {
   ) { 
     
   }
-
-  
 
   ngOnInit(): void {
     const title = this.cardFilters.title || '';
@@ -78,7 +80,6 @@ export class CardFilterModalComponent implements OnInit {
   }  
 
   clear() {
-
     this.filterForm.reset({
       color: new FormArray([]),
       title: '',

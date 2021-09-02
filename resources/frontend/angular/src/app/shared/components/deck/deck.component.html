@@ -2,11 +2,10 @@
     <section class="col">
         <div class='row'>
             <div class='col-md-3' *ngIf="leader">
-                <h4 class='text-light'>{{leader.cardName || leader.title}}</h4>
-                <img *ngIf="leader?.thumbnail" class='leader-image rounded-img' src="{{leader?.thumbnail | imageString }}" />
-                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img w-50' [src]="leader?.imageUrl[0]" />
-                <img *ngIf="leader?.imageUrl" class='leader-image rounded-img w-50' [src]="leader?.imageUrl[1]" />
-                <small><p [innerHTML]='leader.cardText | cardText' class='d-none d-md-block'></p></small>
+                <h4 class='text-light'>{{leader.cardName}}</h4>
+                <img *ngIf="leader?.thumbnail" class='leader-image rounded-img w-50' [src]="leader.thumbnail | imageString: 0" />
+                <img *ngIf="leader?.thumbnail" class='leader-image rounded-img w-50' [src]="leader.thumbnail | imageString: 1" />
+                <small><p [innerHTML]='leader.cardText | cardText' class='d-none d-md-block text-white'></p></small>
             </div>
             <div class='col-md-9'>  
                 <div class="row">
@@ -32,7 +31,7 @@
                                 <div class='d-flex flex-fill justify-content-between'>
                                     <div class='d-flex'>
                                         <div class='mr-2 font-weight-bold'>{{card?.qty}}</div>
-                                        <div>{{card?.title}}</div>
+                                        <div>{{card?.cardName}}</div>
                                     </div>
                                     <div>{{ 0 | currency }}</div>
                                 </div>
@@ -61,7 +60,7 @@
                                 <div class='d-flex flex-fill justify-content-between'>
                                     <div class='d-flex'>
                                         <div class='mr-2 font-weight-bold'>{{card?.qty}}</div>
-                                        <div>{{card?.title}}</div>
+                                        <div>{{card?.cardName}}</div>
                                     </div>
                                     <div>{{ 0 | currency }}</div>
                                 </div>
@@ -79,7 +78,7 @@
             <div class='col-6 col-md-2 mb-3' *ngFor="let card of _mainDeck">
                 <div class='card-wrapper d-flex flex-column justify-content-center'>
                     <div class='card-wrapper-image'>
-                        <img class='rounded-img' src="{{card?.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
+                        <img class='rounded-img' src="{{card.thumbnail | imageString : 0 }}" (click)="showCardInfo(card)"/>
                     </div>
                     <div class='card-wrapper-buttons w-100'>
                         <div class='btn-group d-inline-block d-flex w-100'>
@@ -96,7 +95,7 @@
             <div class='col-6 col-md-2 mb-3' *ngFor="let card of _sideDeck">
                 <div class='card-wrapper d-flex flex-column justify-content-center'>
                     <div class='card-wrapper-image'>
-                        <img class='rounded-img' src="{{card?.thumbnail | imageString }}" (click)="showCardInfo(card)"/>
+                        <img class='rounded-img' src="{{card.thumbnail | imageString : 0}}" (click)="showCardInfo(card)"/>
                     </div>
                     <div class='card-wrapper-buttons w-100'>
                         <div class='btn-group d-inline-block d-flex w-100'>

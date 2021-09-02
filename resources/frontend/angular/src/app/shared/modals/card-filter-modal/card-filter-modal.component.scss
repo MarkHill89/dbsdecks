@@ -39,4 +39,20 @@
     &.green-yellow {
         background: linear-gradient(135deg, #398D48, #398D48 50%, #EACB19 50%, #EACB19); 
     }
+    &.red-black {
+        border: solid 1px #fff;
+        background: linear-gradient(135deg, #AE1712, #AE1712 50%, #0F0F0F 50%, #0F0F0F); 
+    }
+    &.blue-black {
+        border: solid 1px #fff;
+        background: linear-gradient(135deg, #2C7093, #2C7093 50%, #0F0F0F 50%, #0F0F0F); 
+    }
+    &.green-black {
+        border: solid 1px #fff;
+        background: linear-gradient(135deg, #398D48, #398D48 50%, #0F0F0F 50%, #0F0F0F); 
+    }
+    &.yellow-black {
+        border: solid 1px #fff;
+        background: linear-gradient(135deg, #EACB19, #EACB19 50%, #0F0F0F 50%, #0F0F0F); 
+    }
 }
