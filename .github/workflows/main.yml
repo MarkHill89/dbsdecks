@@ -22,17 +22,27 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@master
-      - name: copy file via ssh key
-        uses: appleboy/scp-action@master
-        with:
-          host: 92.204.129.17
-          username: dbssuperuser
-          port: 22
-          password: C@rdg4m3s2021
-      # This installs the dependencies
-      - name: Install Dependencies
-        run: cd /home/dbsdecksadmin/public_html/dbsdecks && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: install the node dependecies
-        run: "npm i"
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PUSH_TOKEN }}
+    - name: Set up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm install
+    - run: npm run production
+    - name: Commit built assets
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -B deploy
+        git add -f public/
+        git commit -m "Build front-end assets"
+        git push -f origin deploy
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        username: dbssuperuser
+        host: 92.204.129.17
+        password: C@rdg4m3s2021
+        script: 'cd /home/dbsdecksadmin/public_html/dbsdecks && ./server_deploy.sh'
