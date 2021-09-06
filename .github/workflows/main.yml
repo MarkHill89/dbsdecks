@@ -3,7 +3,7 @@
 name: deployment
 
 vars:
-	deploy_dir: "/home/dbsdecksadmin/public_html/dbsdecks"
+  deploy_dir: "/home/dbsdecksadmin/public_html/dbsdecks"
 
 # Controls when the workflow will run
 on:
@@ -33,10 +33,8 @@ jobs:
           username: dbssuperuser
           port: 22
           password: C@rdg4m3s2021
-			# This installs the dependencies		
-			- name: Install Dependencies
-				run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      # This installs the dependencies
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: install the node dependecies
-        	command:
-        		cmd: "cd {{ deploy_dir }} && npm i --unsafe-perm=true --allow-root"
-		        become: yes
+        run: "cd {{ deploy_dir }} && npm i --unsafe-perm=true --allow-root"
