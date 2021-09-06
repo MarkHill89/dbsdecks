@@ -27,3 +27,4 @@ echo "Deploying application ..."
 php artisan up
  
 echo "Site deployed!"
+
