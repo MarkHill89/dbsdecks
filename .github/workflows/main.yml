@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: '12.x'
     - run: npm install
-    - run: cd /resources/frontend/angular && npm run build
+    - run: cd ./resources/frontend/angular && npm run build
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:
