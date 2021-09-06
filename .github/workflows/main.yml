@@ -39,4 +39,4 @@ jobs:
         username: dbsdecksadmin
         host: 92.204.129.17
         password: C@rdg4m3s2021
-        script: 'cd /home/dbsdecksadmin/public_html/dbsdecks && ./server_deploy.sh'
+        script: 'cd /home/dbsdecksadmin/public_html/dbsdecks && bash ./server_deploy.sh'
