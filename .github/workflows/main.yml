@@ -27,8 +27,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    # Install on root directory
     - run: npm install
+    # Install packages in ng project
     - run: cd ./resources/frontend/angular && npm install
+    # Build the prod resources
     - run: cd ./resources/frontend/angular && npm run build
     - name: Deploy to production
       uses: appleboy/ssh-action@master
