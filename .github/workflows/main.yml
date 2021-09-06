@@ -2,9 +2,6 @@
 
 name: deployment
 
-vars:
-  deploy_dir: "/home/dbsdecksadmin/public_html/dbsdecks"
-
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -35,6 +32,6 @@ jobs:
           password: C@rdg4m3s2021
       # This installs the dependencies
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: cd /home/dbsdecksadmin/public_html/dbsdecks && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: install the node dependecies
-        run: "cd {{ deploy_dir }} && npm i --unsafe-perm=true --allow-root"
+        run: "npm i"
