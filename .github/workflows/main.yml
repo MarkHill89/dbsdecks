@@ -17,7 +17,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    # The type of runner that the job will run on 
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -27,12 +27,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    # Install on root directory
     - run: npm install
-    - run: npm run production
+    # Install packages in ng project
+    - run: cd ./resources/frontend/angular && npm install
+    # Build the prod resources 
+    - run: cd ./resources/frontend/angular && npm run build
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:
-        username: dbssuperuser
+        username: dbsdecksadmin
         host: 92.204.129.17
         password: C@rdg4m3s2021
-        script: 'cd /home/dbsdecksadmin/public_html/dbsdecks && ./server_deploy.sh'
+        script: 'cd /home/dbsdecksadmin/public_html/dbsdecks && bash ./server_deploy.sh'
