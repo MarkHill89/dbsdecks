@@ -58,6 +58,4 @@ Route::prefix('api')->group(function () {
     });
 });
 
-Route::get('/{any}', function () {
-    return file_get_contents(public_path('index.html'));
-})->where('any', '.*');
+Route::view('{any}', 'app')->where('any', '.*');
