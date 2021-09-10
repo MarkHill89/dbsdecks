@@ -48,7 +48,6 @@
                 }
               ],
               "outputPath": "../../../public/",
-              "deployUrl": "/dbsdecks/public/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -56,6 +55,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "baseHref": "/public",
               "budgets": [
                 {
                   "type": "initial",
