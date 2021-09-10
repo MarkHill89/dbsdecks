@@ -1,16 +1,18 @@
 <div class='trending-leaders'>
     <div class="row">
         <div class="col-md-12">
-            <h3 class="text-light">Trending Leaders</h3>
+            <h3 class="text-light text-center">Trending Leaders</h3>
         </div>
         <div class="col-md-12">
-            <ul class='list-group'>
-                <li class='list-group-item p-0 pb-1' *ngFor="let t of trendingLeaders" (click)="goToTL(t.cardId)">
-                    <div class='card-name'><p class='pl-1 m-0'>{{t.cardName}}</p></div>
-                    <div class='leader-count'><p class='pl-1 m-0'>{{t.leaderCount}} in the last 24 hours</p></div>
-                    <img class='leader-image' [src]="imageSource(t.imageUrl)" />
-                </li>
-            </ul>
+            <div class='row'>
+                <div class="col-md-6 p-2" *ngFor="let t of trendingLeaders" (click)="goToTL(t.cardId)">
+                    <div class='trending-leader-wrapper'>
+                        <div class='card-name'><p class='pl-1 m-0'>{{t.cardName}}</p></div>
+                        <div class='leader-count'><p class='pl-1 m-0'>{{t.leaderCount}} in the last 24 hours</p></div>
+                        <img class='leader-image' [src]="imageSource(t.imageUrl)" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
