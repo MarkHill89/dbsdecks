@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: "/dbsdecks/public/api/",
+  baseUrl: "/api/",
   showErrorTrace:true,
 };
