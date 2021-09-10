@@ -17,8 +17,8 @@ const routes: Routes = [
   { path: 'register/new', component:RegisterComponent},
   { path: 'login', component:LoginComponent},
   { path: 'portal', component:PortalComponent, canActivate:[AuthService]},
-  { path: 'home', component: HomeComponent},
-  { path: '**', redirectTo: '/dbsdecks/public/home' }
+  { path: '', component: HomeComponent},
+  { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({
