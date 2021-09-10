@@ -24,7 +24,11 @@
                                     'list-group-item-danger-warning' : card?.color == 'Red;Yellow',
                                     'list-group-item-primary-success' : card?.color == 'Blue;Green',
                                     'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
-                                    'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
+                                    'list-group-item-success-warning' : card?.color == 'Green;Yellow',
+                                    'list-group-item-dark-danger' : card?.color == 'Black;Red',
+                                    'list-group-item-dark-primary' : card?.color == 'Black;Blue',
+                                    'list-group-item-dark-success' : card?.color == 'Black;Green',
+                                    'list-group-item-dark-warning' : card?.color == 'Black;Yellow'}"
                                 class='list-group-item d-flex justify-content-between py-1 pl-1 pr-1 m-0 border-0 small text-decor-none'
                                 target="_blank"
                                 *ngFor="let card of _mainDeck" >
