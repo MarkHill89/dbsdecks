@@ -55,7 +55,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "baseHref": "/public",
               "budgets": [
                 {
                   "type": "initial",

@@ -18,10 +18,11 @@ export class DataService {
             .pipe(map(data => {return data}))
   }
 
-  getDeckListAll(isPublic:any, leaderCardNumber:string){
+  getDeckListAll(isPublic:any, leaderCardNumber:string, limit:any){
     let params = new HttpParams();
     params = params.append('isPublic', isPublic);
     params = params.append('leaderCard', leaderCardNumber);
+    params = params.append('limit', limit);
 
     return this.http
             .get(this.baseUrl + "deck/list", {params: params})

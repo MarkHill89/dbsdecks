@@ -25,8 +25,9 @@ class CardController extends Controller
     {
         $isPublic = $request->input('isPublic');
         $leaderCardNumber = $request->input('leaderCard');
+        $limit = $request->input('limit');
 
-        return $dataService->getAllDecks($isPublic, $leaderCardNumber);
+        return $dataService->getAllDecks($isPublic, $leaderCardNumber, $limit);
     }
 
     public function get_deck_view_data(Request $request)

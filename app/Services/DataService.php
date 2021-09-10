@@ -49,7 +49,7 @@ class DataService
                 return [
                     'cardNumber' => $row != null ? $row->cardNumber : '',
                     'cleanName' => $row != null ? $row->cleanName : '',
-                    'cardText' => $row != null ? $row->Description: '',
+                    'cardText' => $row != null ? $row->Description : '',
                     'thumbnail' => $row != null ? $row->imageUrl : '',
                     'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
@@ -112,20 +112,20 @@ class DataService
         foreach ($deckListArray as $row) {
             for ($i = 0; $i < $row['mainDeckQty']; $i++) {
                 array_push($mainDeck, [
-                        'cardNumber' => $row != null ? $row['cardNumber'] : '',
-                        'cardText' => $row != null ? $row['cardText'] : '',
-                        'cardName' => $row != null ? $row['cleanName'] : '',
-                        'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                        'color' => $row != null ? $row['color'] : ''
+                    'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                    'cardText' => $row != null ? $row['cardText'] : '',
+                    'cardName' => $row != null ? $row['cleanName'] : '',
+                    'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
+                    'color' => $row != null ? $row['color'] : ''
                 ]);
             }
             for ($i = 0; $i < $row['sideDeckQty']; $i++) {
                 array_push($sideDeck, [
-                        'cardNumber' => $row != null ? $row['cardNumber'] : '',
-                        'cardText' => $row != null ? $row['cardText'] : '',
-                        'cardName' => $row != null ? $row['cleanName'] : '',
-                        'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                        'color' => $row != null ? $row['color'] : ''
+                    'cardNumber' => $row != null ? $row['cardNumber'] : '',
+                    'cardText' => $row != null ? $row['cardText'] : '',
+                    'cardName' => $row != null ? $row['cleanName'] : '',
+                    'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
+                    'color' => $row != null ? $row['color'] : ''
                 ]);
             }
         }
@@ -135,11 +135,12 @@ class DataService
         ];
     }
 
-    public function getAllDecks(int $isPublic, string $leaderCardNumber)
+    public function getAllDecks(int $isPublic, string $leaderCardNumber, int $limit)
     {
         return collect(Proc::callParm('get_deck_lists_all', [
             'isPublic' => $isPublic,
             'leaderCard' => $leaderCardNumber,
+            'limit' => $limit
         ]))
             ->map(function ($row) {
                 return [

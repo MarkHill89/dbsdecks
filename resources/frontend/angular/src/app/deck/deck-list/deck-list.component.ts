@@ -68,7 +68,7 @@ export class DeckListComponent implements OnInit{
    async fetchData(): Promise<any> {
     try{
         this.leadersLists = await this.dataService.getLeaders();
-        this.deckLists = await this.dataService.getDeckListAll(1,'0');
+        this.deckLists = await this.dataService.getDeckListAll(1,'0', 0);
         this.trendingLeaders = await this.dataService.getTrendingLeaders();
         this.total = this.deckLists.length;
         this.deckListsLoaded = true;
