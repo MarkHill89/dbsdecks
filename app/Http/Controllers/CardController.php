@@ -39,10 +39,10 @@ class CardController extends Controller
             "isConverted" => $deck->isConverted,
             "isPrivate" => $deck->isPrivate,
             "leader" => (object) [
-                    "cardName" => json_decode($deck->leader)->cardName,
-                    "thumbnail" => json_decode($deck->leader)->imageUrl,
-                    "cardText" => json_decode($deck->leader)->cardText,
-                    "url" => json_decode($deck->leader)->url
+                "cardName" => json_decode($deck->leader)->cardName,
+                "thumbnail" => json_decode($deck->leader)->imageUrl,
+                "cardText" => json_decode($deck->leader)->cardText,
+                "url" => json_decode($deck->leader)->url
             ],
             "leaderCardNumber" => $deck->leaderCardNumber,
             "submitDate" => $deck->submitDate,
@@ -76,7 +76,7 @@ class CardController extends Controller
         $input = $request->all();
 
         $userId = auth()->user()->id;
-        $title = $input['deck']['title'];
+        $title = 'test';
         $leader = $input['deck']['leader'];
         $mainDeck = $input['deck']['mainDeck'];
         $sideDeck = $input['deck']['sideDeck'];
@@ -93,7 +93,6 @@ class CardController extends Controller
         $deckIndex = 0;
         $sideDeckIndex = 0;
 
-
         DB::table('deck')->insert(
             [
                 'userId' => $userId,
@@ -108,9 +107,9 @@ class CardController extends Controller
         $id = DB::table('deck')
             ->select('id')
             ->orderBy('id', 'desc')
-            ->first(0);
+            ->first();
 
-        DB::table('deck_data_new')->where('deckId', $id)->delete();
+        DB::table('deck_data_new')->where('deckId', $id->id)->delete();
 
         foreach ($mainDeck as $value) {
             $cardNumber = $value['cardNumber'];
