@@ -48,7 +48,6 @@
                 }
               ],
               "outputPath": "../../../public/",
-              "deployUrl": "/dbsdecks/public/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
