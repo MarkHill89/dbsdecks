@@ -89,7 +89,7 @@ class CardController extends Controller
         $input = $request->all();
 
         $userId = auth()->user()->id;
-        $title = 'test';
+        $title = $input['deck']['title'];
         $leader = $input['deck']['leader'];
         $mainDeck = $input['deck']['mainDeck'];
         $sideDeck = $input['deck']['sideDeck'];
@@ -97,7 +97,6 @@ class CardController extends Controller
         $isActive = 1;
         $submitDate = now();
         $leaderCardNumber = $leader['cardNumber'];
-
         $mainQty = 0;
         $sideQty = 0;
         $currentCardNumber = '';

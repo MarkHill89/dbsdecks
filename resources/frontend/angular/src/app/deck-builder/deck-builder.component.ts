@@ -34,7 +34,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   private unisonCardFilters = {};
   private battleAndExtraCardFilters = {};
 
-  title: FormControl;
+  title : string = '';
   deckId$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   deckIsValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   leaderCard$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
@@ -59,7 +59,6 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     private deckService: DeckService,
     private router: Router
   ) { 
-    this.title = fb.control({value: ''});
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         gtag('config', 'UA-114061835-1', {
@@ -301,7 +300,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   submitDeck() {
     const deck = { 
       id: this.deckId$.getValue(), 
-      title : this.title.value,
+      title : this.title,
       isPrivate: this.isPrivate$.getValue(),
       leader: this.leaderCard$.getValue(),
       mainDeck: this.mainDeck$.getValue(),

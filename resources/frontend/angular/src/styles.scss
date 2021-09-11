@@ -112,6 +112,22 @@ body {
   background: linear-gradient(to right, #c3e6cb, #ffeeba);
   color: #000 !important;
 }
+.list-group-item-dark-danger {
+  background: linear-gradient(to right, #f5c6cb, #c6c8ca);
+  color: #000 !important;
+}
+.list-group-item-dark-primary {
+  background: linear-gradient(to right, #b8daff, #c6c8ca);
+  color: #000 !important;
+}
+.list-group-item-dark-success {
+  background: linear-gradient(to right, #c3e6cb, #c6c8ca);
+  color: #000 !important;
+}
+.list-group-item-dark-warning {
+  background: linear-gradient(to right, #ffeeba, #c6c8ca);
+  color: #000 !important;
+}
 .dropdown-menu.show {
   z-index: 5000;
 }
