@@ -9,7 +9,7 @@
                     <div class='trending-leader-wrapper'>
                         <div class='card-name'><p class='pl-1 m-0'>{{t.cardName}}</p></div>
                         <div class='leader-count'><p class='pl-1 m-0'>{{t.leaderCount}} in the last 24 hours</p></div>
-                        <img class='leader-image' [src]="imageSource(t.imageUrl)" />
+                        <img class='leader-image' src="{{t.imageUrl | imageString: 0}}"/>
                     </div>
                 </div>
             </div>
