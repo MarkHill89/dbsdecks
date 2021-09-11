@@ -32,7 +32,7 @@ jobs:
     # Install packages in ng project
     - run: cd ./resources/frontend/angular && npm install
     # Build the prod resources
-    - run: cd ./resources/frontend/angular && npm run build
+    - run: cd ./resources/frontend/angular && npm run build:prod && cp .htaccess ../../../public && cp index.php ../../../public
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:

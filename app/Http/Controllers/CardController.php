@@ -30,8 +30,20 @@ class CardController extends Controller
         return $dataService->getAllDecks($isPublic, $leaderCardNumber, $limit);
     }
 
+    public function get_deck_by_user(Request $request){
+        $decksByUser = DB::table('deck')
+                        ->select()
+                        ->where('userId', auth()->user()->id)
+                        ->get();
+
+
+        return json_decode($decksByUser);
+    }
+
     public function get_deck_view_data(Request $request)
     {
+        return $dataService->getAllDecks($isPublic, $leaderCardNumber, $limit);
+        
         $id = $request->input('deckId');
         $deck = Deck::where('id', $id)->first();
         return response()->json([
@@ -53,10 +65,10 @@ class CardController extends Controller
     }
 
 
-    public function get_deck_list_data(Request $request, DataService $dataService)
+    public function get_deck_list_card_data(Request $request, DataService $dataService)
     {
         $id = $request->input('deckId');
-        return $dataService->getDeckListData($id);
+        return $dataService->getDeckListCardData($id);
     }
 
 
