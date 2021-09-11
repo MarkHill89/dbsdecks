@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -82,9 +83,29 @@ class AuthController extends Controller
         $user = User::where('username', $username)->first();
 
         if (!$user) {
-            return response([
-                'message' => "Username not found"
-            ], 401);
+            $newUser = DB::table('user')
+            ->where('username', $username)
+            ->first();
+
+            if (!$newUser) {
+                return response([
+                    'message' => "Username not found"
+                ], 401);
+            }
+
+            DB::table('users')->insert(
+                [
+                    "username" => $newUser->username,
+                    "name" => $newUser->first_name . ' ' . $newUser->last_name,
+                    "email" => $newUser->email_address,
+                    "password" => $newUser->password_md5,
+                    "created_at" => now(),
+                    "updated_at" => now(),
+                    'id' => $newUser->id
+                ]
+            );
+
+            $user = User::where('username', $username)->first();
         }
 
         // Check Password is md5

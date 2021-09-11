@@ -38,7 +38,7 @@ class DataService
             });
     }
 
-    public function getDeckListData(int $id)
+    public function getDeckListCardData(int $id)
     {
         $mainDeck = [];
         $sideDeck = [];
