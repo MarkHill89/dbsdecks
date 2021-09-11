@@ -42,7 +42,7 @@
     <div class='row my-0' *ngSwitchCase="0" infinite-scroll [infiniteScrollDisabled]="true">
         <div class='col pt-0'>
             <div class='input-group mt-0'>
-                <input formControlName="title" class='form-control form-control' placeholder="Deck Title"/>
+                <input type="text" [(ngModel)]="title" class='form-control' placeholder="Deck Title"/>
                 <button class='btn btn-black' *ngIf="(isPrivate$ | async) === false" (click)="setDeckVisibility(true)">Public</button>
                 <button class='btn btn-black' *ngIf="(isPrivate$ | async) === true" (click)="setDeckVisibility(false)" >Private</button>
             </div>
