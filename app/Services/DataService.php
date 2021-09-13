@@ -38,6 +38,23 @@ class DataService
             });
     }
 
+    public function getDeckData(int $id) {
+        return collect(Proc::callParm('get_deck_data', ['id' => $id]))
+            ->map(function($row) {
+                return [
+                    "id" => $row != null ? $row->id : '',
+                    "title" => $row != null ? $row->title : '',
+                    "isPrivate" => $row != null ? $row->isPrivate : '',
+                    "submitDate" => $row != null ? $row->submitDate : '',
+                    "username" => $row != null ? $row->username : '',
+                    "leaderName" => $row != null ? $row->leaderName : '',
+                    "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
+                    "cardText" => $row != null ? $row->cardText : '',
+                    "url" => $row != null ? $row->url : ''
+                ];
+            })[0];
+    }
+
     public function getDeckListCardData(int $id)
     {
         $mainDeck = [];
@@ -45,17 +62,17 @@ class DataService
         $deckListArray = collect(Proc::callParm('get_deck_list_data', [
             'id' => $id
         ]))
-            ->map(function ($row) {
-                return [
-                    'cardNumber' => $row != null ? $row->cardNumber : '',
-                    'cleanName' => $row != null ? $row->cleanName : '',
-                    'cardText' => $row != null ? $row->Description : '',
-                    'thumbnail' => $row != null ? $row->imageUrl : '',
-                    'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
-                    'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
-                    'color' => $row != null ? $row->Color : ''
-                ];
-            });
+        ->map(function ($row) {
+            return [
+                'cardNumber' => $row != null ? $row->cardNumber : '',
+                'cleanName' => $row != null ? $row->cleanName : '',
+                'cardText' => $row != null ? $row->Description : '',
+                'thumbnail' => $row != null ? $row->imageUrl : '',
+                'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
+                'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
+                'color' => $row != null ? $row->Color : ''
+            ];
+        });
 
         // if the array returns empty, then that means the deck is old formats
         // we will convert an old list here into a new list and return that

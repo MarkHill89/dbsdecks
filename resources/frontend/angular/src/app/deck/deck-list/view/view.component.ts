@@ -45,12 +45,14 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
 
   ngOnInit(){
     this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
-      this.mainDeck$.next(data.mainDeck);
-      this.sideDeck$.next(data.sideDeck);
+      console.log(data);
+      this.leader$.next(data)
+      this.title$.next(data.title)
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
-      this.leader$.next(data.leader)
-      this.title$.next(data.title)
+      console.log(data.mainDeck);
+      this.mainDeck$.next(data.mainDeck);
+      this.sideDeck$.next(data.sideDeck);
     }));
   }
 
