@@ -87,6 +87,7 @@ class AuthController extends Controller
             ->where('username', $username)
             ->first();
 
+
             if (!$newUser) {
                 return response([
                     'message' => "Username not found"
@@ -105,28 +106,45 @@ class AuthController extends Controller
                 ]
             );
 
-            $user = User::where('username', $username)->first();
+            $newUser = User::where('username', $username)->first();
+
+            // Check Password is md5
+            if ($newUser->password === hash('md5', $password)) {
+                $newUser->password = bcrypt($password);
+                $newUser->save();
+            }
+
+            // Check Password is updated
+            if (Auth::attempt(['username' => $username, 'password' => $password])) {
+                $token = $newUser->createToken("dbs decks")->plainTextToken;
+                Auth::login($newUser);
+                $response = ['token' => $token];
+                return response($response, 201);
+            } else {
+                return response([
+                    'message' => "Invalid Credentials"
+                ], 401);
+            }
+        } else{
+            // Check Password is md5
+            if ($user->password == hash('md5', $password)) {
+                $user->password = bcrypt($request->input('password'));
+                $user->save();
+            }
+
+            // Check Password is updated
+            if (Auth::attempt(['username' => $username, 'password' => $password])) {
+                $token = $user->createToken("dbs decks")->plainTextToken;
+                Auth::login($user);
+                $response = ['token' => $token];
+                return response($response, 201);
+            } else {
+                return response([
+                    'message' => "Invalid Credentials"
+                ], 401);
+            }
         }
 
-        // Check Password is md5
-        if ($user->password == hash('md5', $password)) {
-            $user->password = bcrypt($request->input('password'));
-            $user->save();
-        }
-
-
-
-        // Check Password is updated
-        if (Auth::attempt(['username' => $username, 'password' => $password])) {
-            $token = $user->createToken("dbs decks")->plainTextToken;
-            Auth::login($user);
-            $response = ['token' => $token];
-            return response($response, 201);
-        } else {
-            return response([
-                'message' => "Invalid Credentials"
-            ], 401);
-        }
     }
 
     /**
