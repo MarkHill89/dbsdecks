@@ -41,6 +41,19 @@ class AuthController extends Controller
         return response(['data' => 'password updated']);
     }
 
+    public function checkUserName(Request $request) {
+
+        $user = DB::table('users')
+        ->where('username', $request->input('userName'))
+        ->first();
+
+        if(!$user) {
+            return response(["message" => 'OK'], 200);
+        }
+        
+        return response(["message" => 'User found'], 200);
+    }
+
     public function register(Request $request)
     {
         $allFields = $request->all();
