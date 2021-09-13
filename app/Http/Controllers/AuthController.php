@@ -128,7 +128,7 @@ class AuthController extends Controller
         } else{
             // Check Password is md5
             if ($user->password == hash('md5', $password)) {
-                $user->password = bcrypt($request->input('password'));
+                $user->password = bcrypt($password);
                 $user->save();
             }
 
