@@ -63,6 +63,12 @@ export class AuthService {
         return this.http.get(this.baseUrl + "auth/user",{headers});
     }
 
+    isUserNameTaken(userName: string): Observable<any> {
+        return this.http.get(this.baseUrl + "auth/username-check", {params: { 
+            'userName': userName
+        }});
+    }
+
     forgotPassword(email:string):Observable<any>{
         
         return this.http.get(this.baseUrl + "auth/password-forgot", {params:{

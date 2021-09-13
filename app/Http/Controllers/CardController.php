@@ -40,28 +40,10 @@ class CardController extends Controller
         return json_decode($decksByUser);
     }
 
-    public function get_deck_view_data(Request $request)
+    public function get_deck_view_data(Request $request, DataService $dataService)
     {
-        return $dataService->getAllDecks($isPublic, $leaderCardNumber, $limit);
+        return $dataService->getDeckData($request->input('deckId'));
         
-        $id = $request->input('deckId');
-        $deck = Deck::where('id', $id)->first();
-        return response()->json([
-            "id" => $deck->id,
-            "isActive" => $deck->isActive,
-            "isConverted" => $deck->isConverted,
-            "isPrivate" => $deck->isPrivate,
-            "leader" => (object) [
-                "cardName" => json_decode($deck->leader)->cardName,
-                "thumbnail" => json_decode($deck->leader)->imageUrl,
-                "cardText" => json_decode($deck->leader)->cardText,
-                "url" => json_decode($deck->leader)->url
-            ],
-            "leaderCardNumber" => $deck->leaderCardNumber,
-            "submitDate" => $deck->submitDate,
-            "title" => $deck->title,
-            "userId" => $deck->userId
-        ]);
     }
 
 

@@ -21,13 +21,15 @@ export class DeckComponent implements OnInit {
   @Input() sideDeck: Card[] | null = [];
 
   ngOnInit(): void {
+    console.log(this.leader);
     this._mainDeck = this.packDeck(this.mainDeck);
     this._sideDeck = this.packDeck(this.sideDeck);
+    console.log(this.packDeck(this.mainDeck));
   }
 
   packDeck(deck: Card[] | null) {
-    console.log(deck);
     if(deck === null) {
+
       this._mainDeck = [];
       this._sideDeck = [];
       return [];
