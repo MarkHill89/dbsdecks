@@ -63,7 +63,6 @@ class CardController extends Controller
     {
         $request->validate([
             'deck.id' => 'required',
-            'deck.title' => 'required',
             'deck.leader' => 'required',
             'deck.mainDeck' => 'required'
         ]);
@@ -71,7 +70,7 @@ class CardController extends Controller
         $input = $request->all();
 
         $userId = auth()->user()->id;
-        $title = $input['deck']['title'];
+        $title = $input['deck']['title'] || $leader['cardName'].".dek";
         $leader = $input['deck']['leader'];
         $mainDeck = $input['deck']['mainDeck'];
         $sideDeck = $input['deck']['sideDeck'];
