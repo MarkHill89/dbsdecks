@@ -3,6 +3,7 @@ import { Router} from '@angular/router';
 
 import {AuthService} from '@dbsdecks/app/infrastructure/services/auth.service';
 import { FormBuilder, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -32,7 +33,8 @@ export class RegisterComponent{
   constructor(
     private router: Router,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _location: Location,
   ) { }
 
   get firstName() {
@@ -65,11 +67,21 @@ export class RegisterComponent{
 
   submitRegistration(){
     try{
-      this.authService.registerNew(this.registrationForm.value);
+      this.authService.registerNew(this.registrationForm.value).subscribe( res =>{
+        if(res){
+          localStorage.setItem('token', res.token);
+          this.authService.isAuthenticated.next(true);
+        }
+      });
     }catch(err){
-      console.log(err.error.errors)
+      Promise.reject(err);
     }
   }
+
+
+
+      
+
 
 
   private mustMatch(controlName: string, matchingControlName: string) {

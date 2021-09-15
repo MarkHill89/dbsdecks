@@ -25,6 +25,7 @@ import { LeaderCardComponent } from './components/leader-card/leader-card.compon
 import { TrendingLeadersComponent } from './components/trending-leaders/trending-leaders.component';
 import { UpdatePasswordComponent } from './modals/update-password/update-password.component';
 import { UserNameCheckDirective } from './directives/user-name-check.directive';
+import { EmailCheckDirective } from './directives/email-check.directive';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserNameCheckDirective } from './directives/user-name-check.directive';
     LeaderCardComponent,
     TrendingLeadersComponent,
     UpdatePasswordComponent,
-    UserNameCheckDirective
+    UserNameCheckDirective,
+    EmailCheckDirective
   ],
   imports: [
     CommonModule,
@@ -69,7 +71,8 @@ import { UserNameCheckDirective } from './directives/user-name-check.directive';
     SafeHtmlPipe,
     LeaderCardComponent,
     TrendingLeadersComponent,
-    UserNameCheckDirective
+    UserNameCheckDirective,
+    EmailCheckDirective
   ]
 })
 export class SharedModule { 

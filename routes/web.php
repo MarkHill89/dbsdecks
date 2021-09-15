@@ -37,6 +37,8 @@ Route::prefix('api')->group(function () {
             ->name('password.request');
         Route::get('/username-check', [AuthController::class, 'checkUserName'])
             ->middleware('guest');
+        Route::get('/email-check', [AuthController::class, 'checkEmail'])
+            ->middleware('guest');
     });
 
     Route::prefix('deck')->group(function () {
