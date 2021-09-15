@@ -67,7 +67,6 @@ export class CardFilterModalComponent implements OnInit {
   }
 
   private addCheckBoxes() {
-    console.log(this.cardFilters);
   
     this.colorData.forEach((color) => {
       let idx = -1;
@@ -76,7 +75,7 @@ export class CardFilterModalComponent implements OnInit {
       }
       idx > -1 ? this.colorFormArray.push(new FormControl(true)) : this.colorFormArray.push(new FormControl(false));
     });
-    console.log(this.filterForm);
+    
   }  
 
   clear() {

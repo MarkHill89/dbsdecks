@@ -6,7 +6,7 @@
             </div>
             <div class="col-md-4 text-right">
                 <button class="btn btn-secondary mr-2" (click)="copyDeck()">Copy</button>
-                <button class="btn btn-secondary" (click)="editDeck()">Edit</button>
+                <button *ngIf='isUser' class="btn btn-secondary" (click)="editDeck()">Edit</button>
             </div>
         </div>
     </div>
