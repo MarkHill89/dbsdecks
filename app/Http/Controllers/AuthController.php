@@ -54,6 +54,17 @@ class AuthController extends Controller
         return response(["message" => 'User found'], 200);
     }
 
+    public function checkEmail(Request $request) {
+        $email = DB::table('users')
+        ->where('email', $request->input('email'))
+        ->first();
+
+        if(!$email) {
+            return response(["message" => 'OK'], 200);
+        }
+        return response(["message" => 'Email Found'], 200);
+    }
+
     public function register(Request $request)
     {
         $allFields = $request->all();

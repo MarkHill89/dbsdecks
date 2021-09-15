@@ -61,21 +61,75 @@
                 <div class='form-row'>
                     <div class='form-group col-md-6'>
                         <label for="password">Password</label>
-                        <input type="password" class='form-control'  id="password" name="password" formControlName="password" required/>
+                        <input 
+                            type="password"
+                            class='form-control'
+                            [ngClass]="{
+                                '': password.pristine,
+                                'is-valid': password.dirty && !password.errors,
+                                'is-invalid': password.dirty && password.errors
+                            }"
+                            id="password"
+                            name="password"
+                            formControlName="password"
+                            required/>
                     </div>
                     <div class='form-group col-md-6'>
                         <label for="passwordConfirmation">Confirm Password</label>
-                        <input type="password" class='form-control'  id="passwordConfirmation" name="passwordConfirmation" formControlName="passwordConfirmation" required/>
+                        <input
+                            type="password"
+                            class='form-control'
+                            [ngClass]="{
+                                '': passwordConfirmation.pristine,
+                                'is-valid': passwordConfirmation.dirty && !passwordConfirmation.errors,
+                                'is-invalid': passwordConfirmation.dirty && passwordConfirmation.errors
+                            }"
+                            id="passwordConfirmation"
+                            name="passwordConfirmation"
+                            formControlName="passwordConfirmation"
+                            required/>
+                            <div class='invalid-feedback' *ngIf="passwordConfirmation.errors?.mustMatch">
+                                Password do not match.
+                            </div>
                     </div>
                 </div>
                 <div class='form-row'>
                     <div class='form-group col-md-6'>
                         <label for="emailAddress">E-mail Address</label>
-                        <input type="email" class='form-control'  id="emailAddress" name="emailAddress" formControlName="emailAddress" required/>
+                        <input
+                            type="email"
+                            class='form-control'
+                            [ngClass]="{
+                                '': emailAddress.pristine,
+                                'is-valid': emailAddress.dirty && !emailAddress.errors,
+                                'is-invalid': emailAddress.dirty && emailAddress.errors
+                            }"
+                            id="emailAddress"
+                            name="emailAddress"
+                            formControlName="emailAddress"
+                            emailCheck
+                            required/>
+                        <div class='invalid-feedback' *ngIf="emailAddress.errors?.emailCheck">
+                            {{emailAddress.errors?.emailCheck}}
+                        </div>
                     </div>
                     <div class='form-group col-md-6'>
-                        <label for="emailConfirmation">Confirm E-mail Address</label>
-                        <input type="email" class='form-control'  id="emailConfirmation" name="emailConfirmation" formControlName="emailConfirmation" required/>
+                        <label for="emailAddressConfirmation">Confirm E-mail Address</label>
+                        <input
+                            type="email"
+                            class='form-control'
+                            [ngClass]="{
+                                '': emailAddressConfirmation.pristine,
+                                'is-valid': emailAddressConfirmation.dirty && !emailAddressConfirmation.errors,
+                                'is-invalid': emailAddressConfirmation.dirty && emailAddressConfirmation.errors
+                            }"
+                            id="emailAddressConfirmation"
+                            name="emailAddressConfirmation"
+                            formControlName="emailAddressConfirmation"
+                            required/>
+                            <div class='invalid-feedback' *ngIf="emailAddressConfirmation.errors?.mustMatch">
+                                E-mail addresses do not match.
+                            </div>
                     </div>
                 </div>
                 <button type='submit' class='btn btn-primary' [disabled]="!registrationForm.valid">Register</button>
