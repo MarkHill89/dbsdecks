@@ -71,7 +71,7 @@ class CardController extends Controller
 
         $userId = auth()->user()->id;
         $leader = $input['deck']['leader'];
-        $title = empty($input['deck']['title']) ? $auth()->user()->username." ".$leader['cardName'] : $input['deck']['title'];
+        $title = empty($input['deck']['title']) ? auth()->user()->username." ".$leader['cardName'] : $input['deck']['title'];
         $mainDeck = $input['deck']['mainDeck'];
         $sideDeck = $input['deck']['sideDeck'];
         $isPrivate = $input['deck']['isPrivate'];
