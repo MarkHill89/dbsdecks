@@ -50,7 +50,8 @@ class DataService
                     "leaderName" => $row != null ? $row->leaderName : '',
                     "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
                     "cardText" => $row != null ? $row->cardText : '',
-                    "url" => $row != null ? $row->url : ''
+                    "url" => $row != null ? $row->url : '',
+                    "userId" => $row != null ? $row->userId : ''
                 ];
             })[0];
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ɵɵsetComponentScope, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import {DataService} from '@dbsdecks/app/infrastructure/services/data.service';
+import {DataService, AuthService} from '@dbsdecks/app/infrastructure/services/';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { Card } from '../../../cards/state/card.model';
 
@@ -23,6 +23,9 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   leaderBackImage = '';
   mainDeckQty = 0;
   sideDeckQty = 0;
+  currentUser:number = 0;
+  owner:number = 0;
+  isUser = false;
   title$ : BehaviorSubject<String> = new BehaviorSubject<String>('');
   leader$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
@@ -31,7 +34,8 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   constructor(
     private route: ActivatedRoute,
     public router: Router,
-    private dataService:DataService
+    private dataService:DataService,
+    private authService:AuthService
   ) { 
     this.deckId = this.route.snapshot.paramMap.get('id');
     this.router.events.subscribe(event => {
@@ -45,15 +49,15 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
 
   ngOnInit(){
     this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
-      console.log(data);
       this.leader$.next(data)
       this.title$.next(data.title)
+      this.owner = data.userId;
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
-      console.log(data.mainDeck);
       this.mainDeck$.next(data.mainDeck);
       this.sideDeck$.next(data.sideDeck);
     }));
+    this.getCurrentUser();
   }
 
   editDeck(){
@@ -62,6 +66,18 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
 
   copyDeck(){
     this.router.navigateByUrl(`/deckbuilder?id=${this.deckId}&action=copy`);
+  }
+
+  getCurrentUser(){
+    this.authService.getUser().subscribe((res:any) =>{
+      if(res){
+        this.currentUser = res.id;
+        if (this.currentUser === this.owner ){
+          this.isUser = true;
+        }
+      }
+      
+    })
   }
 
   ngOnDestroy() {
