@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "@dbsdecks/app/infrastructure/services/";
+import { Router, NavigationEnd, RouterEvent, NavigationStart } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +14,17 @@ export class NavbarComponent {
   show:boolean =  false;
   loading = false;
   user:any;
- 
+  isMenuCollapsed = true;
   constructor(
     private authService: AuthService,
+    private router: Router
   ) {
     this.authService.isAuthenticated.subscribe(res => {
       this.checkAuth()
+    })
+    this.router.events.pipe(filter((evt: any) =>evt instanceof NavigationStart))
+    .subscribe((event: NavigationStart) => {
+      this.isMenuCollapsed = true;
     })
   }
 
