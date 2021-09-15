@@ -29,7 +29,6 @@ export class DeckComponent implements OnInit {
 
   packDeck(deck: Card[] | null) {
     if(deck === null) {
-
       this._mainDeck = [];
       this._sideDeck = [];
       return [];

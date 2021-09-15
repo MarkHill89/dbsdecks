@@ -69,6 +69,12 @@ export class AuthService {
         }});
     }
 
+    isEmailTaken(email: string): Observable<any> {
+        return this.http.get(this.baseUrl + "auth/email-check", {params: {
+            'email':email
+        }});
+    }
+
     forgotPassword(email:string):Observable<any>{
         
         return this.http.get(this.baseUrl + "auth/password-forgot", {params:{

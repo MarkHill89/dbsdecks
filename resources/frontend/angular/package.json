@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --configuration=dev -o",
     "build": "ng build",
-    "build:prod": "ng build --prod --aot --vendor-chunk=false --build-optimizer --named-chunks=true",
+    "build:prod": "ng build --prod --aot && cp .htaccess ../../../public && cp index.php ../../../public",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
