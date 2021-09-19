@@ -30,10 +30,10 @@
     <section class="row mb-0">
         <div class='col'>
             <div class='btn-group d-flex w-100 mb-0'>
-                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 0, 'btn-outline-white': (view$ | async) != 0}" (click)="switchView(0)">Stats</button>
-                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 1, 'btn-outline-white': (view$ | async) != 1}"(click)="switchView(1)">Leader</button>
-                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 2, 'btn-outline-white': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
-                <button class='btn btn-sm' [ngClass]="{'btn-white' : (view$ | async) == 3, 'btn-outline-white': (view$ | async) != 3}"(click)="switchView(3)">Battle/Extra</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 0, 'btn-outline-warning': (view$ | async) != 0}" (click)="switchView(0)">Stats</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 1, 'btn-outline-warning': (view$ | async) != 1}"(click)="switchView(1)">Leader</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 2, 'btn-outline-warning': (view$ | async) != 2}"(click)="switchView(2)">Unison</button>
+                <button class='btn btn-sm' [ngClass]="{'btn-warning' : (view$ | async) == 3, 'btn-outline-warning': (view$ | async) != 3}"(click)="switchView(3)">Battle/Extra</button>
                 <button class='btn btn-sm btn-danger' (click)="clearDeck()">Reset</button>
                 <button class='btn btn-sm btn-black' (click)="submitDeck()"  [disabled]="!(deckIsValid$ | async)">Save</button>
             </div>
