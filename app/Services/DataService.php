@@ -194,7 +194,7 @@ class DataService
                     'cardName' => $row != null ? $row->cardName : '',
                     'cardNumber' => $row != null ? $row->cardNumber : '',
                     'cardId' => $row != null ? $row->cardId : '',
-                    'imageUrl' => $row != null ? $row->imageUrl : '',
+                    'imageUrl' => $row != null ? explode(';', $row->imageUrl) : '',
                     'leaderCount' => $row != null ? $row->leaderCount : 0,
                 ];
             });
