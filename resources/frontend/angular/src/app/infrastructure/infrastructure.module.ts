@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import {DataService, NavbarService, AuthService} from "./services/";
+import { UnsavedChangesGuard } from "./services/unsaved-changes.guard";
 import {SecureRouterLinkDirective} from "./services/security.service";
 
 const DIRECTIVES = [
@@ -9,7 +10,8 @@ const DIRECTIVES = [
 const PROVIDERS = [
     DataService,
     AuthService,
-    NavbarService
+    NavbarService,
+    UnsavedChangesGuard
 ];
 
 @NgModule({

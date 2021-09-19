@@ -24,6 +24,7 @@ declare let gtag: Function;
 })
 export class DeckBuilderComponent implements OnInit, OnDestroy {
 
+  private changesSaved: boolean = false;
   private cards: Card[] = [];
   private leaderCards: Card[] = [];
   private unisonCards: Card[] = [];
@@ -64,6 +65,24 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         gtag('config', 'UA-114061835-1', {
             'page_path': event.urlAfterRedirects
         });
+      }
+    })
+  }
+
+  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    event.returnValue = false;
+  }
+
+  canDeactivate() {
+    return this.isNavigationAllowed();
+  }
+
+  private isNavigationAllowed() : Promise<boolean> {
+    return new Promise<boolean> ( (resolve) => {
+      if(this.changesSaved) {
+        resolve(true)
+      }else {
+        resolve(confirm("Your deck is not saved, you sure you want to leave?"));
       }
     })
   }

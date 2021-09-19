@@ -1,6 +1,18 @@
 .navbar {
-    background: #000;
+    //  background: #4D812E;
+    background:darken(#4D812E, 5%);
     border-bottom: 2px solid #df2026;
+    img {
+        height: 2.5rem;
+    }
+    a {
+        color: #fff;
+        text-shadow: 2px 2px 5px #000;
+        transition: all .25s ease-in-out;
+        &:hover {
+            color: #F8BF03;
+        }
+    }
 }
 
 .heading-text {
