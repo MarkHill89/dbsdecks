@@ -34,6 +34,7 @@ class CardController extends Controller
         $decksByUser = DB::table('deck')
                         ->select()
                         ->where('userId', auth()->user()->id)
+                        ->where('isActive', 1)
                         ->get();
 
 
@@ -158,5 +159,125 @@ class CardController extends Controller
                 ['sideDeckQty' => $quantity]
             );
         }
+        return response([
+            'id' => $id
+        ], 200);
+    }
+
+    public function updateDeck(Request $request, DataService $dataService)
+    {
+        $request->validate([
+            'deck.id' => 'required',
+            'deck.leader' => 'required',
+            'deck.mainDeck' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        $userId = auth()->user()->id;
+        $leader = $input['deck']['leader'];
+        $title = empty($input['deck']['title']) ? auth()->user()->username." ".$leader['cardName'] : $input['deck']['title'];
+        $mainDeck = $input['deck']['mainDeck'];
+        $sideDeck = $input['deck']['sideDeck'];
+        $isPrivate = $input['deck']['isPrivate'];
+        $isActive = 1;
+        $submitDate = now();
+        $leaderCardNumber = $leader['cardNumber'];
+        $mainQty = 0;
+        $sideQty = 0;
+        $currentCardNumber = '';
+        $newMainDeck = [];
+        $newSideDeck = [];
+        $deckIndex = 0;
+        $sideDeckIndex = 0;
+        $id = $input['deck']['id'];
+
+    
+        DB::table('deck_data_new')->where('deckId', $id)->delete();
+
+        foreach ($mainDeck as $value) {
+            $cardNumber = $value['cardNumber'];
+
+            // Check to see if the current card number is the same as the previous cardnumber in the loop
+            if ($cardNumber === $currentCardNumber) {
+                // if the card number is the same increment the main quantity +1 and assign the card number as the current card
+                $mainQty++;
+                $currentCard = $cardNumber;
+                // update the arrays 'quantity' value from it's previous to the new +1 value
+                $newMainDeck[$deckIndex - 1]['quantity'] = $mainQty;
+            } else {
+                // if the card number is different start the main quantity over at 1
+                $mainQty = 1;
+                // increment the position of the deck index from the data coming from the website
+                $deckIndex++;
+                $currentCardNumber = $cardNumber;
+                // add a new array inside the $newMainDeck Array with the properties [cardNumber => $currentCardNumber,  quantity => $mainQty]
+                $newMainDeck[] = ['cardNumber' => $currentCardNumber, 'quantity' => $mainQty];
+            }
+        }
+
+        foreach ($newMainDeck as $value) {
+            $cardNumber = $value['cardNumber'];
+            $quantity = $value['quantity'];
+
+            DB::table('deck_data_new')->update(
+                ['deckId' => $id, 'cardNumber' => $cardNumber],
+                ['mainDeckQty' => $quantity]
+            );
+        }
+
+        foreach ($sideDeck as $sideValue) {
+            $cardNumber = $sideValue['cardNumber'];
+            if ($cardNumber === $currentCardNumber) {
+                $mainQty++;
+                $currentCard = $cardNumber;
+                $newSideDeck[$sideDeckIndex - 1]['quantity'] = $mainQty;
+            } else {
+                $mainQty = 1;
+                $sideDeckIndex++;
+                $currentCardNumber = $cardNumber;
+                $newSideDeck[] = ['cardNumber' => $currentCardNumber, 'quantity' => $mainQty];
+            }
+        }
+
+        foreach ($newSideDeck as $newSideValue) {
+            $cardNumber = $newSideValue['cardNumber'];
+            $quantity = $newSideValue['quantity'];
+
+            DB::table('deck_data_new')->update(
+                ['deckId' => $id, 'cardNumber' => $cardNumber],
+                ['sideDeckQty' => $quantity]
+            );
+        }
+        return response([
+            'id' => $id
+        ], 200);
+    }
+    public function deleteDeck(Request $request, DataService $dataService)
+    {
+        $request->validate([
+            'deckId' => 'required'
+        ]);
+
+        $id = $request->input('deckId');
+
+        if (Auth::check()) {
+            DB::table('deck')
+                ->where('id', $id)
+                ->update(['isActive' => 0]
+            );
+    
+            DB::table('deck_data_new')->where('deckId', $id)->delete();
+            return response([
+                'message' => 'Deck Deleted'
+             ], 200);
+         } else {
+             return response([
+                'message' => 'Not Authorized'
+             ], 400);
+         }
+
+
+
     }
 }
