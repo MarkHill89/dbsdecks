@@ -75,6 +75,12 @@ body {
     }
   }
 }
+.btn{
+  &.btn-theme{
+    background-color:#F67B0B;
+    border-color: #F67B0B;
+  }
+}
 .close {
   color: #f7f7f7;
   &:hover {
