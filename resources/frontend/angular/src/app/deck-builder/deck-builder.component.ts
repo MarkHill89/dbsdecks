@@ -12,7 +12,7 @@ import { CardInfoModalComponent } from '@dbsdecks/app/shared/modals/card-info-mo
 import { FormBuilder, FormControl } from '@angular/forms';
 import { DataService } from '@dbsdecks/app/infrastructure/services';
 import { DeckService } from '@dbsdecks/app/deck-builder/state/deck-builder.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { ErrorModalComponent } from '../shared/modals/error-modal/error-modal.component';
 import { SuccessModalComponent } from '../shared/modals/success-modal/success-modal.component';
 
@@ -45,6 +45,8 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   view$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   isPrivate$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  action:string = ''; 
+
   isSave:boolean = true;
   isBusy:boolean = false;
 
@@ -62,7 +64,8 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dataService: DataService,
     private deckService: DeckService,
-    private router: Router
+    private router: Router,
+    private activatedRoute:ActivatedRoute
   ) { 
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
@@ -70,7 +73,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
             'page_path': event.urlAfterRedirects
         });
       }
-    })
+    });
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
@@ -125,6 +128,27 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         this.subscriptions.add(this.cardsService.get().subscribe())
       }
     }));
+
+    this.activatedRoute.queryParams
+    .subscribe(params => {
+      this.deckId$ = params.id;
+      this.action = params.action;
+      if(this.deckId$ !== undefined){
+        this.dataService.getDeckListData(this.deckId$).subscribe((data:any) =>{
+          this.title = data.title;
+        });
+
+        this.dataService.getDeckViewData(this.deckId$).subscribe((deck:any) =>{
+          this.mainDeck$.next(deck.mainDeck);
+          this.sideDeck$.next(deck.sideDeck);
+          this.setLeaderCard(deck.leader)
+        });
+        this.checkIfDeckIsValid();
+      }
+       
+    }
+  );
+
   }
 
   @HostListener("window:scroll", [])
@@ -189,6 +213,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   setLeaderCard(card: Card) {
+    console.log(card);
     this.leaderCard$.next(card);
   }
 
