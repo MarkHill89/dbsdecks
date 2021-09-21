@@ -75,6 +75,10 @@ class DataService
                     'cardName'  => $row != null ? $row->cleanName : '',
                     'rarity'  => $row != null ? $row->Rarity : '',
                     'cardNumber'  => $row != null ? $row->Number : 0,
+                    'cardLimit' => 1,
+                    'isDragonBall'=> 0,
+                    'isSuperCombo'=> 0,
+                    'isUltimate'=> 0,
                     'cardText'  => $row != null ? $row->Description : '',
                     'cardType'  => $row != null ? $row->CardType : '',
                     'color'  => $row != null ? $row->Color : '',
@@ -86,7 +90,7 @@ class DataService
                     'era'  => $row != null ? $row->Era : '',
                     'cardCharacter'  => $row != null ? $row->Character : '',
                     'url'  => $row != null ? $row->url : '',
-                    'thumbnail'  => $row != null ? $row->imageUrl : ''
+                    'thumbnail'  => $row != null ? explode(';', $row->imageUrl) : ''
                 ];
             });
 
