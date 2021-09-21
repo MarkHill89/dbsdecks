@@ -141,7 +141,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         this.dataService.getDeckViewData(this.deckId$).subscribe((deck:any) =>{
           this.mainDeck$.next(deck.mainDeck);
           this.sideDeck$.next(deck.sideDeck);
-          this.setLeaderCard(deck.leader)
+          this.setLeaderCard(deck.leader[0]);
         });
         this.checkIfDeckIsValid();
       }
@@ -213,7 +213,6 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   setLeaderCard(card: Card) {
-    console.log(card);
     this.leaderCard$.next(card);
   }
 
