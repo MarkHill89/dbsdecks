@@ -19,7 +19,7 @@ class GetProductsPriceBySets extends Command
      *
      * @var string
      */
-    protected $description = 'This will return all the price for all the cards for each individual set';
+    protected $description = 'This will return all the price for all the cards for each individual set. TCGPlayers limit is set to 10 by defauls and only allow up to 100 results per query. So the limit parameter is added to the url to maximize the output.';
 
     /**
      * Create a new command instance.
@@ -47,9 +47,8 @@ class GetProductsPriceBySets extends Command
 
         $groupId = 2796; // GroupId for Supreme Rivalry
         $offset = 0;
-        $productId = 0;
 
-        $apiUrl = "https://api.tcgplayer.com/pricing/group/$groupId";
+        $apiUrl = "https://api.tcgplayer.com/pricing/group/$groupId?limit=100&offset=$offset";
 
         curl_setopt_array($curl, [
             CURLOPT_URL => $apiUrl,
