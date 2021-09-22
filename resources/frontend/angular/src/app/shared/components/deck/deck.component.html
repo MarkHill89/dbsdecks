@@ -7,11 +7,11 @@
                 <img *ngIf="leader?.thumbnail" class='leader-image rounded-img w-50' [src]="leader.thumbnail | imageString: 1" />
                 <small><p [innerHTML]='leader.cardText | cardText' class='d-none d-md-block text-white'></p></small>
             </div>
-            <div class='col-md-9'>  
+            <div class='col-md-9' >  
                 <div class="row">
                     <div class="col-md-6">
                         <h5 class='text-light'>Main Deck ({{ mainDeck?.length }})</h5>
-                        <ul class='list-group' *ngIf="_mainDeck?.length">
+                        <ul class='list-group' *ngIf="_mainDeck?.length && mainDeck?.length">
                             <a href="{{card?.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=DeckListView&utm_source=DBSDecks" 
                                 [ngClass]="{
                                     'list-group-item-danger': card?.color == 'Red',

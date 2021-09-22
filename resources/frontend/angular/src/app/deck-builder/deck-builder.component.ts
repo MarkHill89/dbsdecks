@@ -142,6 +142,10 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
           this.mainDeck$.next(deck.mainDeck);
           this.sideDeck$.next(deck.sideDeck);
           this.setLeaderCard(deck.leader[0]);
+          this.view$.next(1);
+          setTimeout(() => {
+            this.view$.next(0)
+          }, )
         });
         this.checkIfDeckIsValid();
       }
