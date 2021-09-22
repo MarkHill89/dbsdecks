@@ -23,10 +23,10 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   leaderBackImage = '';
   mainDeckQty = 0;
   sideDeckQty = 0;
-  currentUser:number = 0;
-  owner:number = 0;
-  isUser = false;
-  title$ : BehaviorSubject<String> = new BehaviorSubject<String>('');
+  currentUser$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  owner$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  isUser$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  title$: BehaviorSubject<String> = new BehaviorSubject<String>('');
   leader$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
@@ -51,7 +51,7 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
     this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
       this.leader$.next(data)
       this.title$.next(data.title)
-      this.owner = data.userId;
+      this.owner$.next(data.userId);
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
       this.mainDeck$.next(data.mainDeck);
@@ -71,9 +71,9 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   getCurrentUser(){
     this.authService.getUser().subscribe((res:any) =>{
       if(res){
-        this.currentUser = res.id;
-        if (this.currentUser === this.owner ){
-          this.isUser = true;
+        this.currentUser$.next(res.id);
+        if (this.currentUser$.getValue() === this.owner$.getValue() ){
+          this.isUser$.next(true);
         }
       }
       
