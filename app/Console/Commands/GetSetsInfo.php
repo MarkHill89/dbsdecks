@@ -19,7 +19,7 @@ class GetSetsInfo extends Command
      *
      * @var string
      */
-    protected $description = 'This returns all the basic information for DBS sets';
+    protected $description = 'This returns all the basic information for DBS sets. TCGPlayers limit is set to 10 by defauls and only allow up to 100 results per query. So the limit parameter is added to the url to maximize the output.';
 
     /**
      * Create a new command instance.
@@ -46,11 +46,10 @@ class GetSetsInfo extends Command
         $bearerToken = Proc::getTcgBearerToken();
 
         $categoryId = 27; //ID for DBS
-        $groupId = 2720;
         $offset = 0;
-        $productId = 0;
 
-        $apiUrl = "https://api.tcgplayer.com/catalog/categories/$categoryId/groups";
+
+        $apiUrl = "https://api.tcgplayer.com/catalog/categories/$categoryId/groups?limit=100&offset=$offset";
 
         curl_setopt_array($curl, [
             CURLOPT_URL => $apiUrl,
