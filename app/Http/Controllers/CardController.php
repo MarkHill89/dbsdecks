@@ -30,11 +30,13 @@ class CardController extends Controller
         return $dataService->getAllDecks($isPublic, $leaderCardNumber, $limit);
     }
 
-    public function get_deck_by_user(Request $request){
+    public function get_deck_by_user(Request $request)
+    {
         $decksByUser = DB::table('deck')
-                        ->select()
-                        ->where('userId', auth()->user()->id)
-                        ->get();
+            ->select()
+            ->where('userId', auth()->user()->id)
+            ->where('isActive', 1)
+            ->get();
 
 
         return json_decode($decksByUser);
@@ -43,7 +45,6 @@ class CardController extends Controller
     public function get_deck_view_data(Request $request, DataService $dataService)
     {
         return $dataService->getDeckData($request->input('deckId'));
-        
     }
 
 
@@ -71,7 +72,7 @@ class CardController extends Controller
 
         $userId = auth()->user()->id;
         $leader = $input['deck']['leader'];
-        $title = empty($input['deck']['title']) ? auth()->user()->username." ".$leader['cardName'] : $input['deck']['title'];
+        $title = empty($input['deck']['title']) ? auth()->user()->username . " " . $leader['cardName'] : $input['deck']['title'];
         $mainDeck = $input['deck']['mainDeck'];
         $sideDeck = $input['deck']['sideDeck'];
         $isPrivate = $input['deck']['isPrivate'];
@@ -101,8 +102,6 @@ class CardController extends Controller
             ->select('id')
             ->orderBy('id', 'desc')
             ->first();
-
-        DB::table('deck_data_new')->where('deckId', $id->id)->delete();
 
         foreach ($mainDeck as $value) {
             $cardNumber = $value['cardNumber'];
@@ -157,6 +156,120 @@ class CardController extends Controller
                 ['deckId' => $id->id, 'cardNumber' => $cardNumber],
                 ['sideDeckQty' => $quantity]
             );
+        }
+        return response([
+            'id' => $id
+        ], 200);
+    }
+
+    public function updateDeck(Request $request, DataService $dataService)
+    {
+        $request->validate([
+            'deck.id' => 'required',
+            'deck.leader' => 'required',
+            'deck.mainDeck' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        $userId = auth()->user()->id;
+        $leader = $input['deck']['leader'];
+        $title = empty($input['deck']['title']) ? auth()->user()->username . " " . $leader['cardName'] : $input['deck']['title'];
+        $mainDeck = $input['deck']['mainDeck'];
+        $sideDeck = $input['deck']['sideDeck'];
+        $isPrivate = $input['deck']['isPrivate'];
+        $isActive = 1;
+        $submitDate = now();
+        $leaderCardNumber = $leader['cardNumber'];
+        $mainQty = 0;
+        $sideQty = 0;
+        $currentCardNumber = '';
+        $newMainDeck = [];
+        $newSideDeck = [];
+        $deckIndex = 0;
+        $sideDeckIndex = 0;
+        $id = $input['deck']['id'];
+
+
+        DB::table('deck_data_new')->where('deckId', $id)->delete();
+
+        // get cardNumbers only
+        $cardNumbersMain = array_column($mainDeck, "cardNumber");
+        $cardNumbersSide = array_column($sideDeck, "cardNumber");
+        $cardNumberCountMain = array_count_values($cardNumbersMain);
+        $cardNumberCountSide = array_count_values($cardNumbersSide);
+        $cardNumbersMainUnique = array_unique($cardNumbersMain);
+        $cardNumbersSideUnique = array_unique($cardNumbersSide);
+
+        // build the Unique array from mainDeck
+        $uniqueMainCardArray = array_filter($mainDeck, function ($key, $value) use ($cardNumbersMainUnique) {
+            return in_array($value, array_keys($cardNumbersMainUnique));
+        }, ARRAY_FILTER_USE_BOTH);
+
+        // build the Unique array from SideDeck
+        $uniqueSideCardArray = array_filter($sideDeck, function ($key, $value) use ($cardNumbersSideUnique) {
+            return in_array($value, array_keys($cardNumbersSideUnique));
+        }, ARRAY_FILTER_USE_BOTH);
+
+        // merge the lists
+        $deckList = array_unique(array_merge($uniqueMainCardArray, $uniqueSideCardArray), SORT_REGULAR);
+
+        $finalList = array_map(function ($d) use ($id, $cardNumberCountMain, $cardNumberCountSide) {
+            return (object) [
+                "deckId" => $id,
+                "cardNumber" => $d['cardNumber'],
+                "mainDeckQty" => isset($cardNumberCountMain[$d['cardNumber']]) ? $cardNumberCountMain[$d['cardNumber']] : 0,
+                "sideDeckQty" => isset($cardNumberCountSide[$d['cardNumber']]) ? $cardNumberCountSide[$d['cardNumber']] : 0
+            ];
+        }, $deckList);
+
+        foreach ($finalList as $list) {
+            $cardNumber = $list->cardNumber;
+            $mQuantity = $list->mainDeckQty;
+            $sQuantity = $list->sideDeckQty;
+
+
+            DB::table('deck_data_new')->updateOrInsert(
+                ['deckId' => $id, 'cardNumber' => $cardNumber],
+                ['mainDeckQty' => $mQuantity, 'sideDeckQty' => $sQuantity]
+            );
+
+            DB::table('deck')
+                ->where('id', $id)
+                ->update([
+                    'title' => $title,
+                    'leaderNumber' => $leaderCardNumber,
+                    'isPrivate' => $isPrivate
+                ]);
+        }
+
+
+        return response([
+            'id' => $id
+        ], 200);
+    }
+    public function deleteDeck(Request $request, DataService $dataService)
+    {
+        $request->validate([
+            'deckId' => 'required'
+        ]);
+
+        $id = $request->input('deckId');
+
+        if (Auth::check()) {
+            DB::table('deck')
+                ->where('id', $id)
+                ->update(
+                    ['isActive' => 0]
+                );
+
+            return response([
+                'message' => 'Deck Deleted'
+            ], 200);
+        } else {
+            return response([
+                'message' => 'Not Authorized'
+            ], 400);
         }
     }
 }

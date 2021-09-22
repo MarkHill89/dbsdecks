@@ -2,9 +2,12 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./styles/styles";
 /* You can add global styles to this file, and also import other style files */
-
 body {
-  background: #333;
+  background: #111;
+  background-image : url('/assets/img/cards-only-trans.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-attachment: fixed;
   height: 100%;
 }
 
@@ -70,6 +73,12 @@ body {
       background-color: #ffef02;
       color: #000000 !important;
     }
+  }
+}
+.btn{
+  &.btn-theme{
+    background-color:#F67B0B;
+    border-color: #F67B0B;
   }
 }
 .close {

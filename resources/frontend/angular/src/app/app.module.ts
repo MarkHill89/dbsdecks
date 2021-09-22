@@ -29,14 +29,12 @@ import { DeckBuilderModule } from './deck-builder/deck-builder.module';
 import { ForgotComponent } from './login/forgot/forgot.component';
 import { GoogleAnalyticsService } from './infrastructure/services/google-analytics.service';
 import { PortalComponent } from './portal/portal.component';
+import { DeckModule } from './deck/deck.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DeckComponent,
-    DeckListComponent,
-    DeckListViewComponent,
     LoginComponent,
     RegisterComponent,
     ForgotComponent,
@@ -51,6 +49,7 @@ import { PortalComponent } from './portal/portal.component';
     CardsModule,
     DeckBuilderModule,
     HttpClientModule,
+    DeckModule,
     SharedModule,
     NgbModule,
     ReactiveFormsModule,

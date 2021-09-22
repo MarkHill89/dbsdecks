@@ -12,8 +12,9 @@ import { CardInfoModalComponent } from '@dbsdecks/app/shared/modals/card-info-mo
 import { FormBuilder, FormControl } from '@angular/forms';
 import { DataService } from '@dbsdecks/app/infrastructure/services';
 import { DeckService } from '@dbsdecks/app/deck-builder/state/deck-builder.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { ErrorModalComponent } from '../shared/modals/error-modal/error-modal.component';
+import { SuccessModalComponent } from '../shared/modals/success-modal/success-modal.component';
 
 declare let gtag: Function;
 
@@ -24,6 +25,7 @@ declare let gtag: Function;
 })
 export class DeckBuilderComponent implements OnInit, OnDestroy {
 
+  private changesSaved: boolean = false;
   private cards: Card[] = [];
   private leaderCards: Card[] = [];
   private unisonCards: Card[] = [];
@@ -36,12 +38,17 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   title : string = '';
   deckId$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  deckIsValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  deckIsValid = false;
   leaderCard$: BehaviorSubject<Card> = new BehaviorSubject<Card>({} as Card);
   mainDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   sideDeck$: BehaviorSubject<Card[]> = new BehaviorSubject<Card[]>([] as Card[]);
   view$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   isPrivate$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  action:string = ''; 
+
+  isSave:boolean = true;
+  isBusy:boolean = false;
 
   activeCards: Card[] = [];
   subscriptions: Subscription = new Subscription;
@@ -57,13 +64,32 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dataService: DataService,
     private deckService: DeckService,
-    private router: Router
+    private router: Router,
+    private activatedRoute:ActivatedRoute
   ) { 
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         gtag('config', 'UA-114061835-1', {
             'page_path': event.urlAfterRedirects
         });
+      }
+    });
+  }
+
+  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    event.returnValue = false;
+  }
+
+  canDeactivate() {
+    return this.isNavigationAllowed();
+  }
+
+  private isNavigationAllowed() : Promise<boolean> {
+    return new Promise<boolean> ( (resolve) => {
+      if(this.changesSaved) {
+        resolve(true)
+      }else {
+        resolve(confirm("Your deck is not saved, you sure you want to leave?"));
       }
     })
   }
@@ -102,6 +128,31 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         this.subscriptions.add(this.cardsService.get().subscribe())
       }
     }));
+
+    this.activatedRoute.queryParams
+    .subscribe(params => {
+      this.deckId$ = params.id;
+      this.action = params.action;
+      if(this.deckId$ !== undefined){
+        this.dataService.getDeckListData(this.deckId$).subscribe((data:any) =>{
+          this.title = data.title;
+        });
+
+        this.dataService.getDeckViewData(this.deckId$).subscribe((deck:any) =>{
+          this.mainDeck$.next(deck.mainDeck);
+          this.sideDeck$.next(deck.sideDeck);
+          this.setLeaderCard(deck.leader[0]);
+          this.view$.next(1);
+          setTimeout(() => {
+            this.view$.next(0)
+          }, )
+        });
+        this.checkIfDeckIsValid();
+      }
+       
+    }
+  );
+
   }
 
   @HostListener("window:scroll", [])
@@ -244,9 +295,9 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     if(deckList.reduce((acc: number, c: Card) => c.isDragonBall ? acc + 1: acc, 0) > 7) errorCount++;
 
     if(errorCount > 0) {
-      this.deckIsValid$.next(false);
+      this.deckIsValid = false;
     }else {
-      this.deckIsValid$.next(true);
+      this.deckIsValid = true;
     }
   }
 
@@ -298,6 +349,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   submitDeck() {
+    this.isBusy = true;
     const deck = { 
       id: this.deckId$.getValue(), 
       title : this.title,
@@ -308,22 +360,52 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     };
     this.subscriptions.add(this.dataService.submitDeck(deck).subscribe((deckId) => {
       this.deckService.updateDeck(deck);
-      this.router.navigate(['/deck/view', deckId]);
+      this.view$.next(0);
+      this.isSave = false;
+      const modalRef = this.modal.open(SuccessModalComponent);        
+      modalRef.componentInstance.successMessage = 'You deck has been saved.';
+      this.deckId$ = deckId.id.id;
+      this.isBusy = false;      
     }, (error) => {
       const modalRef = this.modal.open(ErrorModalComponent);
       modalRef.componentInstance.error = error;
     }));
   }
 
+  updateDeck(){
+    const deck = { 
+      id: this.deckId$, 
+      title : this.title,
+      isPrivate: this.isPrivate$.getValue(),
+      leader: this.leaderCard$.getValue(),
+      mainDeck: this.mainDeck$.getValue(),
+      sideDeck: this.sideDeck$.getValue()
+    };
+    this.dataService.updateDeck(deck).subscribe((deckId) => {
+      this.deckService.updateDeck(deck);
+      this.view$.next(0);
+      const modalRef = this.modal.open(SuccessModalComponent);        
+      modalRef.componentInstance.successMessage = 'You deck has been saved.';
+      this.isBusy = false;      
+    }, (error) => {
+      const modalRef = this.modal.open(ErrorModalComponent);
+      modalRef.componentInstance.error = error;
+    });
+
+  }
+
   clearDeck() {
     this.leaderCard$.next({} as Card);
     this.mainDeck$.next([]);
     this.sideDeck$.next([]);
-    this.deckIsValid$.next(false);
+    this.deckIsValid = false;
     this.isPrivate$.next(false);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+  get doNotDeckSubmit(): boolean {
+    return (!this.isBusy) && (this.deckIsValid);
   }
 }
