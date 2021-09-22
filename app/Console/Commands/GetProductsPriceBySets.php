@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Helpers\Proc;
 
-class GetSetsInfo extends Command
+class GetProductsPriceBySets extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:getSetsInfo';
+    protected $signature = 'command:getProductsPriceBySets';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'This returns all the basic information for DBS sets';
+    protected $description = 'This will return all the price for all the cards for each individual set';
 
     /**
      * Create a new command instance.
@@ -45,12 +45,11 @@ class GetSetsInfo extends Command
         $authData = "grant_type=client_credentials&client_id=$publicKey&client_secret=$privateKey";
         $bearerToken = Proc::getTcgBearerToken();
 
-        $categoryId = 27; //ID for DBS
-        $groupId = 2720;
+        $groupId = 2796; // GroupId for Supreme Rivalry
         $offset = 0;
         $productId = 0;
 
-        $apiUrl = "https://api.tcgplayer.com/catalog/categories/$categoryId/groups";
+        $apiUrl = "https://api.tcgplayer.com/pricing/group/$groupId";
 
         curl_setopt_array($curl, [
             CURLOPT_URL => $apiUrl,
@@ -78,6 +77,6 @@ class GetSetsInfo extends Command
             echo $response;
         }
 
-        return "this ran";
+        return "Get Products By Sets successfully ran";
     }
 }
