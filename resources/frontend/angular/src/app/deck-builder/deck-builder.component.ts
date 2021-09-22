@@ -131,14 +131,14 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams
     .subscribe(params => {
-      this.deckId$ = params.id;
+      this.deckId$.next(params.id);
       this.action = params.action;
-      if(this.deckId$ !== undefined){
-        this.dataService.getDeckListData(this.deckId$).subscribe((data:any) =>{
+      if(this.deckId$.getValue() !== undefined){
+        this.dataService.getDeckListData(this.deckId$.getValue()).subscribe((data:any) =>{
           this.title = data.title;
         });
 
-        this.dataService.getDeckViewData(this.deckId$).subscribe((deck:any) =>{
+        this.dataService.getDeckViewData(this.deckId$.getValue()).subscribe((deck:any) =>{
           this.mainDeck$.next(deck.mainDeck);
           this.sideDeck$.next(deck.sideDeck);
           this.setLeaderCard(deck.leader[0]);
@@ -374,7 +374,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   updateDeck(){
     const deck = { 
-      id: this.deckId$, 
+      id: this.deckId$.getValue(), 
       title : this.title,
       isPrivate: this.isPrivate$.getValue(),
       leader: this.leaderCard$.getValue(),
