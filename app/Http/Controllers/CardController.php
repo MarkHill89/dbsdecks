@@ -63,7 +63,6 @@ class CardController extends Controller
     public function submitDeck(Request $request, DataService $dataService)
     {
         $request->validate([
-            'deck.id' => 'required',
             'deck.leader' => 'required',
             'deck.mainDeck' => 'required'
         ]);

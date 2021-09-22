@@ -362,8 +362,8 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       this.view$.next(0);
       this.isSave = false;
       const modalRef = this.modal.open(SuccessModalComponent);        
-      modalRef.componentInstance.successMessage = 'You deck has been saved.';
-      this.deckId$ = deckId.id.id;
+      modalRef.componentInstance.successMessage = 'You deck has been saved. You may stay in this view to continue to edit';
+      this.deckId$.next(deckId.id.id);
       this.isBusy = false;      
     }, (error) => {
       const modalRef = this.modal.open(ErrorModalComponent);
@@ -384,7 +384,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       this.deckService.updateDeck(deck);
       this.view$.next(0);
       const modalRef = this.modal.open(SuccessModalComponent);        
-      modalRef.componentInstance.successMessage = 'You deck has been saved.';
+      modalRef.componentInstance.successMessage = 'You deck has been updated.';
       this.isBusy = false;      
     }, (error) => {
       const modalRef = this.modal.open(ErrorModalComponent);
