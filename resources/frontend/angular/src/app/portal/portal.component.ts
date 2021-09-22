@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { SuccessModalComponent } from '../shared/modals/success-modal/success-modal.component';
 import {DataService, AuthService} from "@dbsdecks/app/infrastructure/services/";
 import { UpdatePasswordComponent } from '@dbsdecks/app/shared/modals/update-password/update-password.component';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'portal-view',
   templateUrl: './portal.component.html',
@@ -17,13 +19,17 @@ export class PortalComponent implements OnInit {
   page = 1;
   pageSize:number = 15;
   key = "id";
-  reverse = false; // Default sort descending
+  reverse = true; // Default sort descending
   deckListsLoaded = false;
 
   constructor(
+    private route: Router,
     private modal: NgbModal,
     private dataService:DataService,
     private authService: AuthService){
+      this.dataService.isActiveDeck.subscribe(id => {
+        this.fetchData();
+      })
   }
 
   getCurrentUser(){
@@ -40,7 +46,6 @@ export class PortalComponent implements OnInit {
   // Sorting function
   sort(key: string) {
     this.key = key;
-    this.reverse = !this.reverse;
   }
   // --- End Sorting ---
 
@@ -54,11 +59,26 @@ export class PortalComponent implements OnInit {
       this.sort(this.key);
       this.deckListsLoaded = true;
     } catch(e){
-      console.log(e);
+      Promise.reject(e);
     }
   }
   updatePassword(){
     this.modal.open(UpdatePasswordComponent);
+  }
+
+  deleteDeck(deckId:number){
+    this.dataService.deleteDeck(deckId).subscribe( event =>{
+      
+      const modalRef = this.modal.open(SuccessModalComponent);        
+      modalRef.componentInstance.successMessage = event.message;
+      this.dataService.isActiveDeck.next(deckId);
+    });
+  }
+
+  editDeck(deckId:number){
+
+    this.route.navigateByUrl(`/deckbuilder?id=${deckId}&action=edit`);
+
   }
 
 }

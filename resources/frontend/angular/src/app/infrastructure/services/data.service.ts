@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '@dbsdecks/environments/environment';
 
@@ -10,8 +10,10 @@ import {HttpClient,HttpHeaders, HttpParams} from '@angular/common/http';
 export class DataService {
   private baseUrl: string = environment.baseUrl;
   constructor(private http: HttpClient) { 
-  
+    this.isActiveDeck = new BehaviorSubject<number>(0);
   }
+  isActiveDeck: BehaviorSubject<number>;
+
   getCardList(){
     return this.http
             .get(this.baseUrl + "card")
@@ -81,5 +83,24 @@ export class DataService {
     });
 
     return this.http.post(this.baseUrl + "auth/deck-submit", {deck}, {headers})
+  }
+
+  updateDeck(deck:Object):Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+
+    return this.http.post(this.baseUrl + "auth/update-deck", {deck}, {headers})
+  }
+
+  deleteDeck(deckId:any):Observable<any>{
+    let params = new HttpParams();
+    params = params.append('deckId', deckId);
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+
+    return this.http.post(this.baseUrl + "auth/delete-deck", {deckId}, {headers})
   }
 }

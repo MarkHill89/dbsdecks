@@ -58,6 +58,8 @@ Route::prefix('api')->group(function () {
             Route::post('/update-password', [AuthController::class, 'updatePassword']);
             Route::get('/deck-by-user', [CardController::class, 'get_deck_by_user']);
             Route::post('/deck-submit', [CardController::class, 'submitDeck']);
+            Route::post('/update-deck', [CardController::class, 'updateDeck']);
+            Route::post('/delete-deck', [CardController::class, 'deleteDeck']);
         });
     });
 });

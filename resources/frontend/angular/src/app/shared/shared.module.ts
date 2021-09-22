@@ -26,6 +26,7 @@ import { TrendingLeadersComponent } from './components/trending-leaders/trending
 import { UpdatePasswordComponent } from './modals/update-password/update-password.component';
 import { UserNameCheckDirective } from './directives/user-name-check.directive';
 import { EmailCheckDirective } from './directives/email-check.directive';
+import { SuccessModalComponent } from './modals/success-modal/success-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EmailCheckDirective } from './directives/email-check.directive';
     TrendingLeadersComponent,
     UpdatePasswordComponent,
     UserNameCheckDirective,
-    EmailCheckDirective
+    EmailCheckDirective,
+    SuccessModalComponent
   ],
   imports: [
     CommonModule,

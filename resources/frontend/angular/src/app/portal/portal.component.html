@@ -44,6 +44,10 @@
                                     <span class="secondaryLine w-100">{{deckList.submitDate}}</span>
                                 </a>
                             </td>
+                            <td>
+                                <button class="btn btn-theme mr-2" (click)="editDeck(deckList.id)">Edit</button>
+                                <button class="btn btn-theme" (click)="deleteDeck(deckList.id)">Delete</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
