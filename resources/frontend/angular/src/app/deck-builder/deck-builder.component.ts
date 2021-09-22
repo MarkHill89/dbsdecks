@@ -129,8 +129,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       }
     }));
 
-    this.activatedRoute.queryParams
-    .subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.deckId$.next(params.id);
       this.action = params.action;
       if(this.deckId$.getValue() !== undefined){
