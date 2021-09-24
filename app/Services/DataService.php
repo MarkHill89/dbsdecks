@@ -193,7 +193,7 @@ class DataService
     {
         return collect(Proc::callParm('get_deck_lists_all', [
             'isPublic' => $isPublic,
-            'leaderCard' => $leaderCardNumber,
+            'leaderCard' => $leaderNumber,
             'limit' => $limit
         ]))
             ->map(function ($row) {
@@ -203,7 +203,7 @@ class DataService
                     'isPrivate' => $row != null ? $row->isPrivate : 0,
                     'isActive' => $row != null ? $row->isActive : 0,
                     'submitDate' => $row != null ? $row->submitDate : 0,
-                    'leaderCardNumber' => $row != null ? $row->leaderCardNumber : 0,
+                    'leaderCardNumber' => $row != null ? $row->leaderNumber : 0,
                     'username' => $row != null ? $row->username : ''
                 ];
             });
