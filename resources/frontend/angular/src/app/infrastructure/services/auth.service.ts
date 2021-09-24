@@ -77,7 +77,7 @@ export class AuthService {
 
     forgotPassword(email:string):Observable<any>{
         
-        return this.http.get(this.baseUrl + "auth/password-forgot", {params:{
+        return this.http.get(this.baseUrl + "password-forgot", {params:{
             'email':email
         }});
     }
