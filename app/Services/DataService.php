@@ -50,7 +50,7 @@ class DataService
                     "submitDate" => $row != null ? $row->submitDate : '',
                     "username" => $row != null ? $row->username : '',
                     "leaderName" => $row != null ? $row->leaderName : '',
-                    "leaderCardNumber" => $row != null ? $row->leaderCardNumber : '',
+                    "leaderCardNumber" => $row != null ? $row->leaderNumber : '',
                     "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
                     "cardText" => $row != null ? $row->cardText : '',
                     "url" => $row != null ? $row->url : '',
@@ -189,7 +189,7 @@ class DataService
         ];
     }
 
-    public function getAllDecks(int $isPublic, string $leaderCardNumber, int $limit)
+    public function getAllDecks(int $isPublic, string $leaderNumber, int $limit)
     {
         return collect(Proc::callParm('get_deck_lists_all', [
             'isPublic' => $isPublic,
