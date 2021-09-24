@@ -1,0 +1,16 @@
+<div class='modal-header'>
+    <h4 class='modal-title'>{{card.cardName}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class='modal-body'>
+    <p [innerHTML]='card?.cardText | cardText'></p>
+</div>
+<div class='modal-footer w-100'>
+    <a href="{{card.url}}?partner=DBSDecks&utm_campaign=affiliate&utm_medium=CardPopup&utm_source=DBSDecks" 
+       target="_blank" 
+       class='btn btn-orange'>Buy on TCGPlayer.com</a>
+    
+    <button type='button' class='btn btn-danger' (click)="dismiss()">Close</button>
+</div>
