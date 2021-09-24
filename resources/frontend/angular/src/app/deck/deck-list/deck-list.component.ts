@@ -92,9 +92,13 @@ export class DeckListComponent implements OnInit{
   }
 
   selectLeader(event:any){
-
-    this.selectedLeaderName = this.leadersLists.find((item: { id: any; }) =>  item.id === event).cardName;
-    this.leaderId = event.id;
+    if(event !== 0){
+      this.selectedLeaderName = this.leadersLists.find((item: { id: any; }) =>  item.id === event).cardName;
+      this.leaderId = event.id;
+    } else {
+      this.selectedLeaderName = '';
+      this.leaderId = '';
+    }
   }
 
   

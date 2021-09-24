@@ -21,7 +21,7 @@
                                 [(ngModel)]="leaderId"
                                 (ngModelChange)="selectLeader($event)"
                                 >
-                            <option [ngValue]=''>-- See All --</option>
+                            <option [ngValue]='0'>-- See All --</option>
                                 <option
                                     *ngFor="let leader of leadersLists; let n = index"
                                     [ngValue]="leader.id">
