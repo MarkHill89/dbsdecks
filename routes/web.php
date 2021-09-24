@@ -21,6 +21,9 @@ Route::prefix('api')->group(function () {
 
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])
         ->middleware('guest')->name('password.update');
+    
+    Route::get('/password-forgot', [AuthController::class, 'forgot'])
+        ->name('password.request');
 
     Route::get('/reset-password/{token}', [AuthController::class, 'resetPasswordToken'])
         ->middleware('guest')->name('password.reset');
@@ -32,9 +35,6 @@ Route::prefix('api')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register-new', [AuthController::class, 'register']);
-        Route::get('/password-forgot', [AuthController::class, 'forgot'])
-            ->middleware('guest')
-            ->name('password.request');
         Route::get('/username-check', [AuthController::class, 'checkUserName'])
             ->middleware('guest');
         Route::get('/email-check', [AuthController::class, 'checkEmail'])
