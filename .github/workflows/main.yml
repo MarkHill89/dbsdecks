@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: deployment
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on 
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    # Install on root directory
+    - run: npm install
+    # Install packages in ng project
+    - run: cd ./resources/frontend/angular && npm install
+    # Build the prod resources
+    - run: cd ./resources/frontend/angular && npm run build:prod && cp .htaccess ../../../public && cp index.php ../../../public
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        username: dbsdecksadmin
+        host: 92.204.129.17
+        password: C@rdg4m3s2021
+        script: 'cd /home/dbsdecksadmin/public_html/ && bash ./server_deploy.sh'

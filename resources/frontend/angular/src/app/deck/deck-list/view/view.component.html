@@ -1,0 +1,26 @@
+<div class='p-2 bg-super-dark border-color-super-dark'>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{{title$ | async}}</h1>
+            </div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-secondary mr-2" (click)="copyDeck()">Copy</button>
+                <button *ngIf='(isUser$ | async)' class="btn btn-secondary" (click)="editDeck()">Edit</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="main-deck">
+        <div class="row">
+            <div class="col-md-12">
+                <app-deck-layout *ngIf="(mainDeck$ | async)?.length"
+                [leader]="leader$ | async"
+                [mainDeck]="mainDeck$ | async"
+                [sideDeck]="sideDeck$ | async"></app-deck-layout>
+            </div>
+        </div>
+    </div>
+</div>
