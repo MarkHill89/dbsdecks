@@ -1,95 +1,94 @@
-
 .card-wrapper {
-    width: 143px;
-    @media(min-width: 442px) {
-        width: 200px;
+  width: 143px;
+  @media (min-width: 442px) {
+    width: 200px;
+  }
+  display: inline-block;
+  margin: 0 auto;
+  .card-wrapper-image {
+    cursor: pointer;
+    img {
+      width: 100%;
     }
-    display: inline-block;
-    margin: 0 auto;
-    .card-wrapper-image {
-        cursor: pointer;
-        img {
-            width: 100%;
-        }
-    }
+  }
 }
 
 .filter-btn-wrapper {
-    position: fixed;
-    left: 25px;
-    bottom: 25px;
-    z-index: 100;
-    .filter-btn {
-        background-color: #fff;
-        border-radius: 50%;
-        cursor: pointer;
-        width: 80px;
-        height: 80px;
-    }
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
+  z-index: 100;
+  .filter-btn {
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+  }
 }
 
 .mode-btn-wrapper {
-    position: fixed;
-    left: 25px;
-    bottom: 110px;
-    z-index: 100;
-    .mode-btn {
-        border-radius: 50%;
-        cursor: pointer;
-        width: 80px;
-        height: 80px;
-        font-size: 14px;
-    }
+  position: fixed;
+  left: 25px;
+  bottom: 110px;
+  z-index: -1;
+  .mode-btn {
+    border-radius: 50%;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    font-size: 14px;
+  }
 }
 
 .scroll-to-top-btn-wrapper {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    z-index: 100;
-    opacity: 0;
-    .scroll-to-top-btn {
-        background-color: #fff;
-        border-radius: 50%;
-        cursor: pointer;
-        width: 80px;
-        height: 80px;
-       
-        transition: all .2s ease-in-out;
-    }
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 100;
+  opacity: 0;
+  .scroll-to-top-btn {
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+
+    transition: all 0.2s ease-in-out;
+  }
 }
 .show-scrollTop {
-    opacity: 1;
-    transition: all .2s ease-in-out;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  z-index: 100;
 }
 
-
 .list-group-item-danger-primary {
-    background: linear-gradient(to right, #f5c6cb, #b8daff);
-    color: #000 !important;
+  background: linear-gradient(to right, #f5c6cb, #b8daff);
+  color: #000 !important;
 }
 
 .list-group-item-danger-success {
-    background: linear-gradient(to right, #f5c6cb, #c3e6cb);
-    color: #000 !important;
+  background: linear-gradient(to right, #f5c6cb, #c3e6cb);
+  color: #000 !important;
 }
 
 .list-group-item-danger-warning {
-    background: linear-gradient(to right, #f5c6b6, #ffeeba);
-    color: #000 !important;
+  background: linear-gradient(to right, #f5c6b6, #ffeeba);
+  color: #000 !important;
 }
 
 .list-group-item-primary-success {
-    background: linear-gradient(to right, #bad8ff, #c3e6cb);
-    color: #000 !important;
+  background: linear-gradient(to right, #bad8ff, #c3e6cb);
+  color: #000 !important;
 }
 
 .list-group-item-primary-warning {
-    background: linear-gradient(to right, #b8daff, #ffeeba);
-    color: #000 !important;
+  background: linear-gradient(to right, #b8daff, #ffeeba);
+  color: #000 !important;
 }
 
 .list-group-item-success-warning {
-    background: linear-gradient(to right, #c3e6cb, #ffeeba);
-    color: #000 !important;
+  background: linear-gradient(to right, #c3e6cb, #ffeeba);
+  color: #000 !important;
 }
