@@ -105,7 +105,8 @@ class DataService
                     'thumbnail' => $row != null ? $row->imageUrl : '',
                     'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
-                    'color' => $row != null ? $row->Color : ''
+                    'color' => $row != null ? $row->Color : '',
+                    'url' => $row != null ? $row->url :'',
                 ];
             });
 
@@ -143,7 +144,8 @@ class DataService
                         'cardText' => $row != null ? $row['cardText'] : '',
                         'cardName' => $row != null ? $row['cleanName'] : '',
                         'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                        'color' => $row != null ? $row['color'] : ''
+                        'color' => $row != null ? $row['color'] : '',
+                        'url' => $row != null ? $row['url'] : ''
                     ]);
                 }
                 for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -152,7 +154,8 @@ class DataService
                         'cardText' => $row != null ? $row['cardText'] : '',
                         'cardName' => $row != null ? $row['cleanName'] : '',
                         'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                        'color' => $row != null ? $row['color'] : ''
+                        'color' => $row != null ? $row['color'] : '',
+                        'url' => $row != null ? $row['url'] : ''
                     ]);
                 }
             }
@@ -162,14 +165,17 @@ class DataService
                 "sideDeck" => $sideDeck
             ];
         }
+
         foreach ($deckListArray as $row) {
+
             for ($i = 0; $i < $row['mainDeckQty']; $i++) {
                 array_push($mainDeck, [
                     'cardNumber' => $row != null ? $row['cardNumber'] : '',
                     'cardText' => $row != null ? $row['cardText'] : '',
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                    'color' => $row != null ? $row['color'] : ''
+                    'color' => $row != null ? $row['color'] : '',
+                    'url' => $row != null ? $row['url'] : ''
                 ]);
             }
             for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -178,7 +184,8 @@ class DataService
                     'cardText' => $row != null ? $row['cardText'] : '',
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                    'color' => $row != null ? $row['color'] : ''
+                    'color' => $row != null ? $row['color'] : '',
+                    'url' => $row != null ? $row['url'] : ''
                 ]);
             }
         }
