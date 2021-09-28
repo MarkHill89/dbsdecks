@@ -135,6 +135,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       if(this.deckId$.getValue() !== undefined){
         this.dataService.getDeckListData(this.deckId$.getValue()).subscribe((data:any) =>{
           this.title = data.title;
+          this.isPrivate$.next(data.isPrivate ? true: false);
         });
 
         this.dataService.getDeckViewData(this.deckId$.getValue()).subscribe((deck:any) =>{
@@ -143,7 +144,10 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
           this.setLeaderCard(deck.leader[0]);
           this.view$.next(1);
           setTimeout(() => {
-            this.view$.next(0)
+            this.view$.next(0);
+            if(deck.mainDeck.length > 0){
+              this.isSave = false; 
+            };
           }, )
         });
         this.checkIfDeckIsValid();
