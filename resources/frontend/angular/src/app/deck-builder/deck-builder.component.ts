@@ -145,7 +145,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
           this.view$.next(1);
           setTimeout(() => {
             this.view$.next(0);
-            if(deck.mainDeck.length > 0){
+            if(deck.mainDeck.length > 0 && this.action === 'edit'){
               this.isSave = false; 
             };
           }, )
