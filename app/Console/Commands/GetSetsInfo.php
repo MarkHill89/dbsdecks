@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Helpers\Proc;
+use Illuminate\Support\Facades\DB;
 
 class GetSetsInfo extends Command
 {
@@ -74,9 +75,23 @@ class GetSetsInfo extends Command
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            echo $response;
+            $jsonData = json_decode($response);
+            foreach ($jsonData->results as $result) {
+                DB::table('tcgplayer_group')
+                    ->updateOrInsert(
+                        ['groupId' => $result->groupId],
+                        [
+                            'name' => $result->name,
+                            'abbreviation' => $result->abbreviation,
+                            'isSupplemental' => $result->isSupplemental,
+                            'publishedOn' => $result->publishedOn,
+                            'modifiedOn' => $result->modifiedOn,
+                            'categoryId' => $result->categoryId,
+                        ]
+                    );
+            }
         }
 
-        return "this ran";
+        return "set information is complete ";
     }
 }
