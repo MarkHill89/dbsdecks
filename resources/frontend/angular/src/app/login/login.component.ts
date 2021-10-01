@@ -15,6 +15,7 @@ import {AuthService} from "@dbsdecks/app/infrastructure/services/";
 export class LoginComponent {
   modalRef?: BsModalRef;
   previousUrl: string = '';
+  isBusy = false;
 
   error = null;
   loginForm = this.fb.group({
@@ -38,13 +39,15 @@ export class LoginComponent {
   ) {  }
 
   submitLogin(){
-
+    this.isBusy = true;
     this.authService.login(this.loginForm.value).subscribe(res =>{
       if(res){
+        this.isBusy = false;
         localStorage.setItem('token', res.token);
         this.error = null;
         this.authService.isAuthenticated.next(true);
         this._location.back();
+        this.isBusy = false;
       }
 
         

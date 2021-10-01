@@ -25,6 +25,7 @@ export class CardsComponent implements OnInit, OnDestroy{
   scrollCards: Card[] = [];
 
   windowScrolled: boolean = false;
+  isBusy:boolean = false;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -35,9 +36,11 @@ export class CardsComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.subscriptions.add(this.query.cards$.subscribe((cards: Card[]) => {
+      this.isBusy = true;
       if(cards.length) {
         this.cards = cards;
-        this.scrollCards = cards.slice(0, 24)
+        this.scrollCards = cards.slice(0, 24);
+        this.isBusy = false;
       } else {
         this.subscriptions.add(this.cardsService.get().subscribe())
       }
