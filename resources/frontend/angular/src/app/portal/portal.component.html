@@ -21,8 +21,11 @@
         <div class="col-md-12">
             <h2>My Decks</h2>
         </div>
-        <div class="col-md-12">
-            <div class="myDecks" *ngIf="deckListsLoaded">
+        <div class="col-md-12 text-center" *ngIf="isBusy">
+            <shared-loading></shared-loading>
+        </div>
+        <div class="col-md-12" *ngIf="!isBusy">
+            <div class="myDecks">
                 <div class="deck-list-header">
                     <div class='pagination-wrapper'>
                         <pagination-controls

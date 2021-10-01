@@ -10,6 +10,7 @@ import { reject } from 'lodash';
 })
 export class UpdatePasswordComponent implements OnInit {
   password = '';
+  isBusy:boolean = false;
   constructor(
     private activeModal: NgbActiveModal,
     private authService: AuthService
@@ -20,13 +21,16 @@ export class UpdatePasswordComponent implements OnInit {
 
   async submit(){
     try{
+      this.isBusy = true;
       await this.authService.updatePassword(this.password).subscribe(res =>{
         if(res){
+          this.isBusy = false;
           Promise.resolve(res);
           this.close();
         }
       });
     } catch(e){
+      this.isBusy = false;
       Promise.reject(e);
     }
 

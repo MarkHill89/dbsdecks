@@ -213,7 +213,6 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   setLeaderCard(card: Card) {
-    console.log(card);
     this.leaderCard$.next(card);
   }
 
@@ -370,6 +369,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   updateDeck(){
+    this.isBusy = true;
     const deck = { 
       id: this.deckId$, 
       title : this.title,

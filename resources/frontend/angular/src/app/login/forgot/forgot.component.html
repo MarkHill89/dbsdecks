@@ -6,7 +6,6 @@
             <p>You can reset your password here.</p>
             <div class="panel-body">
                 <div class="col-md-8 offset-md-2">
-                    <!-- <form id="register-form" role="form" autocomplete="off" class="form" method="post"> -->
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
@@ -17,14 +16,8 @@
                                     [(ngModel)] ="email">
                             </div>
                         </div>
-                        <div class="form-group">
-                        <input
-                            (click)="submitForgot()"
-                            class="btn btn-lg btn-primary btn-block"
-                            value="Reset Password"
-                            >
-                        </div>
-                    <!-- </form> -->
+    
+                         <button type="button" [disabled]="isBusy" class="btn btn-lg btn-primary btn-block" (click)="submitForgot()"><shared-loading [isSmall]="true" *ngIf="isBusy"></shared-loading> Reset Password</button>                   
                 </div>
             </div>
         </div>

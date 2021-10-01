@@ -50,7 +50,7 @@ class DataService
                     "submitDate" => $row != null ? $row->submitDate : '',
                     "username" => $row != null ? $row->username : '',
                     "leaderName" => $row != null ? $row->leaderName : '',
-                    "leaderCardNumber" => $row != null ? $row->leaderCardNumber : '',
+                    "leaderCardNumber" => $row != null ? $row->leaderNumber : '',
                     "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
                     "cardText" => $row != null ? $row->cardText : '',
                     "url" => $row != null ? $row->url : '',
@@ -199,7 +199,7 @@ class DataService
                     'isPrivate' => $row != null ? $row->isPrivate : 0,
                     'isActive' => $row != null ? $row->isActive : 0,
                     'submitDate' => $row != null ? $row->submitDate : 0,
-                    'leaderCardNumber' => $row != null ? $row->leaderCardNumber : 0,
+                    'leaderCardNumber' => $row != null ? $row->leaderNumber : 0,
                     'username' => $row != null ? $row->username : ''
                 ];
             });

@@ -7,6 +7,7 @@ import {AuthService} from '@dbsdecks/app/infrastructure/services/auth.service'
 })
 export class ForgotComponent implements OnInit {
   email = '';
+  isBusy=false;
   constructor(
     protected authService: AuthService
   ) { }
@@ -15,10 +16,9 @@ export class ForgotComponent implements OnInit {
   }
 
   submitForgot(){
+    this.isBusy = true;
     this.authService.forgotPassword(this.email).subscribe(res =>{
-      if(res){
-        console.log(res);
-      }
+        this.isBusy = false;
     });
   }
 
