@@ -50,7 +50,7 @@ class DataService
                     "submitDate" => $row != null ? $row->submitDate : '',
                     "username" => $row != null ? $row->username : '',
                     "leaderName" => $row != null ? $row->leaderName : '',
-                    "leaderCardNumber" => $row != null ? $row->leaderCardNumber : '',
+                    "leaderCardNumber" => $row != null ? $row->leaderNumber : '',
                     "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
                     "cardText" => $row != null ? $row->cardText : '',
                     "url" => $row != null ? $row->url : '',
@@ -90,7 +90,7 @@ class DataService
                 ];
             });
 
-        $deckListArray = collect(Proc::callParm('get_deck_list_data', [
+        $deckListArray = collect(Proc::callParm('get_deck_list_data_dupe', [
             'id' => $id
         ]))
             ->map(function ($row) {
@@ -101,7 +101,8 @@ class DataService
                     'thumbnail' => $row != null ? $row->imageUrl : '',
                     'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
-                    'color' => $row != null ? $row->Color : ''
+                    'color' => $row != null ? $row->Color : '',
+                    'price' => $row != null ? $row->price : 0
                 ];
             });
 
@@ -117,7 +118,7 @@ class DataService
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0
                 ]);
             }
-            $deckList = collect(Proc::callParm('get_deck_list_data', [
+            $deckList = collect(Proc::callParm('get_deck_list_data_dupe', [
                 'id' => $id
             ]))
                 ->map(function ($row) {
@@ -128,7 +129,8 @@ class DataService
                         'thumbnail' => $row != null ? $row->imageUrl : '',
                         'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                         'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
-                        'color' => $row != null ? $row->Color : ''
+                        'color' => $row != null ? $row->Color : '',
+                        'price' => $row != null ? $row->price : 0
                     ];
                 });
 
@@ -139,7 +141,8 @@ class DataService
                         'cardText' => $row != null ? $row['cardText'] : '',
                         'cardName' => $row != null ? $row['cleanName'] : '',
                         'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                        'color' => $row != null ? $row['color'] : ''
+                        'color' => $row != null ? $row['color'] : '',
+                        'price' => $row != null ? $row['price'] : 0
                     ]);
                 }
                 for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -148,7 +151,8 @@ class DataService
                         'cardText' => $row != null ? $row['cardText'] : '',
                         'cardName' => $row != null ? $row['cleanName'] : '',
                         'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                        'color' => $row != null ? $row['color'] : ''
+                        'color' => $row != null ? $row['color'] : '',
+                        'price' => $row != null ? $row['price'] : 0
                     ]);
                 }
             }
@@ -165,7 +169,8 @@ class DataService
                     'cardText' => $row != null ? $row['cardText'] : '',
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                    'color' => $row != null ? $row['color'] : ''
+                    'color' => $row != null ? $row['color'] : '',
+                    'price' => $row != null ? $row['price'] : 0
                 ]);
             }
             for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -174,7 +179,8 @@ class DataService
                     'cardText' => $row != null ? $row['cardText'] : '',
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
-                    'color' => $row != null ? $row['color'] : ''
+                    'color' => $row != null ? $row['color'] : '',
+                    'price' => $row != null ? $row['price'] : 0
                 ]);
             }
         }
@@ -185,11 +191,11 @@ class DataService
         ];
     }
 
-    public function getAllDecks(int $isPublic, string $leaderCardNumber, int $limit)
+    public function getAllDecks(int $isPublic, string $leaderNumber, int $limit)
     {
         return collect(Proc::callParm('get_deck_lists_all', [
             'isPublic' => $isPublic,
-            'leaderCard' => $leaderCardNumber,
+            'leaderCard' => $leaderNumber,
             'limit' => $limit
         ]))
             ->map(function ($row) {
@@ -199,7 +205,7 @@ class DataService
                     'isPrivate' => $row != null ? $row->isPrivate : 0,
                     'isActive' => $row != null ? $row->isActive : 0,
                     'submitDate' => $row != null ? $row->submitDate : 0,
-                    'leaderCardNumber' => $row != null ? $row->leaderCardNumber : 0,
+                    'leaderCardNumber' => $row != null ? $row->leaderNumber : 0,
                     'username' => $row != null ? $row->username : ''
                 ];
             });
