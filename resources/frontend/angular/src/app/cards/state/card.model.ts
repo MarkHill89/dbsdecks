@@ -30,6 +30,7 @@ export interface Card {
     url: string;
     qty?: number;
     imageUrl ?: string[] | undefined;
+    price : number;
 } 
 
 export function createCard(params: Partial<Card>) {

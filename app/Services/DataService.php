@@ -76,9 +76,9 @@ class DataService
                     'rarity'  => $row != null ? $row->Rarity : '',
                     'cardNumber'  => $row != null ? $row->Number : 0,
                     'cardLimit' => 1,
-                    'isDragonBall'=> 0,
-                    'isSuperCombo'=> 0,
-                    'isUltimate'=> 0,
+                    'isDragonBall' => 0,
+                    'isSuperCombo' => 0,
+                    'isUltimate' => 0,
                     'cardText'  => $row != null ? $row->Description : '',
                     'cardType'  => $row != null ? $row->CardType : '',
                     'color'  => $row != null ? $row->Color : '',
@@ -94,7 +94,7 @@ class DataService
                 ];
             });
 
-        $deckListArray = collect(Proc::callParm('get_deck_list_data', [
+        $deckListArray = collect(Proc::callParm('get_deck_list_data_dupe', [
             'id' => $id
         ]))
             ->map(function ($row) {
@@ -106,7 +106,8 @@ class DataService
                     'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
                     'color' => $row != null ? $row->Color : '',
-                    'url' => $row != null ? $row->url :'',
+                    'url' => $row != null ? $row->url : '',
+                    'price' => $row != null ? $row->price : 0
                 ];
             });
 
@@ -122,7 +123,7 @@ class DataService
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0
                 ]);
             }
-            $deckList = collect(Proc::callParm('get_deck_list_data', [
+            $deckList = collect(Proc::callParm('get_deck_list_data_dupe', [
                 'id' => $id
             ]))
                 ->map(function ($row) {
@@ -133,7 +134,8 @@ class DataService
                         'thumbnail' => $row != null ? $row->imageUrl : '',
                         'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                         'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
-                        'color' => $row != null ? $row->Color : ''
+                        'color' => $row != null ? $row->Color : '',
+                        'price' => $row != null ? $row->price : 0
                     ];
                 });
 
@@ -145,7 +147,8 @@ class DataService
                         'cardName' => $row != null ? $row['cleanName'] : '',
                         'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                         'color' => $row != null ? $row['color'] : '',
-                        'url' => $row != null ? $row['url'] : ''
+                        'url' => $row != null ? $row['url'] : '',
+                        'price' => $row != null ? $row['price'] : 0
                     ]);
                 }
                 for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -155,7 +158,8 @@ class DataService
                         'cardName' => $row != null ? $row['cleanName'] : '',
                         'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                         'color' => $row != null ? $row['color'] : '',
-                        'url' => $row != null ? $row['url'] : ''
+                        'url' => $row != null ? $row['url'] : '',
+                        'price' => $row != null ? $row['price'] : 0
                     ]);
                 }
             }
@@ -175,7 +179,8 @@ class DataService
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                     'color' => $row != null ? $row['color'] : '',
-                    'url' => $row != null ? $row['url'] : ''
+                    'url' => $row != null ? $row['url'] : '',
+                    'price' => $row != null ? $row['price'] : 0
                 ]);
             }
             for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -185,7 +190,8 @@ class DataService
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                     'color' => $row != null ? $row['color'] : '',
-                    'url' => $row != null ? $row['url'] : ''
+                    'url' => $row != null ? $row['url'] : '',
+                    'price' => $row != null ? $row['price'] : 0
                 ]);
             }
         }
