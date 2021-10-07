@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\GetProductsPriceBySets;
+use App\Console\Commands\GetProductsInfoBySets;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +26,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+
+        // $schedule->command(GetProductsInfoBySets::class)
+        // ->weeklyOn(5, '05:00')
+        // ->timezone('America/Chicago');
+
+        $schedule->command(GetProductsPriceBySets::class)
+            ->dailyAt('02:00')
+            ->timezone('America/Chicago');
     }
 
     /**
@@ -34,7 +43,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
