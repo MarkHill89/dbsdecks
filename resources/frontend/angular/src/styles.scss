@@ -4,7 +4,7 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   background: #111;
-  background-image : url('/assets/img/cards-only-trans.png');
+  background-image: url("/assets/img/cards-only-trans.png");
   background-repeat: no-repeat;
   background-position: bottom right;
   background-attachment: fixed;
@@ -75,10 +75,10 @@ body {
     }
   }
 }
-.btn{
-  &.btn-theme{
-    background-color:#F67B0B;
-    border-color: #F67B0B;
+.btn {
+  &.btn-theme {
+    background-color: #f67b0b;
+    border-color: #f67b0b;
   }
 }
 .close {
@@ -164,4 +164,9 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+p {
+  &.cost {
+    color: cornsilk;
+  }
 }

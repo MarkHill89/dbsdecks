@@ -23,6 +23,9 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   leaderBackImage = '';
   mainDeckQty = 0;
   sideDeckQty = 0;
+  mainDeckCost = 0;
+  sideDeckCost = 0;
+  totalCost = 0;
   currentUser$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   owner$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   isUser$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -56,6 +59,9 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
       this.mainDeck$.next(data.mainDeck);
       this.sideDeck$.next(data.sideDeck);
+      this.mainDeckCost = data.mainDeck.reduce((acc:any, curr:any) => acc + curr.price, 0);
+      this.sideDeckCost = data.sideDeck.reduce((acc:any, curr:any) => acc + curr.price, 0);
+      this.totalCost = this.mainDeckCost + this.sideDeckCost;
     }));
     this.getCurrentUser();
   }

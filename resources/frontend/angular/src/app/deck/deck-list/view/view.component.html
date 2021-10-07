@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h1>{{title$ | async}}</h1>
+                <p class="cost"><i class="fas fa-coins"></i> {{totalCost | currency}}</p>
             </div>
             <div class="col-md-4 text-right">
                 <button class="btn btn-secondary mr-2" (click)="copyDeck()">Copy</button>
