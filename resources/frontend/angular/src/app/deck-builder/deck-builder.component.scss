@@ -1,3 +1,127 @@
+.card {
+  background-color: #000;
+  border: none;
+  border-radius: 0;
+  .card-header {
+    color: #fff;
+    background-color: #111;
+  }
+  .card-body {
+    transition: all .5s ease;
+  }
+}
+.card-filter {
+  user-select: none;
+}
+.color-circle {
+  width: 20px;
+  height: 20px;
+  margin: 0 15px 0 5px ;
+  border-radius: 50%;
+  background: #fff;
+  display: inline-block;
+  &.red {
+      background: #AE1712;
+  }
+  &.blue {
+      background: #2C7093;
+  }
+  &.green {
+      background: #398D48;
+  }
+  &.yellow {
+      background: #EACB19;
+  }
+  &.black {
+      border: solid 1px #fff;
+      background: #0F0F0F;
+  }
+  &.red-green {
+      background: linear-gradient(135deg, #AE1712, #AE1712 50%, #398D48 50%, #398D48); 
+  }
+  &.blue-yellow {
+      background: linear-gradient(135deg, #2C7093, #2C7093 50%, #EACB19 50%, #EACB19); 
+  }
+  &.red-yellow {
+      background: linear-gradient(135deg, #AE1712, #AE1712 50%, #EACB19 50%, #EACB19); 
+  }
+  &.blue-green {
+      background: linear-gradient(135deg, #2C7093, #2C7093 50%, #398D48 50%, #398D48); 
+  }
+  &.blue-red {
+      background: linear-gradient(135deg, #2C7093, #2C7093 50%, #AE1712 50%, #AE1712); 
+  }
+  &.green-yellow {
+      background: linear-gradient(135deg, #398D48, #398D48 50%, #EACB19 50%, #EACB19); 
+  }
+  &.red-black {
+      border: solid 1px #fff;
+      background: linear-gradient(135deg, #AE1712, #AE1712 50%, #0F0F0F 50%, #0F0F0F); 
+  }
+  &.blue-black {
+      border: solid 1px #fff;
+      background: linear-gradient(135deg, #2C7093, #2C7093 50%, #0F0F0F 50%, #0F0F0F); 
+  }
+  &.green-black {
+      border: solid 1px #fff;
+      background: linear-gradient(135deg, #398D48, #398D48 50%, #0F0F0F 50%, #0F0F0F); 
+  }
+  &.yellow-black {
+      border: solid 1px #fff;
+      background: linear-gradient(135deg, #EACB19, #EACB19 50%, #0F0F0F 50%, #0F0F0F); 
+  }
+}
+.deck-list-column {
+  transition: all .5s ease;
+  max-width: 0%;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  &.open {
+    max-width: 100%;
+    padding: {
+      top: 5px;
+      left: 15px;
+      right: 15px;
+      bottom: 5px;
+    }
+    @media (min-width: 576px) {
+      max-width: 25%;
+    }
+  }
+  .close-tab {
+    padding: 5px;
+    width: 20px;
+    font-size: 16px;
+    position: absolute;
+    top: 0;
+    right: -20px;
+    background-color: #000000;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.card-list-column {
+  transition: all .5s ease;
+  max-width: 100%;
+  flex: 0 0 100%;
+  position: relative;
+  overflow: hidden;
+  &.open {
+    max-width: 0%;
+    padding: 0;
+    @media (min-width: 576px) {
+      max-width: 75%;
+      flex: 0 0 75%;
+    }
+
+    @media (min-width: 992px) {
+      max-width: 75%;
+      flex: 0 0 75%;
+    }
+  }
+}
 .card-wrapper {
   width: 143px;
   @media (min-width: 442px) {
