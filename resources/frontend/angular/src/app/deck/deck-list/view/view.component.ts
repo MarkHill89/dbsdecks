@@ -14,6 +14,7 @@ declare let gtag: Function;
 })
 
 export class DeckListViewComponent implements OnInit, OnDestroy{
+  isBusy = false;
   deckId:any;
   leaderId:any;
   deckList:any= [];
@@ -51,17 +52,20 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
+    this.isBusy = true;
     this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
       this.leader$.next(data)
       this.title$.next(data.title)
       this.owner$.next(data.userId);
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
+      this.isBusy = true;
       this.mainDeck$.next(data.mainDeck);
       this.sideDeck$.next(data.sideDeck);
       this.mainDeckCost = data.mainDeck.reduce((acc:any, curr:any) => acc + curr.price, 0);
       this.sideDeckCost = data.sideDeck.reduce((acc:any, curr:any) => acc + curr.price, 0);
       this.totalCost = this.mainDeckCost + this.sideDeckCost;
+      this.isBusy = false;
     }));
     this.getCurrentUser();
   }

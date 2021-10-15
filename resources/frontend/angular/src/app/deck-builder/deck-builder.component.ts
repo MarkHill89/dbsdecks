@@ -252,6 +252,10 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     });
   }
 
+  setLeaderCard(card: Card) {
+    this.leaderCard$.next(card);
+  }
+
   addCard(card: Card) {
     delete card.qty;
     const _mainDeck = this.mainDeck$.getValue();
@@ -423,8 +427,9 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   updateDeck(){
-    const deck = {
-      id: this.deckId$.getValue(),
+    this.isBusy = true;
+    const deck = { 
+      id: this.deckId$, 
       title : this.title,
       isPrivate: this.isPrivate$.getValue(),
       leader: this.leaderCard$.getValue(),

@@ -20,7 +20,7 @@ export class PortalComponent implements OnInit {
   pageSize:number = 15;
   key = "id";
   reverse = true; // Default sort descending
-  deckListsLoaded = false;
+  isBusy = false;
 
   constructor(
     private route: Router,
@@ -39,7 +39,7 @@ export class PortalComponent implements OnInit {
   }
     
   ngOnInit() {
-    this.fetchData();
+
   }
 
 
@@ -51,14 +51,16 @@ export class PortalComponent implements OnInit {
 
   async fetchData(): Promise<any>{
     try{
+      this.isBusy = true;
       this.getCurrentUser();
       this.dataService.getDeckByUser().subscribe(data => {
         this.deckLists = data;
+        this.isBusy = false;
       });
 
       this.sort(this.key);
-      this.deckListsLoaded = true;
     } catch(e){
+      this.isBusy = false;
       Promise.reject(e);
     }
   }
