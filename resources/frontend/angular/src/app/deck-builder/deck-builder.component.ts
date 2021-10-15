@@ -201,9 +201,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
           this.leaderCard$.next(deck.leader[0]);
           this.mainDeckPacked$.next(this.packDeck(this.mainDeck$.getValue()));
           this.sideDeckPacked$.next(this.packDeck(this.sideDeck$.getValue()));
-          this.view$.next(1);
           setTimeout(() => {
-            this.view$.next(0);
             if (deck.mainDeck.length > 0 && this.action === 'edit'){
               this.isSave = false;
             }
@@ -255,7 +253,6 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   addCard(card: Card) {
-    console.log(card);
     delete card.qty;
     const _mainDeck = this.mainDeck$.getValue();
     const _sideDeck = this.sideDeck$.getValue();
@@ -303,9 +300,11 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     if(this.deckCheck(card)) {
       if(this.entryMode === 'side' && _mainDeck.length < 60) {
         _mainDeck.push(card);
+        
         this.mainDeck$.next(_mainDeck);
       } else if(this.entryMode === 'main' && _sideDeck.length < 15) {
         _sideDeck.push(card);
+        console.log(_sideDeck.length)
         this.sideDeck$.next(_sideDeck);
       }
     }
@@ -330,6 +329,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   private deckCheck(card: Card): boolean {
     let deckList = this.mainDeck$.getValue().concat(this.sideDeck$.getValue());
+    console.log(deckList);
     if(deckList.length === 0) {
       return true;
     }
