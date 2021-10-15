@@ -303,9 +303,11 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   swapCardToBoard(card: Card) {
     delete card.qty;
-    this.removeCard(card);
     const _mainDeck = this.mainDeck$.getValue();
     const _sideDeck = this.sideDeck$.getValue();
+    if((this.entryMode === 'side' && _mainDeck.length < 60) ||( this.entryMode === 'main' && _sideDeck.length < 15)) {
+      this.removeCard(card);
+    }
     if(this.deckCheck(card)) {
       if(this.entryMode === 'side' && _mainDeck.length < 60) {
         _mainDeck.push(card);
@@ -340,6 +342,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
     if(deckList.length === 0) {
       return true;
     }
+
     if(card.isUltimate) {
       return deckList.reduce((acc: number, c: Card) => c.isUltimate ? acc + 1 : acc, 0) < 1;
     }
