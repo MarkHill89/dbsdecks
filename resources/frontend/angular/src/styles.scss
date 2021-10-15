@@ -137,8 +137,16 @@ body {
   background: linear-gradient(to right, #ffeeba, #c6c8ca);
   color: #000 !important;
 }
-.dropdown-menu.show {
-  z-index: 5000;
+.dropdown-menu {
+  background-color: #343a40 !important;
+  &.show {
+    z-index: 5000;
+  }
+}
+.dropdown-item {
+  &:hover {
+    background: darken(#343a40, 10%);
+  }
 }
 
 .ellipsis {
