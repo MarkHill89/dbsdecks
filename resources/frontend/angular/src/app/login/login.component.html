@@ -31,7 +31,7 @@
 
                 </div>
 
-                <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary text-center mr-2">Login</button>
+                <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary text-center mr-2"><shared-loading [isSmall]="true" *ngIf="isBusy"></shared-loading> Login</button>
                 <a routerLink="/register/new" class="btn btn-primary text-center">Register</a>
                 <br>
                 <small (click)="forgotPassword()" class="text-center forgot">Forgot Password</small>

@@ -9,6 +9,11 @@
             <i class="fas fa-arrow-up fa-lg"></i>
         </button>
     </div>
+    <div *ngIf="isBusy" class="row">
+        <div class="col-md-12 mt-5 text-center">
+            <shared-loading></shared-loading>
+        </div>
+    </div>
     <div class="row my-3"
     infinite-scroll
     [infiniteScrollDistance]="1"

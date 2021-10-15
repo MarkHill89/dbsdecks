@@ -27,6 +27,7 @@ import { UpdatePasswordComponent } from './modals/update-password/update-passwor
 import { UserNameCheckDirective } from './directives/user-name-check.directive';
 import { EmailCheckDirective } from './directives/email-check.directive';
 import { SuccessModalComponent } from './modals/success-modal/success-modal.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SuccessModalComponent } from './modals/success-modal/success-modal.comp
     UpdatePasswordComponent,
     UserNameCheckDirective,
     EmailCheckDirective,
-    SuccessModalComponent
+    SuccessModalComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +76,8 @@ import { SuccessModalComponent } from './modals/success-modal/success-modal.comp
     LeaderCardComponent,
     TrendingLeadersComponent,
     UserNameCheckDirective,
-    EmailCheckDirective
+    EmailCheckDirective,
+    LoadingComponent
   ]
 })
 export class SharedModule { 

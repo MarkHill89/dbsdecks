@@ -27,6 +27,7 @@ export class DeckListComponent implements OnInit{
   selectedLeader:any = undefined;
   selectedLeaderName:any = undefined;
   leaderId :any;
+  isBusy = false;
   
 
   constructor(
@@ -77,7 +78,7 @@ export class DeckListComponent implements OnInit{
         this.sort(this.key);
        
     } catch(e){
-      console.log(e);
+      Promise.reject(e);
     }
    }
 

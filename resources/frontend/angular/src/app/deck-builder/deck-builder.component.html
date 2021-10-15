@@ -13,8 +13,8 @@
             <button class='btn btn-black mr-auto' *ngIf="(isPrivate$ | async) === false" (click)="setDeckVisibility(true)"><i class='fas fa-lock-open'></i> Public</button>
             <button class='btn btn-black mr-auto' *ngIf="(isPrivate$ | async) === true" (click)="setDeckVisibility(false)" ><i class='fas fa-lock'></i> Private</button>
             <button class='btn btn-black ml-auto' (click)="clearDeck()"><i class='far fa-trash-alt'></i> Reset</button>
-            <button class='btn btn-black' (click)="submitDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="isSave"><i class='far fa-save'></i> Save</button>
-            <button class='btn btn-black' (click)="updateDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="!isSave"><i class='far fa-save'></i> Update</button>
+            <button class='btn btn-black' (click)="submitDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading> Save</button>
+            <button class='btn btn-black' (click)="updateDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="!isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading>  Update</button>
         </div>
     </div>
     <div class='row my-0' *ngSwitchCase="0" infinite-scroll [infiniteScrollDisabled]="true">

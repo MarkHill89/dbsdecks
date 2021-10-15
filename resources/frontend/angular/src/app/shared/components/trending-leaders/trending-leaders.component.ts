@@ -8,7 +8,7 @@ import { Router} from "@angular/router";
   styleUrls: ['./trending-leaders.component.scss']
 })
 export class TrendingLeadersComponent implements OnInit {
-  
+  isBusy = false; 
   trendingLeaders: any = [];
 
   constructor(
@@ -22,9 +22,11 @@ export class TrendingLeadersComponent implements OnInit {
 
   async fetchData(): Promise<any> {
     try {
+      this.isBusy=true;
       this.trendingLeaders = await this.dataService.getTrendingLeaders();
+      this.isBusy=false;
     } catch(e) {
-      console.log(e);
+      Promise.reject(e);
     }
   }
 

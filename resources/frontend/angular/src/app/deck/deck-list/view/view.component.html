@@ -16,7 +16,10 @@
 <div class="container-fluid">
     <div class="main-deck">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 mt-5 text-center" *ngIf="isBusy">
+                <shared-loading></shared-loading>
+            </div>
+            <div class="col-md-12" *ngIf="!isBusy">
                 <app-deck-layout *ngIf="(mainDeck$ | async)?.length"
                 [leader]="leader$ | async"
                 [mainDeck]="mainDeck$ | async"
