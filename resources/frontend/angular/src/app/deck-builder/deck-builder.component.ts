@@ -142,6 +142,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     const title = this.cardFilters.title || '';
     const description = this.cardFilters.description || '';
     const cardNumber = this.cardFilters.cardNumber || '';
@@ -254,6 +255,10 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   setLeaderCard(card: Card) {
     this.leaderCard$.next(card);
+  }
+
+  changeLeader(){
+    this.filterForm.get('cardType').setValue([true, false, false, false]);
   }
 
   addCard(card: Card) {

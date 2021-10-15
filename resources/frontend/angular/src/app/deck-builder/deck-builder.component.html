@@ -8,13 +8,13 @@
         <div class='col-12'>
             <button class='btn btn-black' *ngIf="!showList" (click)="showList = 1"><i class='fas fa-list'></i> Show </button>
             <button class='btn btn-black' *ngIf="showList" (click)="showList = 0"><i class='fas fa-list'></i> Hide </button>
-            <button class='btn' [ngClass]="{'btn-black' : (view$ | async) == 0, 'btn-outline-white': (view$ | async) != 0}"(click)="switchView(0)"><i class='fas fa-eye'></i> View</button>
-            <button class='btn' [ngClass]="{'btn-black' : (view$ | async) == 1, 'btn-outline-white': (view$ | async) != 1}"(click)="switchView(1)"><i class='fas fa-tools'></i> Build</button>
+            <button class='btn' [ngClass]="{'btn-outline-white' : (view$ | async) == 0, 'btn-black': (view$ | async) != 0}"(click)="switchView(0)"><i class='fas fa-eye'></i> View</button>
+            <button class='btn' [ngClass]="{'btn-outline-white' : (view$ | async) == 1, 'btn-black': (view$ | async) != 1}"(click)="switchView(1)"><i class='fas fa-tools'></i> Build</button>
             <button class='btn btn-black mr-auto' *ngIf="(isPrivate$ | async) === false" (click)="setDeckVisibility(true)"><i class='fas fa-lock-open'></i> Public</button>
             <button class='btn btn-black mr-auto' *ngIf="(isPrivate$ | async) === true" (click)="setDeckVisibility(false)" ><i class='fas fa-lock'></i> Private</button>
             <button class='btn btn-black ml-auto' (click)="clearDeck()"><i class='far fa-trash-alt'></i> Reset</button>
-            <button class='btn btn-black' (click)="submitDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading> Save</button>
-            <button class='btn btn-black' (click)="updateDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="!isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading>  Update</button>
+            <button class='btn btn-black' (click)="submitDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading>  Save</button>
+            <button class='btn btn-black' (click)="updateDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="!isSave"><i class='far fa-save'></i> Update</button>
         </div>
     </div>
     <div class='row my-0' *ngSwitchCase="0" infinite-scroll [infiniteScrollDisabled]="true">
@@ -33,7 +33,13 @@
             <div class="row">
                 <div class='col'>
                     <h5 class='text-white mb-0'>Leader Card</h5>
-                    <p class='text-white my-0'>{{ (leaderCard$ | async)?.cardName}}</p>
+                    <p class='text-white my-2'>
+                        <button
+                            *ngIf="(leaderCard$ | async)?.cardName"
+                            class='btn btn-sm btn-black'
+                            (click)="changeLeader()"
+                        >
+                            <i class="fas fa-exchange-alt"></i></button> {{ (leaderCard$ | async)?.cardName}}</p>
                 </div>
             </div>
             <div class="row">
