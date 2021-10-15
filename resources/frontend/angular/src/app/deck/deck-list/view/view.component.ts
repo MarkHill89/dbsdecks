@@ -52,7 +52,6 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
-    console.log('ngOninit is Busy');
     this.isBusy = true;
     this.subscriptions.add(this.dataService.getDeckListData(this.deckId).subscribe((data: any) => {
       this.leader$.next(data)
@@ -60,14 +59,12 @@ export class DeckListViewComponent implements OnInit, OnDestroy{
       this.owner$.next(data.userId);
     }));
     this.subscriptions.add(this.dataService.getDeckViewData(this.deckId).subscribe((data: any) => {
-      console.log('sub is Busy');
       this.isBusy = true;
       this.mainDeck$.next(data.mainDeck);
       this.sideDeck$.next(data.sideDeck);
       this.mainDeckCost = data.mainDeck.reduce((acc:any, curr:any) => acc + curr.price, 0);
       this.sideDeckCost = data.sideDeck.reduce((acc:any, curr:any) => acc + curr.price, 0);
       this.totalCost = this.mainDeckCost + this.sideDeckCost;
-      console.log('sub is not Busy');
       this.isBusy = false;
     }));
     this.getCurrentUser();
