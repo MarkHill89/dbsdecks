@@ -25,8 +25,8 @@ class ScraperController extends Controller
     public int $count_check = 0;
     public Crawler $crawler;
     public $array = array();
-    public $groupId = "428419";
-    public $setName = 'special-anniversary-box-2021';
+    public $groupId = "428015";
+    public $setName = 'saiyan-showdown';
     public function index()
     {
         $array = array();

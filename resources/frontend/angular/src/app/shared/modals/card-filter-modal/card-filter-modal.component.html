@@ -6,7 +6,7 @@
 </div>
 <div class='modal-body'>
     <form [formGroup]="filterForm">
-        <div class='form-group'>
+        <div class='form-group py-0 mb-0'>
             <label formArrayName="color" *ngFor="let color of colorFormArray.controls; let i = index">
                 <input type="checkbox" [formControlName]="i">
                 <div class="color-circle {{colorData[i].name}}"></div>
