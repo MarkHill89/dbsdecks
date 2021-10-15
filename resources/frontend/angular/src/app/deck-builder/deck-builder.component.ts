@@ -313,7 +313,6 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         this.mainDeck$.next(_.orderBy(_mainDeck, ['cardName'], ['asc']));
       } else if(this.entryMode === 'main' && _sideDeck.length < 15) {
         _sideDeck.push(card);
-        console.log(_sideDeck.length)
         this.sideDeck$.next(_.orderBy(_sideDeck, ['cardName'], ['asc']));
       }
     }
@@ -338,7 +337,6 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
 
   private deckCheck(card: Card): boolean {
     let deckList = this.mainDeck$.getValue().concat(this.sideDeck$.getValue());
-    console.log(deckList);
     if(deckList.length === 0) {
       return true;
     }
@@ -434,7 +432,7 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
   updateDeck(){
     this.isBusy = true;
     const deck = { 
-      id: this.deckId$, 
+      id: this.deckId$.getValue(), 
       title : this.title,
       isPrivate: this.isPrivate$.getValue(),
       leader: this.leaderCard$.getValue(),
