@@ -196,8 +196,8 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
         });
 
         this.dataService.getDeckViewData(this.deckId$.getValue()).subscribe((deck: any) =>{
-          this.mainDeck$.next(deck.mainDeck);
-          this.sideDeck$.next(deck.sideDeck);
+          this.mainDeck$.next(_.orderBy(deck.mainDeck, ['cardName'], ['asc']));
+          this.sideDeck$.next(_.orderBy(deck.sideDeck, ['cardName'], ['asc']));
           this.leaderCard$.next(deck.leader[0]);
           this.mainDeckPacked$.next(this.packDeck(this.mainDeck$.getValue()));
           this.sideDeckPacked$.next(this.packDeck(this.sideDeck$.getValue()));
@@ -263,10 +263,10 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       if(this.deckCheck(card)) {
         if(this.entryMode === 'main' && _mainDeck.length < 60) {
           _mainDeck.push(card);
-          this.mainDeck$.next(_mainDeck);
+          this.mainDeck$.next(_.orderBy(_mainDeck, ['cardName'], ['asc']));
         } else if(this.entryMode === 'side' && _sideDeck.length < 15) {
           _sideDeck.push(card);
-          this.sideDeck$.next(_sideDeck);
+          this.sideDeck$.next(_.orderBy(_sideDeck, ['cardName'], ['asc']));
         }
       }
     }
@@ -301,11 +301,11 @@ export class DeckBuilderComponent implements OnInit, OnDestroy {
       if(this.entryMode === 'side' && _mainDeck.length < 60) {
         _mainDeck.push(card);
         
-        this.mainDeck$.next(_mainDeck);
+        this.mainDeck$.next(_.orderBy(_mainDeck, ['cardName'], ['asc']));
       } else if(this.entryMode === 'main' && _sideDeck.length < 15) {
         _sideDeck.push(card);
         console.log(_sideDeck.length)
-        this.sideDeck$.next(_sideDeck);
+        this.sideDeck$.next(_.orderBy(_sideDeck, ['cardName'], ['asc']));
       }
     }
     this.checkIfDeckIsValid();
