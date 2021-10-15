@@ -1,50 +1,49 @@
 :host {
-    display: block;
+  display: block;
 }
 .deck-card {
-    max-width: calc( calc( 100% - 10px) / 3.5 );
-    margin: 5px;
-    position: relative;
-    display: block;
+  max-width: calc(calc(100% - 10px) / 3.5);
+  margin: 5px;
+  position: relative;
+  display: block;
 }
 .badge {
-    padding: 5px;
-    width: 30px;
-    font-size: 16px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-color: #000000;
-    color: #fff;
+  padding: 5px;
+  width: 30px;
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  color: #fff;
 }
 .rounded-img {
-    border-radius: 8px;
-    width: 200px;
-    // height: 280px;
-    @media (mid-width: 692px) {
-        height: 280px;
-    }
+  border-radius: 8px;
+  width: 200px;
+  // height: 280px;
+  @media (mid-width: 692px) {
+    height: 280px;
+  }
 }
 .deck-spread {
-    justify-content: center;
+  justify-content: center;
 }
 .leader-iamge {
-    width: 280px;
+  width: 280px;
 }
 
 .deck-card {
-    max-width: calc( calc(100% -10px) / 2);
-    margin: 5px;
-    position: relative;
-    display: block;
-    &.side-deck-card {
-        max-width: calc( calc( 100% - 10px) / 2);
-    }
-    .deck-spread {
-        justify-content: left;
-    }
+  max-width: calc(calc(100% -10px) / 2);
+  margin: 5px;
+  position: relative;
+  display: block;
+  &.side-deck-card {
+    max-width: calc(calc(100% - 10px) / 2);
+  }
+  .deck-spread {
+    justify-content: left;
+  }
 }
-
 
 // @media (min-width: 692px) {
 //     .deck-card {
@@ -76,17 +75,18 @@
 // }
 
 .card-wrapper {
-    width: 100%;
-    @media(min-width: 692px) {
-        width: 200px;
+  width: 100%;
+  min-width: 200px;
+  @media (min-width: 692px) {
+    width: 200px;
+  }
+  display: inline-block;
+  margin: 0 auto;
+  .card-wrapper-image {
+    cursor: pointer;
+    img {
+      width: 100%;
+      box-shadow: 4px 4px 25px 5px rgba(0, 0, 0, 0.75);
     }
-    display: inline-block;
-    margin: 0 auto;
-    .card-wrapper-image {
-        cursor: pointer;
-        img {
-            width: 100%;
-            box-shadow: 4px 4px 25px 5px rgba(0, 0, 0, 0.75);
-        }
-    }
+  }
 }
