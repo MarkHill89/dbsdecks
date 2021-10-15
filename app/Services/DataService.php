@@ -107,7 +107,8 @@ class DataService
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
                     'color' => $row != null ? $row->Color : '',
                     'url' => $row != null ? $row->url : '',
-                    'price' => $row != null ? (float) $row->price : 0
+                    'price' => $row != null ? (float) $row->price : 0,
+                    'cardLimit' => $row != null ? $row->cardLimit : 4
                 ];
             });
 
@@ -135,7 +136,8 @@ class DataService
                         'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                         'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
                         'color' => $row != null ? $row->Color : '',
-                        'price' => $row != null ? (float) $row->price : 0
+                        'price' => $row != null ? (float) $row->price : 0,
+                        'cardLimit' => $row != null ? $row->cardLimit : 4
                     ];
                 });
 
@@ -180,7 +182,8 @@ class DataService
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                     'color' => $row != null ? $row['color'] : '',
                     'url' => $row != null ? $row['url'] : '',
-                    'price' => $row != null ? $row['price'] : 0
+                    'price' => $row != null ? $row['price'] : 0,
+                    'cardLimit' => $row != null ? $row['cardLimit'] : 4
                 ]);
             }
             for ($i = 0; $i < $row['sideDeckQty']; $i++) {
@@ -191,7 +194,8 @@ class DataService
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                     'color' => $row != null ? $row['color'] : '',
                     'url' => $row != null ? $row['url'] : '',
-                    'price' => $row != null ? $row['price'] : 0
+                    'price' => $row != null ? $row['price'] : 0,
+                    'cardLimit' => $row != null ? $row['cardLimit'] : 4
                 ]);
             }
         }
