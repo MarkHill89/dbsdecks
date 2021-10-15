@@ -182,11 +182,15 @@
                     <div class='card-wrapper d-flex flex-column justify-content-center'>
                         <div class='card-wrapper-image'>
                             <ng-template #tipContent><b>{{card.cardName}}</b><br><p [innerHTML]="card.cardText | cardText"></p></ng-template>
-                            <img src="{{card.thumbnail | imageString : 0 }}" 
+                            <img src="{{card.thumbnail | imageString : 0 }}"
+                                class="d-none d-md-block"
                                 (click)="addCard(card)" 
                                 [ngbTooltip]="tipContent"
                                 [openDelay]="500"
                                 triggers="mouseenter:mouseleave" />
+                            <img src="{{card.thumbnail | imageString : 0 }}"
+                                class="d-block d-md-none"
+                                (click)="addCard(card)" />
                         </div>
                         <div class='card-wrapper-buttons w-100 d-block d-sm-none'>
                             <div class='btn-group d-inline-block d-flex w-100'>
