@@ -238,7 +238,8 @@ class CardController extends Controller
                 ->update([
                     'title' => $title,
                     'leaderNumber' => $leaderCardNumber,
-                    'isPrivate' => $isPrivate
+                    'isPrivate' => $isPrivate,
+                    'submitDate' => now()
                 ]);
         }
 
