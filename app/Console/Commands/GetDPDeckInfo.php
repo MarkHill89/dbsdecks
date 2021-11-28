@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use GraphQL\GraphQL;
 use GraphQL\Executor\ExecutionResult;
-
+use App\Models\User;
 
 
 class GetDPDeckInfo extends Command
@@ -43,7 +43,7 @@ class GetDPDeckInfo extends Command
     {
         $curl = curl_init();
         $apiUrl = 'https://dbs-deckplanet-api.com/graphql';
-        $bearer = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEzYmRhNzVjLTc0OWUtNDhjOS05ODZmLTE1ZmQ4OGI3NDEzYyIsImlhdCI6MTYzNzcwODgzMSwiZXhwIjoxNjM4MzEzNjMxfQ.aowH6hZxqj6ZdFS7CWNXyPlBSwIp2YoWG0-jxvXZH0Y';
+        $bearer = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEzYmRhNzVjLTc0OWUtNDhjOS05ODZmLTE1ZmQ4OGI3NDEzYyIsImlhdCI6MTYzODEzNTM2MSwiZXhwIjoxNjM4NzQwMTYxLCJpc3MiOiJkaXJlY3R1cyJ9.ELLHn8NAhd-cty37Mp55JMKHY_6X5D2RQnnVE8XLOY4';
         curl_setopt_array($curl, array(
             CURLOPT_URL => $apiUrl,
             CURLOPT_RETURNTRANSFER => true,
@@ -53,7 +53,7 @@ class GetDPDeckInfo extends Command
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{"query":"query getDeckByID($deckID: ID!) {\\r\\n    decks_by_id(id: $deckID) {\\r\\n      id\\r\\n      deck_name\\r\\n      user {\\r\\n        username\\r\\n        email\\r\\n      }\\r\\n      deck_cards\\r\\n      side_deck_cards\\r\\n      deck_leader {\\r\\n        card_number\\r\\n        card_front_name\\r\\n        card_back_name\\r\\n      }\\r\\n    }\\r\\n  }","variables":{"deckID":"23710"}}',
+            CURLOPT_POSTFIELDS =>'{"query":"query getDeckByID($deckID: ID!) {\\r\\n    decks_by_id(id: $deckID) {\\r\\n      id\\r\\n      deck_name\\r\\n      user {\\r\\n        username\\r\\n        email\\r\\n      }\\r\\n      deck_cards\\r\\n      side_deck_cards\\r\\n      deck_leader {\\r\\n        card_number\\r\\n        card_front_name\\r\\n        card_back_name\\r\\n      }\\r\\n    }\\r\\n  }","variables":{"deckID":"23710"}}',
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
                 'Authorization: Bearer ' . $bearer,
@@ -64,36 +64,54 @@ class GetDPDeckInfo extends Command
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
             $jsonData = json_decode($response);
+        
             $data = $jsonData->data->decks_by_id;
+            
             $id = $data->id;
             $userEmail = $data->user->email;
+            $title = $data->deck_name;
+
+            $user = User::where('email', $userEmail)->first();
+            if($user === null){
+                $userId = 1;
+            } else {
+                $userId = $user->id;
+            }
+            
+            DB::table('deck')->insert(
+                [
+                    'userId' => $userId,
+                    'title' => $title,
+                    'isPrivate' => 1,
+                    'isActive' => 1,
+                    'submitDate' => now(),
+                    'leaderNumber' => $data->deck_leader->card_number,
+                    'senronID' => $id
+                ]
+            );
+
+            $deckId = DB::table('deck')
+                ->select('id')
+                ->orderBy('id', 'desc')
+                ->first();
+
             $mainDeck = $data->deck_cards;
             $sideDeck = $data->side_deck_cards;
-            echo 'deckId = ' . $id . "\n";
-            echo 'email = ' . $userEmail . "\n";
-
-            echo "--- Leader Info ---";
-            echo "\n";
-            echo 'leader = ' . $data->deck_leader->card_number;
-            echo "\n";
-            echo "--- MAIN DECK ---";
-            echo "\n";
             foreach ($mainDeck as $card) {
-                echo 'card number = ' . $card->card_data->card_number . ' ';
-                echo 'quantity = ' . $card->amount_in_deck;
-                echo "\n";
+                DB::table('deck_data_new')->updateOrInsert(
+                    ['deckId' => $deckId, 'cardNumber' => $card->card_data->card_number],
+                    ['mainDeckQty' => $card->amount_in_deck]
+                );
             }
-            echo "--- SIDE DECK ---";
-            echo "\n";
-            foreach ($sideDeck as $card) {
-                echo 'card number = ' . $card->card_data->card_number . ' ';
-                echo 'quantity = ' . $card->amount_in_deck;
-                echo "\n";
+            foreach ($sideDeck as $sCard) {
+                DB::table('deck_data_new')->updateOrInsert(
+                    ['deckId' => $deckId, 'cardNumber' => $sCard->card_data->card_number],
+                    ['mainDeckQty' => $sCard->amount_in_deck]
+                );
             }
         }
     }
