@@ -70,7 +70,7 @@ export class RegisterComponent{
       this.authService.registerNew(this.registrationForm.value).subscribe( res =>{
         if(res){
           localStorage.setItem('token', res.token);
-          this.authService.isAuthenticated.next(true);
+          this.authService.isAuthenticated$.next(true);
         }
       });
     }catch(err){

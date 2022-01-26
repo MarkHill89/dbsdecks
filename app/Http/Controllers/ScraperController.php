@@ -25,8 +25,8 @@ class ScraperController extends Controller
     public int $count_check = 0;
     public Crawler $crawler;
     public $array = array();
-    public $groupId = "428015";
-    public $setName = 'saiyan-showdown';
+    public $groupId = "428016";
+    public $setName = 'realm-of-the-gods';
     public function index()
     {
         $array = array();
@@ -184,7 +184,8 @@ class ScraperController extends Controller
             };
             
             $skill = function() {
-                $nm = preg_replace("/１/", "1", $this->skill);
+                $col = preg_replace("/â/", ":", $this->skill);
+                $nm = preg_replace("/１/", "1", $col);
                 $cl = preg_replace("/\?ã¼/", ":<br>", $nm);
                 $sp = preg_replace("/ï¼/", " ", $cl);
                 $lt = preg_replace("/ã/", "", $sp);

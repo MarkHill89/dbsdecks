@@ -28,6 +28,7 @@ import { UserNameCheckDirective } from './directives/user-name-check.directive';
 import { EmailCheckDirective } from './directives/email-check.directive';
 import { SuccessModalComponent } from './modals/success-modal/success-modal.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     UserNameCheckDirective,
     EmailCheckDirective,
     SuccessModalComponent,
-    LoadingComponent
+    LoadingComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +69,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     CardInfoModalComponent,
     CardFilterModalComponent,
     NavbarComponent,
+    FooterComponent,
     DeckComponent,
     DateTimePipe,
     CardTextPipe,

@@ -1,12 +1,17 @@
-<main class='container'>
-	<div class='row mt-3'>
-		<div class='col-md-12'>
-			<h1 class='text-white text-center'>Welcome to DBS Decks!</h1>
-		</div>		
-	</div>
-	<div class='row my-3'>
-		<div class='col-md-12'>
-			<app-trending-leaders></app-trending-leaders>
+<main>
+	<div class="jumbotron text-center bg-transparent">
+		<div class='container'>
+			<h1 class="display-4 text-white">DBS Decks</h1>
+			<p class="lead text-white">A deck building website for the Dragon Ball Super Card Game</p>
+			<hr class="my-4  border-danger">
+			<a class="btn btn-danger btn-lg" routerLink="/deckbuilder" role="button">+ New Deck</a>
+		</div>
+	  </div>
+	<div class='container'>
+		<div class='row my-3'>
+			<div class='col-md-12'>
+				<app-trending-leaders></app-trending-leaders>
+			</div>
 		</div>
 	</div>
 </main>

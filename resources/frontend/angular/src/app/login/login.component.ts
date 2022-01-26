@@ -45,7 +45,7 @@ export class LoginComponent {
         this.isBusy = false;
         localStorage.setItem('token', res.token);
         this.error = null;
-        this.authService.isAuthenticated.next(true);
+        this.authService.isAuthenticated$.next(true);
         this._location.back();
         this.isBusy = false;
       }
