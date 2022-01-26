@@ -1,26 +1,25 @@
 import { Injectable, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { environment } from '@dbsdecks/environments/environment'
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router} from "@angular/router";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ErrorModalComponent } from '@dbsdecks/app/shared/modals';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
     modalRef?: BsModalRef;
-    isAuthenticated: BehaviorSubject<boolean>;
+    isAuthenticated$: BehaviorSubject<boolean>  = new BehaviorSubject<boolean>(false);
     private baseUrl: string = environment.baseUrl;
 
     constructor(
         private router: Router,
         private modalService: BsModalService,
         private http: HttpClient) {
-            this.isAuthenticated = new BehaviorSubject<boolean>(false);
-        }
-
-    
+            this.isAuthenticated$.next(false);
+    }
 
     canActivate():boolean{
         let token = localStorage.getItem('token');
@@ -28,16 +27,25 @@ export class AuthService {
         if(!token){
             this.router.navigateByUrl('/login');
             return false;
-        } else{
         }
         return true;
     }
 
-    check(){
+    check() : Observable<any | Observable<string>>{
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         });
-        return this.http.get(this.baseUrl + "auth/check",{headers});
+        return this.http.get(this.baseUrl + "auth/check",{headers}).pipe(
+            catchError((error) => {
+                let errorMsg: string;
+                if(error instanceof HttpErrorResponse) {
+                    errorMsg = error.error.message;
+                } else {
+                    errorMsg = error.message;
+                }
+                return throwError(errorMsg)
+            }) 
+        );
     }
 
     login(formValue:Object):Observable<any>{

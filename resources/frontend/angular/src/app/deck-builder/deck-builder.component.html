@@ -174,12 +174,12 @@
                     </form>
                 </div>
             </div>
-            <div class="row my-3"
+            <div class="my-3 d-flex flex-row flex-wrap justify-content-start px-1 px-sm-3"
                 infinite-scroll
                 (scrolled)="onScrollDown()"
                 [scrollWindow]="(view$ | async) == 0 ? false : true">
-                <section *ngFor="let card of activeCards;" class="col mb-2">
-                    <div class='card-wrapper d-flex flex-column justify-content-center'>
+                <section *ngFor="let card of activeCards;" class="m-2 m-sm-3">
+                    <div class='card-wrapper'>
                         <div class='card-wrapper-image'>
                             <ng-template #tipContent><b>{{card.cardName}}</b><br><p [innerHTML]="card.cardText | cardText"></p></ng-template>
                             <img src="{{card.thumbnail | imageString : 0 }}"
