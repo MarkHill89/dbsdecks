@@ -1,0 +1,22 @@
+<div class='modal-header'>
+    <h4 class='modal-title'>Randomly Generated Hand</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class='modal-body'>
+    <div class='row justify-content-center'>
+        <div class='col-10 col-sm-8 col-md-10 col-lg-12'>
+        <div class='row justify-content-center'>
+            <div *ngFor="let h of hand; index as i" class='col-6 col-sm-6 col-md-4 col-lg-2'>
+                <img [src]="h.thumbnail[0]" (click)="addMulligan(i)" class='w-100 rounded-lg' [class.border-warning]="mulligan.indexOf(i) > -1"/>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<div class='modal-footer w-100'>
+    <button type='button' class='btn btn-secondary' (click)="mulliganHand()" *ngIf="mulligan.length > 0">Mulligan ({{ mulligan.length }})</button>
+    <button type="button" class='btn btn-orange' (click)="getHand()">Get New Hand</button>
+    <button type='button' class='btn btn-danger' (click)="dismiss()">Close</button>
+</div>

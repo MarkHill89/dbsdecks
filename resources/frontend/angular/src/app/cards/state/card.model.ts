@@ -8,6 +8,7 @@ export interface Card {
     title: string;
     cardName: string;
     cardNumber: string;
+    character: string;
     description ?: string;
     cardText: string;
     cardType: string;
@@ -15,8 +16,9 @@ export interface Card {
     comboPower: number;
     comboEnergy: number;
     count?: string;
+    leaderName?: string;
     energyColorCost: string;
-    energyCost: string;
+    energyCost: number;
     era: string;
     groupId: number;
     thumbnail : string [];

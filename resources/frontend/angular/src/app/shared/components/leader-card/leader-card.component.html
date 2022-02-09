@@ -1,1 +1,11 @@
-<p>leader-card works!</p>
+<div class='row'>
+    <div class='col' *ngIf="leader">
+        <div class='row justify-content-center'>
+            <div class='col-10'>
+                <h4 class='text-light'>{{leader.cardName}}</h4>
+                <img *ngIf="leader?.thumbnail" class='leader-image rounded-lg w-50' [src]="leader.thumbnail | imageString: 0" />
+                <img *ngIf="leader?.thumbnail" class='leader-image rounded-lg w-50' [src]="leader.thumbnail | imageString: 1" />
+            </div>
+        </div>
+    </div>
+</div>

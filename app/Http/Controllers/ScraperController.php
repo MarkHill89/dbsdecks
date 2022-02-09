@@ -22,11 +22,11 @@ class ScraperController extends Controller
     public int $comboPower = 0;
     public string $skill = '';
     public int $count = 0;
-    public int $count_check = 0;
+    public int $count_check = 362;
     public Crawler $crawler;
     public $array = array();
-    public $groupId = "428016";
-    public $setName = 'realm-of-the-gods';
+    public $groupId = "428901";
+    public $setName = 'promotional-cards';
     public function index()
     {
         $array = array();
