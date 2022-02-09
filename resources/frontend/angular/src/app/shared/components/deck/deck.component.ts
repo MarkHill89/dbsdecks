@@ -12,7 +12,8 @@ export class DeckComponent implements OnInit {
 
   _mainDeck: Card[] = [];
   _sideDeck: Card[] = [];
-
+  showLeaderText: boolean = false;
+  
   constructor(
     private modal: NgbModal) { }
     

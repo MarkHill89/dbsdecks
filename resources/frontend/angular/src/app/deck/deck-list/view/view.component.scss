@@ -27,4 +27,13 @@ decklist-view{
             width:100%;
         }
     }
+    .tiny-text {
+        display: block;
+        position: relative;
+        margin-top: -5px;
+        font-size: 10px;
+    }
+    .sort-group {
+        align-self: end;
+    }
 }

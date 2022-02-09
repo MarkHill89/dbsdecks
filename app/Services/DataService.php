@@ -21,7 +21,7 @@ class DataService
                     "cardText" => $row != null ? $row->cardText : '',
                     "cardType" => $row != null ? $row->cardType : '',
                     "color" => $row != null ? $row->color : '',
-                    "energyCost" => $row != null ? $row->energyCost : '',
+                    "energyCost" => $row != null ? $this->filterEnergyCost($row->energyCost) : '',
                     "specialTrait" => $row != null ? $row->specialTrait : '',
                     "power" => $row != null ? $row->power : '',
                     "comboPower" => $row != null ? $row->comboPower : '',
@@ -38,6 +38,13 @@ class DataService
             });
     }
 
+    private function filterEnergyCost(string $energyCost) {
+        if(substr($energyCost, 0, 1) === "X") {
+            return "X";
+        }
+        return (int) preg_replace("/[^0-9]/", "", $energyCost);
+    }
+
     public function getDeckData(int $id)
     {
         return collect(Proc::callParm('get_deck_data', ['id' => $id]))
@@ -49,6 +56,7 @@ class DataService
                     "isPrivate" => $row != null ? $row->isPrivate : '',
                     "submitDate" => $row != null ? $row->submitDate : '',
                     "username" => $row != null ? $row->username : '',
+                    "cardName" => $row != null ? $row->leaderName : '',
                     "leaderName" => $row != null ? $row->leaderName : '',
                     "leaderCardNumber" => $row != null ? $row->leaderNumber : '',
                     "thumbnail" => $row != null ? explode(';', $row->imageUrl) : '',
@@ -106,6 +114,15 @@ class DataService
                     'mainDeckQty' => $row != null ? $row->mainDeckQty : 0,
                     'sideDeckQty' => $row != null ? $row->sideDeckQty : 0,
                     'color' => $row != null ? $row->Color : '',
+                    'cardType' => $row != null ? $row->CardType : '',
+                    'energyCost' => $row != null ? preg_replace('~\D~', "", $row->EnergyColorCost) : '',
+                    'energyColorCost' => $row != null ? $row->EnergyColorCost : '',
+                    'specialTrait' => $row != null ? $row->SpecialTrait : '',
+                    'power' => $row != null ? $row->Power : '',
+                    'comboPower' => $row != null ? $row->ComboPower : '',
+                    'comboEnergy' => $row != null ? $row->ComboEnergy : '',
+                    'era' => $row != null ? $row->Era : '',
+                    'character' => $row != null ? $row->Character : '',
                     'url' => $row != null ? $row->url : '',
                     'price' => $row != null ? (float) $row->price : 0,
                     'cardLimit' => $row != null ? $row->cardLimit : 4
@@ -181,6 +198,15 @@ class DataService
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                     'color' => $row != null ? $row['color'] : '',
+                    'cardType' => $row != null ? $row['cardType'] : '',
+                    'energyCost' => $row != null ? (int)  $row['energyCost'] : '',
+                    'energyColorCost' => $row != null ? $row['energyColorCost'] : '',
+                    'specialTrait' => $row != null ? $row['specialTrait'] : '',
+                    'power' => $row != null ? $row['power'] : '',
+                    'comboPower' => $row != null ? $row['comboPower'] : '',
+                    'comboEnergy' => $row != null ? $row['comboEnergy'] : '',
+                    'era' => $row != null ? $row['era'] : '',
+                    'character' => $row != null ? $row['character'] : '',
                     'url' => $row != null ? $row['url'] : '',
                     'price' => $row != null ? $row['price'] : 0,
                     'cardLimit' => $row != null ? $row['cardLimit'] : 4
@@ -193,6 +219,15 @@ class DataService
                     'cardName' => $row != null ? $row['cleanName'] : '',
                     'thumbnail' => $row != null ? explode(';', $row['thumbnail']) : '',
                     'color' => $row != null ? $row['color'] : '',
+                    'cardType' => $row != null ? $row['cardType'] : '',
+                    'energyCost' => $row != null ? (int) $row['energyCost'] : '',
+                    'energyColorCost' => $row != null ? $row['energyColorCost'] : '',
+                    'specialTrait' => $row != null ? $row['specialTrait'] : '',
+                    'power' => $row != null ? $row['power'] : '',
+                    'comboPower' => $row != null ? $row['comboPower'] : '',
+                    'comboEnergy' => $row != null ? $row['comboEnergy'] : '',
+                    'era' => $row != null ? $row['era'] : '',
+                    'character' => $row != null ? $row['character'] : '',
                     'url' => $row != null ? $row['url'] : '',
                     'price' => $row != null ? $row['price'] : 0,
                     'cardLimit' => $row != null ? $row['cardLimit'] : 4

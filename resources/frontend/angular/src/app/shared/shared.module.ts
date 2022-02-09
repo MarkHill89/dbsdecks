@@ -29,6 +29,9 @@ import { EmailCheckDirective } from './directives/email-check.directive';
 import { SuccessModalComponent } from './modals/success-modal/success-modal.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SampleHandModalComponent } from './modals/sample-hand-modal/sample-hand-modal.component';
+import { DeckSectionComponent } from './components/deck-section/deck-section.component';
+import { PresenterModalComponent } from './modals/presenter-modal/presenter-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { FooterComponent } from './components/footer/footer.component';
     EmailCheckDirective,
     SuccessModalComponent,
     LoadingComponent,
-    FooterComponent
+    FooterComponent,
+    SampleHandModalComponent,
+    DeckSectionComponent,
+    PresenterModalComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +73,7 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   exports: [
     CardInfoModalComponent,
+    PresenterModalComponent,
     CardFilterModalComponent,
     NavbarComponent,
     FooterComponent,
@@ -80,7 +87,8 @@ import { FooterComponent } from './components/footer/footer.component';
     TrendingLeadersComponent,
     UserNameCheckDirective,
     EmailCheckDirective,
-    LoadingComponent
+    LoadingComponent,
+    DeckSectionComponent
   ]
 })
 export class SharedModule { 
