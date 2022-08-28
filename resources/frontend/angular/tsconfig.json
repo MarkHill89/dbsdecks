@@ -6,7 +6,6 @@
     "paths": {
       "@dbsdecks/*": ["./src/*", "./resources/frontend/angular/src/app/*"]
     },
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
