@@ -1,3 +1,68 @@
-<app-navbar></app-navbar>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+        <a class='navbar-brand pt-0 pr-3 border-right border-white' routerLink="/">
+            <img src="/assets/img/logo_sm.png"/>
+        </a>
+        <button class="navbar-toggler" type="button" (click)="navbarCollapse = !navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse" [class.collapse]="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/decks">Decks</a>
+                </li>
+                <li class="nav-item" *ngIf="!(authenticated$ | async)">
+                    <a class="nav-link" routerLink="/user/login">Login</a>
+                </li>
+                <li class="nav-item" *ngIf="(authenticated$ | async)">
+                  <a class="nav-link" routerLink="/user/portal">Portal</a>
+              </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+<footer class="text-center text-lg-start text-white border-top">
+    <section>
+      <div class="container text-center text-md-start mt-5">
+        <div class="row mt-3">
+          <div class="col-md-4 offset-md-2 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              Social
+            </h6>
+            <p>
+              <a target="_blank" href="https://facebook.com/dbsdecks" class="me-4 text-reset">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </p>
+          </div>
+           <div class="col-md-4 offset-md-2 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              Our Partners
+            </h6>
+            <p>
+              <a target="_blank" href="https://www.facebook.com/imprenta404" class="text-reset">Imprenta 404</a>
+            </p>
+            <p>
+              <a target="_blank" href="https://tcgplayer.com" class="text-reset">TCGPlayer.com</a>
+            </p>
+          </div>
+          <div class="col-md-4 mx-auto mb-md-0 mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              Contact
+            </h6>
+            <p>
+              <i class="fas fa-envelope me-3"></i>
+              <a class="ml-2 text-reset" href="mailto:support@dbs-decks.com">support@dbs-decks.com</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © {{today | date:'yyyy' }} Netdeck Games LLC
+  </div>
+</footer>

@@ -28,9 +28,6 @@ Route::prefix('api')->group(function () {
     Route::get('/reset-password/{token}', [AuthController::class, 'resetPasswordToken'])
         ->middleware('guest')->name('password.reset');
 
-    // Public Routes
-    Route::get('/card', [CardController::class, 'allCards']);
-
     // Public Routes with auth prefix
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
@@ -39,6 +36,11 @@ Route::prefix('api')->group(function () {
             ->middleware('guest');
         Route::get('/email-check', [AuthController::class, 'checkEmail'])
             ->middleware('guest');
+    });
+
+    Route::prefix('card')->group(function() {
+        Route::get('/all', [CardController::class, 'allCards']);
+        Route::get('/byName', [CardController::class, 'cardsByName']);
     });
 
     Route::prefix('deck')->group(function () {

@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <p class="modal-title">Create New Deck</p>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+   <form [formGroup]="newDeckForm">
+    <div class="row">
+        <div class="col">
+            <label>Deck Title</label>
+            <input type="text" formControlName="title" class="form-control form-control-sm" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3" *ngFor="let leader of (leaders$ | async)">
+            <img [src]="leaderImage(leader.imageUrl)" class='w-100'/>
+        </div>
+    </div>
+   </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-danger" (click)="createDeck()">Create Deck</button>
+</div>

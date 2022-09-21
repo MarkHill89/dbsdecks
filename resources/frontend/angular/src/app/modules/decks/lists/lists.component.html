@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row" *ngIf="(authenticated$ | async) === true; else showPrompt">
+        <div class="col text-center text-white">
+            <p>Click the button below to start</p>
+            <button type="button" class="btn btn-success" (click)="openNewDeckModal()">Create Deck</button>
+        </div>
+    </div>
+    <ng-template #showPrompt>
+        <div class="row">
+            <div class="col text-center text-white">
+                <p>Login to Build a Deck</p>
+            </div>
+        </div>
+    </ng-template>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm">
+                <tr *ngFor="let deck of (decks$ | async)">
+                    <td>{{deck.title}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

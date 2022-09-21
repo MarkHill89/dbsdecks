@@ -7,8 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
-          "spec":false
+          "style": "scss"
         },
         "@schematics/angular:application": {
           "strict": true
@@ -35,7 +34,7 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "lodash", "ng2-order-pipe"
+              "lodash"
            ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -133,7 +132,6 @@
       }
     }
   },
-  "defaultProject": "angular",
   "cli": {
     "analytics": false
   }

@@ -23,11 +23,10 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-
         if (Auth::check()) {
-            return response(true);
+            return response(201);
         } else {
-            return response(false);
+            return response(401);
         }
     }
     public function updatePassword(Request $request)

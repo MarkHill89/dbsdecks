@@ -5,7 +5,6 @@ import { environment } from '@dbsdecks/environments/environment'
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router} from "@angular/router";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ErrorModalComponent } from '@dbsdecks/app/shared/modals';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()

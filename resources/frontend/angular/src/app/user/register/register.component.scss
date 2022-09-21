@@ -1,0 +1,16 @@
+app-register-component{
+    h2{
+        color:#f8f9fa;
+    }
+    label{
+        color:#f8f9fa;
+    }
+
+    label::after {
+        content: ' *';
+        font-size: 14px;
+        line-height: 0;
+        color: #ff0000;
+    }
+}
+

@@ -5,12 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\DataService;
 use App\Models\Deck;
+use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller
 {
+    public function cardsByName(Request $request) {
+        $cardName = $request->input('cardName');
+        $cards = Card::where("name", "like", "%$cardName%")
+            ->where('cardType', "Leader")
+            ->orderBy('name')
+            ->get();
+        
+        return response($cards, 200);
+    }
+
+    /**
+     * Everything below here is potentially depricated
+     */
     public function allCards(Request $request, DataService $dataService)
     {
         return $dataService->getAllCards();
@@ -23,9 +38,9 @@ class CardController extends Controller
 
     public function get_deck_lists_all(Request $request, DataService $dataService)
     {
-        $isPublic = $request->input('isPublic');
-        $leaderCardNumber = $request->input('leaderCard');
-        $limit = $request->input('limit');
+        $isPublic = $request->input('isPublic') ?? 1;
+        $leaderCardNumber = $request->input('leaderCard') ?? '';
+        $limit = $request->input('limit') ?? 10;
 
         return $dataService->getAllDecks($isPublic, $leaderCardNumber, $limit);
     }

@@ -1,4 +1,4 @@
-import { Card } from "../cards/cards";
+import { Card } from "../card/card.model";
 
 export interface Deck {
     isActive ?: boolean;
