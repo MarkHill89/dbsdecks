@@ -34,7 +34,6 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-<<<<<<< HEAD
               "lodash"
            ],
             "vendorChunk": true,
@@ -43,10 +42,6 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
-=======
-              "lodash", "ng2-order-pipe"
-           ]
->>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
           },
           "configurations": {
             "production": {
