@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserStoreService } from './api/user/user-store.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { UserService } from './api/user/user.service';
 
 @Component({
@@ -28,4 +28,7 @@ export class AppComponent implements OnInit {
       this.userService.getUser().pipe().subscribe();
   }
 
+  logout() {
+    this.userService.logout().pipe().subscribe();
+  }
 }

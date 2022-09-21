@@ -111,7 +111,7 @@ export class UserService {
     this.httpOptions.headers.append("Authorization", `Bearer ${localStorage.getItem('token')}`);
     this.loadingStore.loading = LoadingStatus.AUTH_LOADING;
     this.userStore.authenticating = UserAuthStatus.WORKING;
-    this.httpClient.post(`${this.url}auth/logout`, null, this.httpOptions).pipe(
+    return this.httpClient.post(`${this.url}auth/logout`, null, this.httpOptions).pipe(
       map(({body} : any) => {
         this.loadingStore.loading = LoadingStatus.IDLE;
         this.userStore.authenticating = UserAuthStatus.SUCCESS;
