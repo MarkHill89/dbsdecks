@@ -23,10 +23,6 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-<<<<<<< HEAD
-=======
-
->>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
         if (Auth::check()) {
             return response(201);
         } else {
