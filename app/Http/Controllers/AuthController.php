@@ -23,11 +23,49 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
         if (Auth::check()) {
             return response(201);
         } else {
             return response(401);
         }
+    }
+    public function updatePassword(Request $request)
+    {
+        $fields = $request->validate([
+            'password' => 'required|string'
+        ]);
+        $password = $request->input('password');
+        $request->user()->password = bcrypt($password);
+        $request->user()->save();
+        return response(['data' => 'password updated']);
+    }
+
+    public function checkUserName(Request $request) {
+
+        $user = DB::table('users')
+        ->where('username', $request->input('userName'))
+        ->first();
+
+        if(!$user) {
+            return response(["message" => 'OK'], 200);
+        }
+        
+        return response(["message" => 'User found'], 200);
+    }
+
+    public function checkEmail(Request $request) {
+        $email = DB::table('users')
+        ->where('email', $request->input('email'))
+        ->first();
+
+        if(!$email) {
+            return response(["message" => 'OK'], 200);
+        }
+        return response(["message" => 'Email Found'], 200);
     }
     public function updatePassword(Request $request)
     {

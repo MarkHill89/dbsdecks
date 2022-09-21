@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+<<<<<<< HEAD
 use App\Models\Deck;
 
 use Illuminate\Support\Facades\Auth;
+=======
+>>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
 
 class DeckController extends Controller
 {
@@ -39,6 +42,7 @@ class DeckController extends Controller
             ];
         }, json_decode($deck->mainDeckList));
     }
+<<<<<<< HEAD
 
     public function create(Request $request) {
         try {
@@ -63,4 +67,6 @@ class DeckController extends Controller
             response($e->getMessage(), 401);
         }
     }
+=======
+>>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
 }

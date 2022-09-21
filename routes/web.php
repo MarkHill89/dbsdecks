@@ -16,6 +16,7 @@ use App\Http\Controllers\CardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+<<<<<<< HEAD
 
 Route::prefix('api')->group(function () {
 
@@ -28,6 +29,23 @@ Route::prefix('api')->group(function () {
     Route::get('/reset-password/{token}', [AuthController::class, 'resetPasswordToken'])
         ->middleware('guest')->name('password.reset');
 
+=======
+
+Route::prefix('api')->group(function () {
+
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+        ->middleware('guest')->name('password.update');
+    
+    Route::get('/password-forgot', [AuthController::class, 'forgot'])
+        ->name('password.request');
+
+    Route::get('/reset-password/{token}', [AuthController::class, 'resetPasswordToken'])
+        ->middleware('guest')->name('password.reset');
+
+    // Public Routes
+    Route::get('/card', [CardController::class, 'allCards']);
+
+>>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
     // Public Routes with auth prefix
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
@@ -38,11 +56,14 @@ Route::prefix('api')->group(function () {
             ->middleware('guest');
     });
 
+<<<<<<< HEAD
     Route::prefix('card')->group(function() {
         Route::get('/all', [CardController::class, 'allCards']);
         Route::get('/byName', [CardController::class, 'cardsByName']);
     });
 
+=======
+>>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
     Route::prefix('deck')->group(function () {
         Route::get('/trending-leaders', [CardController::class, 'get_trending_leaders']);
         Route::get('/list', [CardController::class, 'get_deck_lists_all']);

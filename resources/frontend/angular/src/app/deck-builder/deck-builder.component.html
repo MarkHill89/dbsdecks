@@ -1,0 +1,205 @@
+<div class='container-fluid' [ngSwitch]="view$ | async">
+    <div class='scroll-to-top-btn-wrapper' [ngClass]="{'show-scrollTop': windowScrolled}" *ngIf="(view$ | async) != 0">
+        <button class='btn btn-lg btn-light scroll-to-top-btn' (click)="scrollToTop()">
+            <i class="fas fa-arrow-up fa-lg"></i>
+        </button>
+    </div>
+    <div class='row bg-dark'>
+        <div class='col-12'>
+            <button class='btn btn-black' *ngIf="!showList" (click)="showList = 1"><i class='fas fa-list'></i> Show </button>
+            <button class='btn btn-black' *ngIf="showList" (click)="showList = 0"><i class='fas fa-list'></i> Hide </button>
+            <button class='btn' [ngClass]="{'btn-outline-white' : (view$ | async) == 0, 'btn-black': (view$ | async) != 0}"(click)="switchView(0)"><i class='fas fa-eye'></i> View</button>
+            <button class='btn' [ngClass]="{'btn-outline-white' : (view$ | async) == 1, 'btn-black': (view$ | async) != 1}"(click)="switchView(1)"><i class='fas fa-tools'></i> Build</button>
+            <button class='btn btn-black mr-auto' *ngIf="(isPrivate$ | async) === false" (click)="setDeckVisibility(true)"><i class='fas fa-lock-open'></i> Public</button>
+            <button class='btn btn-black mr-auto' *ngIf="(isPrivate$ | async) === true" (click)="setDeckVisibility(false)" ><i class='fas fa-lock'></i> Private</button>
+            <button class='btn btn-black ml-auto' (click)="clearDeck()"><i class='far fa-trash-alt'></i> Reset</button>
+            <button class='btn btn-black' (click)="submitDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading> Save</button>
+            <button class='btn btn-black' (click)="updateDeck()"  [disabled]="!doNotDeckSubmit" *ngIf="!isSave"><i class='far fa-save'></i><shared-loading *ngIf="isBusy" [isSmall]="true"></shared-loading> Update</button>
+        </div>
+    </div>
+    <div class='row my-0' *ngSwitchCase="0" infinite-scroll [infiniteScrollDisabled]="true">
+        <div class='col-12'>
+            <app-deck-layout
+            [leader]="leaderCard$ | async"
+            [mainDeck]="mainDeck$ | async"
+            [sideDeck]="sideDeck$ | async"></app-deck-layout>
+        </div>
+    </div>
+    <div class='row'  *ngSwitchCase="1">
+        <div class='bg-dark deck-list-column col-xs-12 col-lg-3' [class.open]="showList">
+            <div class='input-group mt-0'>
+                <input type="text" [(ngModel)]="title" class='form-control' placeholder="Deck Title"/>
+            </div>
+            <div class="row">
+                <div class='col'>
+                    <h5 class='text-white mb-0'>Leader Card</h5>
+                    <p class='text-white my-2'>
+                        <button
+                            *ngIf="(leaderCard$ | async)?.cardName"
+                            class='btn btn-sm btn-black'
+                            (click)="changeLeader()"
+                        >
+                            <i class="fas fa-exchange-alt"></i></button> {{ (leaderCard$ | async)?.cardName}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col'>
+                    <ul class='nav nav-tabs'>
+                        <li class='nav-item'>
+                            <a class='nav-link cursor-pointer' [class.active]="entryMode == 'main'" (click)="entryMode = 'main'">
+                                Main Deck
+                                <span class="badge badge-light">{{ (mainDeck$ | async)?.length }}</span>
+                            </a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link cursor-pointer' [class.active]="entryMode == 'side'" (click)="entryMode = 'side'">
+                                Side Deck
+                                <span class="badge badge-light">{{ (sideDeck$ | async)?.length }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" *ngIf="entryMode == 'main'">
+                    <ul class='list-group' *ngIf="(mainDeckPacked$ | async)?.length && (mainDeckPacked$ | async)?.length">
+                        <li [ngClass]="{
+                                'list-group-item-danger': card?.color == 'Red',
+                                'list-group-item-primary': card?.color == 'Blue',
+                                'list-group-item-success' : card?.color == 'Green',
+                                'list-group-item-warning' : card?.color == 'Yellow',
+                                'list-group-item-dark' : card?.color == 'Black',
+                                'list-group-item-danger-primary' : card?.color == 'Blue;Red',
+                                'list-group-item-danger-success' : card?.color == 'Green;Red',
+                                'list-group-item-danger-warning' : card?.color == 'Red;Yellow',
+                                'list-group-item-primary-success' : card?.color == 'Blue;Green',
+                                'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
+                                'list-group-item-success-warning' : card?.color == 'Green;Yellow',
+                                'list-group-item-dark-danger' : card?.color == 'Black;Red',
+                                'list-group-item-dark-primary' : card?.color == 'Black;Blue',
+                                'list-group-item-dark-success' : card?.color == 'Black;Green',
+                                'list-group-item-dark-warning' : card?.color == 'Black;Yellow'}"
+                            class='list-group-item d-flex justify-content-between py-0 pl-1 pr-0 m-0 border-0 small text-decor-none'
+                            target="_blank"
+                            *ngFor="let card of (mainDeckPacked$ | async)" >
+                            <div class='d-flex flex-fill justify-content-between'>
+                                <div class='d-flex'>
+                                    <div class='mr-2 py-1 font-weight-bold'>{{card?.qty}}</div>
+                                    <div class=' py-1'>{{card?.cardName}}</div>
+                                </div>
+                            </div>
+                            <div class='ml-auto clearfix'>
+                                <div class='btn-group'>
+                                    <button class='btn btn-sm btn-black px-3' (click)="addCard(card)">+</button>
+                                    <button class='btn btn-sm btn-black px-3' (click)="removeCard(card)">-</button>
+                                    <button class='btn btn-sm btn-black px-3' (click)="swapCardToBoard(card)">S</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12" *ngIf="entryMode == 'side'">
+                    <ul class='list-group' *ngIf="(sideDeckPacked$ | async)?.length && (sideDeckPacked$ | async)?.length">
+                        <li [ngClass]="{
+                                'list-group-item-danger': card?.color == 'Red',
+                                'list-group-item-primary': card?.color == 'Blue',
+                                'list-group-item-success' : card?.color == 'Green',
+                                'list-group-item-warning' : card?.color == 'Yellow',
+                                'list-group-item-dark' : card?.color == 'Black',
+                                'list-group-item-danger-primary' : card?.color == 'Blue;Red',
+                                'list-group-item-danger-success' : card?.color == 'Green;Red',
+                                'list-group-item-danger-warning' : card?.color == 'Red;Yellow',
+                                'list-group-item-primary-success' : card?.color == 'Blue/Green',
+                                'list-group-item-primary-warning' : card?.color == 'Blue;Yellow',
+                                'list-group-item-success-warning' : card?.color == 'Green;Yellow'}"
+                            class='list-group-item d-flex justify-content-between py-0 pl-1 pr-0 m-0 border-0 small text-decor-none'
+                            target="_blank"
+                            *ngFor="let card of (sideDeckPacked$ | async)" >
+                            <div class='d-flex flex-fill justify-content-between'>
+                                <div class='d-flex'>
+                                    <div class='mr-2 py-1 font-weight-bold'>{{card?.qty}}</div>
+                                    <div class=' py-1'>{{card?.cardName}}</div>
+                                </div>
+                            </div>
+                            <div class='ml-auto clearfix'>
+                                <div class='btn-group'>
+                                    <button class='btn btn-sm btn-black px-3' (click)="addCard(card)">+</button>
+                                    <button class='btn btn-sm btn-black px-3' (click)="removeCard(card)">-</button>
+                                    <button class='btn btn-sm btn-black px-3' (click)="swapCardToBoard(card)">M</button>
+                                </div>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class='card-list-column col-lg-9' [class.open]="showList">
+            <div class='card'>
+                <div class='card-header'>
+                    <button class="btn btn-theme" (click)="showFilters = !showFilters"><span *ngIf="!showFilters">Hide </span>Card Filters <i class="fas fa-sliders-h"></i></button>
+                </div>
+                <div class='card-body' [class.collapse]='showFilters'>
+                    <form [formGroup]="filterForm" class='row card-filter'>
+                        <div class='col-md-12'>
+                            <h6 class='text-white mb-0'>Card Color</h6>
+                            <label class='cursor-pointer' formArrayName="color" *ngFor="let color of colorFormArray.controls; let i = index">
+                                <input type="checkbox" [formControlName]="i">
+                                <div class="color-circle {{colorData[i].name}}"></div>
+                            </label>
+                        </div>
+                        <div class='col-sm-12 col-md-6 col-lg-4'>
+                            <h6 class='text-white mb-0'>Card Type</h6>
+                            <label class='text-white mr-2 cursor-pointer' formArrayName='cardType' *ngFor="let cardType of cardTypeFormArray.controls; let i = index">
+                                <input type="checkbox" [formControlName]="i">
+                                {{cardTypeData[i].name}}
+                            </label>
+                        </div>
+                        <div class='col-sm-12 col-md-6 col-lg-4'>
+                            <h6 class='text-white mb-0'>Card Cost</h6>
+                            <label class="text-white mr-2 cursor-pointer" formArrayName="cost" *ngFor="let cost of costFormArray.controls; let i = index">
+                                <input type="checkbox" [formControlName]="i">
+                                {{costData[i].name}}
+                            </label>
+                        </div>
+                        <div class='col-sm-12 col-md-6 col-lg-4 py-1'>
+                            <input type="text" formControlName="cardNumber" class='form-control form-control-sm' placeholder="Set Number"/>
+                        </div>
+                        <div class='col-sm-6 py-1'>
+                            <input type="text" formControlName="title" class='form-control form-control-sm' placeholder="Card Name"/>
+                        </div>
+                        <div class='col-sm-6 py-1'>
+                            <input type="text" formControlName="description" class='form-control form-control-sm' placeholder="Card Text"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="my-3 d-flex flex-row flex-wrap justify-content-start px-1 px-sm-3"
+                infinite-scroll
+                (scrolled)="onScrollDown()"
+                [scrollWindow]="(view$ | async) == 0 ? false : true">
+                <section *ngFor="let card of activeCards;" class="m-2 m-sm-3">
+                    <div class='card-wrapper'>
+                        <div class='card-wrapper-image'>
+                            <ng-template #tipContent><b>{{card.cardName}}</b><br><p [innerHTML]="card.cardText | cardText"></p></ng-template>
+                            <img src="{{card.thumbnail | imageString : 0 }}"
+                                class="d-none d-md-block"
+                                (click)="addCard(card)" 
+                                [ngbTooltip]="tipContent"
+                                [openDelay]="500"
+                                triggers="mouseenter:mouseleave" />
+                            <img src="{{card.thumbnail | imageString : 0 }}"
+                                class="d-block d-md-none"
+                                (click)="addCard(card)" />
+                        </div>
+                        <div class='card-wrapper-buttons w-100 d-block d-sm-none'>
+                            <div class='btn-group d-inline-block d-flex w-100'>
+                                <button class='btn btn-sm btn-black' (click)="showCardInfo(card)"><i class='fas fa-eye'></i> Card Info</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

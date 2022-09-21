@@ -1,0 +1,198 @@
+<div class='bg-super-dark border-color-super-dark'>
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col text-right">
+                <div class='btn-group my-0'>
+                    <button class='btn btn-white' (click)="presentDeck()">
+                        <i class='fa fa-chalkboard-teacher'></i>
+                        <br><span class='tiny-text'>Present</span>
+                    </button>
+                    <button class='btn btn-white' (click)="getSampleHand()">
+                        <i class='fa fa-layer-group pb-0'></i>
+                        <br><span class='tiny-text'>Sample</span>
+                    </button>
+                    <button class="btn btn-secondary" (click)="copyDeck()">
+                        <i class='fa fa-clone'></i>
+                        <br><span class='tiny-text'>Copy</span>
+                    </button>
+                    <button *ngIf='(isUser$ | async)' class="btn btn-secondary" (click)="editDeck()" >
+                        <i class='fa fa-pen'></i>
+                        <br><span class='tiny-text'>Edit</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="main-deck">
+        <div class="row"  *ngIf="isBusy">
+            <div class="col-md-12 mt-5 text-center">
+                <shared-loading></shared-loading>
+            </div>
+        </div>
+        <div class='row  mb-3' *ngIf="!isBusy">
+            <div class='col-md-6 pt-3 mb-3 d-flex  align-items-start flex-column'>
+                <h5 class='mb-1 text-white'>{{title$ | async}}</h5>
+                <p><small>By: {{owner$ | async}}</small></p>
+                <p class="cost"><i class="fas fa-coins"></i> {{totalCost | currency}}</p>
+
+                <p class='text-white align-self-center mt-auto'>Sort Deck By</p>
+                <div class='btn-group w-100 sort-group'>
+                    <button class='btn' 
+                        [class.btn-white]="(view$ | async) == 'basic'"
+                        [class.btn-secondary]="(view$ | async) != 'basic'"
+                        (click)="switchView('basic')">
+                        <i class='fa fa-th-list pb-0'></i>
+                        <br><span class='tiny-text'>Basic</span>
+                    </button>
+                    <button class='btn' 
+                        [class.btn-white]="(view$ | async) == 'color'"
+                        [class.btn-secondary]="(view$ | async) != 'color'"
+                        (click)="switchView('color')">
+                        <i class='fa fa-chart-pie pb-0'></i>
+                        <br><span class='tiny-text'>Color</span>
+                    </button>
+                    <button class='btn'
+                        [class.btn-white]="(view$ | async) == 'cost'"
+                        [class.btn-secondary]="(view$ | async) != 'cost'"
+                        (click)="switchView('cost')">
+                        <i class='fa fa-chart-line pb-0'></i>
+                        <br><span class='tiny-text'>Cost</span>
+                    </button>
+                    <button class='btn' 
+                        [class.btn-white]="(view$ | async) == 'type'"
+                        [class.btn-secondary]="(view$ | async) != 'type'"
+                        (click)="switchView('type')">
+                        <i class='fa fa-chart-area pb-0'></i>
+                        <br><span class='tiny-text'>Type</span>
+                    </button>
+                </div>
+            </div>
+            <div class='col-md-6 mb-3'>
+                <app-leader-card [leader]="leader$ | async"></app-leader-card>
+            </div>
+            
+            <!-- BEGIN Sort by Color -->
+            <div class='col-md-6' *ngIf="(view$ | async) == 'basic'">
+                <app-deck-section sectionTitle="Main Deck" [deck]="mainDeck$ | async">
+                </app-deck-section>
+            </div>
+            <div class='col-md-6' *ngIf="(view$ | async)  == 'basic'">
+                <app-deck-section sectionTitle="Side Deck" [deck]="sideDeck$ | async">
+                </app-deck-section>
+            </div>
+            <!-- END Normal Sort -->
+            
+            <!-- BEGIN Sort by color -->
+            <div class='col-md-6' *ngIf="(view$ | async) == 'color'">
+                <div class='row' *ngIf="sortByColor((mainDeck$ | async), 'Red').length > 0">
+                    <div class='col mb-3'>
+                        <app-deck-section sectionTitle="Red" [deck]="sortByColor((mainDeck$ | async), 'Red')">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row'  *ngIf="sortByColor((mainDeck$ | async), 'Blue').length > 0">
+                    <div class='col mb-3'>
+                        <app-deck-section sectionTitle="Blue" [deck]="sortByColor((mainDeck$ | async), 'Blue')">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row'  *ngIf="sortByColor((mainDeck$ | async), 'Green').length > 0">
+                    <div class='col mb-3'>
+                        <app-deck-section sectionTitle="Green" [deck]="sortByColor((mainDeck$ | async), 'Green')">
+                        </app-deck-section>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-6' *ngIf="(view$ | async) == 'color'">
+                <div class='row mb-3'  *ngIf="sortByColor((mainDeck$ | async), 'Yellow').length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="Yellow" [deck]="sortByColor((mainDeck$ | async), 'Yellow')">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByColor((mainDeck$ | async), 'Black').length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="Black" [deck]="sortByColor((mainDeck$ | async), 'Black')">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByColor((mainDeck$ | async), 'multi').length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="Multi Color" [deck]="sortByColor((mainDeck$ | async), 'multi')">
+                        </app-deck-section>
+                    </div>
+                </div>
+            </div>
+            <!-- END Sort by color -->
+
+            <!-- BEGIN Sort by cost  -->
+            <div class='col-md-6' *ngIf="(view$ | async) == 'cost'">
+                <div class='row mb-3' *ngIf="sortByCost((mainDeck$ | async), 1).length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="1 or Less" [deck]="sortByCost((mainDeck$ | async), 1)">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByCost((mainDeck$ | async), 2).length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="2" [deck]="sortByCost((mainDeck$ | async), 2)">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByCost((mainDeck$ | async), 3).length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="3" [deck]="sortByCost((mainDeck$ | async), 3)">
+                        </app-deck-section>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-6' *ngIf="(view$ | async) == 'cost'">
+                <div class='row mb-3'  *ngIf="sortByCost((mainDeck$ | async), 4).length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="4" [deck]="sortByCost((mainDeck$ | async), 4)">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByCost((mainDeck$ | async), 5).length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="5" [deck]="sortByCost((mainDeck$ | async), 5)">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByCost((mainDeck$ | async), 6).length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="6 or Greater" [deck]="sortByCost((mainDeck$ | async), 6)">
+                        </app-deck-section>
+                    </div>
+                </div>
+            </div>
+            <!-- END Sort by cost -->
+            <!-- Begin Sort by Type -->
+            <div class='col-md-6' *ngIf="(view$ | async) == 'type'">
+                <div class='row mb-3'  *ngIf="sortByType((mainDeck$ | async), 'Battle').length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="Battle" [deck]="sortByType((mainDeck$ | async), 'Battle')">
+                        </app-deck-section>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-6' *ngIf="(view$ | async) == 'type'">
+                <div class='row mb-3'  *ngIf="sortByType((mainDeck$ | async), 'Unison').length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="Unison" [deck]="sortByType((mainDeck$ | async), 'Unison')">
+                        </app-deck-section>
+                    </div>
+                </div>
+                <div class='row mb-3'  *ngIf="sortByType((mainDeck$ | async), 'Extra').length > 0">
+                    <div class='col'>
+                        <app-deck-section sectionTitle="Extra" [deck]="sortByType((mainDeck$ | async), 'Extra')">
+                        </app-deck-section>
+                    </div>
+                </div>
+            </div>
+            <!-- END Sort by type -->
+        </div>
+    </div>
+</div>

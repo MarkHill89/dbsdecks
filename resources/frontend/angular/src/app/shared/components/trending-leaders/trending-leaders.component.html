@@ -3,6 +3,14 @@
         <div class="col-md-12">
             <h3 class="text-light text-center">Trending Leaders</h3>
         </div>
+<<<<<<< HEAD
+=======
+        <div class="col-md-12" *ngIf="isBusy">
+            <div class=" text-center">
+                <shared-loading></shared-loading>
+            </div>
+        </div>
+>>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
         <div *ngIf="!isBusy" class="col-md-12">
             <div class='row'>
                 <div class="col-md-6 p-2" *ngFor="let t of trendingLeaders" (click)="goToTL(t.cardId)">
