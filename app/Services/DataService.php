@@ -38,7 +38,7 @@ class DataService
             });
     }
 
-    private function filterEnergyCost(string $energyCost) {
+    private function filterEnergyCost($energyCost) {
         if(substr($energyCost, 0, 1) === "X") {
             return "X";
         }

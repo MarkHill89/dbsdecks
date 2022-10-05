@@ -1,14 +1,9 @@
-import { Injectable, OnInit, TemplateRef } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { environment } from '@dbsdecks/environments/environment'
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router} from "@angular/router";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-<<<<<<< HEAD
-=======
-import { ErrorModalComponent } from '@dbsdecks/app/shared/modals';
->>>>>>> fe1a9b6cb7a1360f2025c63e0b79e162bb5b345c
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
