@@ -12,13 +12,8 @@ class DeckController extends Controller
 {
     public function index(Request $request, $id)
     {
-        $deck = DB::table('deck')
-            ->select('*')
-            ->where('id', $id)
-            ->get();
-
+        $deck = Deck::where('id', $id)->get();
         return json_decode($deck);
-
     }
 
     public function convert()
