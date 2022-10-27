@@ -5,25 +5,16 @@
     </button>
 </div>
 <div class="modal-body">
-    <tabset [justified]="true" #searchTabs>
-        <tab heading="Card List" [ngStyle]="{'height': '500px'}" (selectTab)="onSelectCardTab($event)">
-            <ng-scrollbar>
-                <div class="row">
-                    <div class="col-md-4" *ngFor="let leader of (filteredLeaders$ | async)">
-                        <img [src]="leaderImage(leader.imageUrl)" class='w-100 leader-card' 
-                            [class.selected]="(selectedLeader$ | async)?.name === leader.name && (selectedLeader$ | async) !== null" 
-                            (click)="selectLeader(leader)" />
-                    </div>
-                </div>
-            </ng-scrollbar>
+    <tabset [justified]="true" #formTabs>
+        <tab heading="Card List" [ngStyle]="{'height': '500px'}" (selectTab)="onSelectLoginTab($event)">
+            
         </tab>
-        <tab heading="Filters" [ngStyle]="{'height': '500px'}" (selectTab)="onSelectFilterTab($event)">
-            <ng-scrollbar>
-                <app-card-filters (filterValues)="applyFilters($event)"></app-card-filters>
-            </ng-scrollbar>
+        <tab heading="Filters" [ngStyle]="{'height': '500px'}" (selectTab)="onSelectRegisterTab($event)">
+            <!-- User Registration Form is going to go here -->
         </tab>
     </tabset>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-danger" (click)="createDeck()">Create Deck</button>
+    <button type="button" class="btn btn-sm btn-danger" *ngIf="(loginVisible$ | async)" (click)="login()">Login</button>
+    <button type="button" class="btn btn-sm btn-danger" *ngIf="!(loginVisible$ | async)"  (click)="register()">Register</button>
 </div>
