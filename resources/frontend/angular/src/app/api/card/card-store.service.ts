@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Card } from '../card/card.model';
+import { LeaderCard } from '../card/card.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardStoreService {
 
-  private readonly _leaders = new BehaviorSubject<Card[]>([] as Card[]);
+  private readonly _leaders = new BehaviorSubject<LeaderCard[]>([] as LeaderCard[]);
   readonly leaders$ = this._leaders.asObservable();
 
   constructor() { }

@@ -1,0 +1,11 @@
+<form [formGroup]="cardFilters">
+    <div class="row">
+        <div class='col'>
+            <p class="mb-0 fw-bold fs-6">Card Set</p>
+            <label class='cursor-pointer pe-3' formArrayName="color" *ngFor="let set of cardColorFormArray.controls; let i = index">
+                <input type="checkbox" class='me-1' [formControlName]="i">
+                {{cardFilterModels.color[i].name}}
+            </label>
+        </div>
+    </div>
+</form>

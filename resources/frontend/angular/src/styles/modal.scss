@@ -3,3 +3,8 @@
     border: 1px solid rgb(255,102,31);
     color: #fff;
 }
+
+.modal-body-lower {
+    max-height: 500px;
+    overflow-y: auto;
+}
