@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
 
   title = 'DBS Decks';
   navbarCollapse = true;
+  profileCollapse = true;
   today: number = Date.now();
 
   constructor(
