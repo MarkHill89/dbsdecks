@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map} from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserStoreService } from './user-store.service';
 import { ForgotPasswordStatus, UserAuthStatus } from './user.model';
@@ -43,7 +43,7 @@ export class UserService {
       catchError((err: any) => {
         this.userStore.authenticating = UserAuthStatus.FAILED;
         this.errorStore.errorMessage = ErrorType.AUTHENTICATION_ERROR;
-        return err;
+        return throwError(() => err);
       })
     )
   }
@@ -58,7 +58,7 @@ export class UserService {
       catchError((err: any) => {
         this.userStore.authenticating = UserAuthStatus.FAILED;
         this.errorStore.errorMessage = ErrorType.REGISTRATION_ERROR;
-        return err;
+        return throwError(() => err);
       })
     );
   }
@@ -90,7 +90,7 @@ export class UserService {
         this.userStore.authenticating = UserAuthStatus.FAILED;
         this.errorStore.errorMessage = ErrorType.AUTHENTICATION_ERROR;
         this.userStore.authenticated = false;
-        return err;
+        return throwError(() => err);
       })
     );
   }

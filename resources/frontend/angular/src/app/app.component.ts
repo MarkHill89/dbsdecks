@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserStoreService } from './api/user/user-store.service';
-import { Subject, Subscription } from 'rxjs';
 import { UserService } from './api/user/user.service';
 
 @Component({
@@ -30,6 +29,10 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout().pipe().subscribe();
+    
+    this.userService.logout().pipe().subscribe((res) => {
+      this.navbarCollapse = true;
+      this.profileCollapse = true;
+    });
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { UserService } from '../../api/user/user.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Subject } from 'rxjs';
+import { Subject, catchError, of, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UserStoreService } from '../../api/user/user-store.service';
 import { UserAuthStatus } from '../../api/user/user.model';
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   authenticating$ = this.userStore.authenticating$.pipe();
   loading$ = this.loadingStore.loading$.pipe();
-
+  errorType$ = this.errorStore.errorType$.pipe();
+  errorMessage$ = this.errorStore.errorMessage$.pipe();
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -40,6 +41,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   get loadingStatus() {
     return LoadingStatus;
+  }
+
+  get errorType() {
+    return ErrorType;
   }
   
   ngOnInit(): void {
@@ -71,7 +76,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.userService.login(this.loginForm.value).pipe(takeUntil(this.onDestroy$)).subscribe()
+    this.userService.login(this.loginForm.value).pipe(
+      takeUntil(this.onDestroy$)
+    ).subscribe({
+      next: res => {
+        this.errorStore.unset()
+      }, 
+      error: err => {
+        this.errorStore.errorMessage = err.error.message;
+        this.errorStore.errorType = ErrorType.LOGIN_ERROR;
+      }
+    })
   }
 
   ngOnDestroy(): void {
