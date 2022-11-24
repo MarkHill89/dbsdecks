@@ -10,6 +10,8 @@ import { ErrorStoreService } from '../../api/error/error-store.service';
 import { ErrorType } from '../../api/error/error.model';
 import { LoadingStoreService } from '../../api/loading/loading-store.service';
 import { LoadingStatus } from '../../api/loading/loading.model';
+import { Store } from '@ngrx/store';
+import { authenticateUser } from '../../api/user/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private userStore: UserStoreService,
     private errorStore: ErrorStoreService,
-    private loadingStore: LoadingStoreService
+    private loadingStore: LoadingStoreService,
+    private store: Store
   ) { }
   
   get loadingStatus() {
@@ -76,17 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.userService.login(this.loginForm.value).pipe(
-      takeUntil(this.onDestroy$)
-    ).subscribe({
-      next: res => {
-        this.errorStore.unset()
-      }, 
-      error: err => {
-        this.errorStore.errorMessage = err.error.message;
-        this.errorStore.errorType = ErrorType.LOGIN_ERROR;
-      }
-    })
+    this.store.dispatch(authenticateUser(this.loginForm.value))
   }
 
   ngOnDestroy(): void {

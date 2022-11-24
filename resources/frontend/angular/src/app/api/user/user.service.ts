@@ -31,22 +31,28 @@ export class UserService {
     private loadingStore: LoadingStoreService
   ) { }
 
-  login(formValue:Object) {
-    this.loadingStore.loading = LoadingStatus.AUTH_LOADING;
-    this.userStore.authenticating = UserAuthStatus.WORKING;
-    return this.httpClient.post( `${this.url}auth/login`, {formValue}, this.httpOptions).pipe(
-      map(({body}: any) => {
-        this.userStore.authenticating = UserAuthStatus.SUCCESS;
-        localStorage.setItem('token', body.token);
-        this.userStore.authenticated = true;
-      }),
-      catchError((err: any) => {
-        this.userStore.authenticating = UserAuthStatus.FAILED;
-        this.errorStore.errorMessage = ErrorType.AUTHENTICATION_ERROR;
-        return throwError(() => err);
-      })
-    )
-  }
+    login (formValue: Object) {
+      return this.httpClient.post(`${this.url}auth/login`, {formValue}, this.httpOptions).pipe(
+        map(({body} : any) => body.token)
+      )
+    }
+
+  // login(formValue:Object) {
+  //   this.loadingStore.loading = LoadingStatus.AUTH_LOADING;
+  //   this.userStore.authenticating = UserAuthStatus.WORKING;
+  //   return this.httpClient.post( `${this.url}auth/login`, {formValue}, this.httpOptions).pipe(
+  //     map(({body}: any) => {
+  //       this.userStore.authenticating = UserAuthStatus.SUCCESS;
+  //       localStorage.setItem('token', body.token);
+  //       this.userStore.authenticated = true;
+  //     }),
+  //     catchError((err: any) => {
+  //       this.userStore.authenticating = UserAuthStatus.FAILED;
+  //       this.errorStore.errorMessage = ErrorType.AUTHENTICATION_ERROR;
+  //       return throwError(() => err);
+  //     })
+  //   )
+  // }
 
   register(formValue: Object) {
     this.loadingStore.loading = LoadingStatus.REGISTER_LOADING;

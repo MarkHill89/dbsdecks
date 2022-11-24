@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserStoreService } from './api/user/user-store.service';
 import { UserService } from './api/user/user.service';
+import { LoadingStatus } from './api/loading/loading.model';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,10 @@ export class AppComponent implements OnInit {
     private userStore: UserStoreService
   ) {
 
+  }
+
+  get loadingStatus() {
+    return LoadingStatus;
   }
 
   ngOnInit(): void {
