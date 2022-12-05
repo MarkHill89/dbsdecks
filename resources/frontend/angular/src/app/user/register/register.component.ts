@@ -1,16 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoadingStoreService } from '../../api/loading/loading-store.service';
-import { UserStoreService } from '../../api/user/user-store.service';
-import { UserService } from '../../api/user/user.service';
-import { takeUntil } from 'rxjs/operators';
-import { UserAuthStatus } from '../../api/user/user.model';
 import { LoadingStatus } from '../../api/loading/loading.model';
-import { ErrorType } from '../../api/error/error.model';
-import { ErrorStoreService } from '../../api/error/error-store.service';
 import { Subject } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { AppState } from '@dbsdecks/app/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-register',
@@ -34,18 +28,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     ]
   });
     
-  authenticating$ = this.userStore.authenticating$.pipe();
-  loading$ = this.loadingStore.loading$.pipe();
   onDestroy$ = new Subject();
 
   constructor(
     public bsModalRef: BsModalRef,
-    private router: Router,
-    private userService: UserService,
     private fb: FormBuilder,
-    private userStore: UserStoreService,
-    private loadingStore: LoadingStoreService,
-    private errorStore: ErrorStoreService
+    private store: Store<AppState>
   ) { }
 
   get firstName() {
@@ -81,29 +69,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loading$.pipe(takeUntil(this.onDestroy$)).subscribe();
-    this.authenticating$.pipe(
-      takeUntil(this.onDestroy$)
-    ).subscribe((auth: any) => {
-      switch(auth) {
-        case UserAuthStatus.WORKING:
-          break;
-        case UserAuthStatus.SUCCESS:
-          this.loadingStore.loading = LoadingStatus.IDLE;
-          this.bsModalRef.hide();
-          break;
-        case UserAuthStatus.FAILED:
-          this.loadingStore.loading = LoadingStatus.IDLE;
-          if(this.errorStore.errorMessage === ErrorType.AUTHENTICATION_ERROR) {
-            //todo add error messages
-          }
-          break;
-      }
-    })
+
   }
 
   submitRegistration(){
-    this.userService.register(this.registrationForm.value);
   }
 
   ngOnDestroy(): void {

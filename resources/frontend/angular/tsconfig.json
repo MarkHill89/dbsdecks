@@ -5,6 +5,7 @@
     "paths": {
       "@dbsdecks/*": ["./src/*", "./resources/frontend/angular/src/app/*"]
     },
+    "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

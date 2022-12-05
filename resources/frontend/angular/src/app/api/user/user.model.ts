@@ -1,17 +1,12 @@
-export enum UserAuthStatus {
-    WORKING = "working",
-    SUCCESS = "success",
-    FAILED = "failed",
-    IDLE = "IDLE"
-}
-
-export enum ForgotPasswordStatus {
-    IDLE = "IDLE",
-    EMAIL_SENT = "EMAIL SENT"
-}
-
 export interface User {
-    id: string;
+    id?: string;
     username: string;
-    email: string;
+    email?: string;
+}
+
+export interface UserState {
+    user : User;
+    token: string | null;
+    error: string | null;
+    status: 'authenticated' | 'loading' | 'error' | 'unauthenicated'
 }

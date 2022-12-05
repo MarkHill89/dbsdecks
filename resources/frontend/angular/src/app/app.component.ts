@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserStoreService } from './api/user/user-store.service';
-import { Subject, Subscription } from 'rxjs';
-import { UserService } from './api/user/user.service';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { AppState } from './state/app.state';
+import { logout, verifyToken } from './state/user/user.actions';
+import { UserState } from './state/user/user.reducer';
+import { selectActiveUser } from './state/user/user.selectors';
 
 @Component({
   selector: 'app-root',
@@ -10,25 +13,25 @@ import { UserService } from './api/user/user.service';
 })
 export class AppComponent implements OnInit {
 
-  authenticated$ = this.userStore.authenticated$;
-
   title = 'DBS Decks';
   navbarCollapse = true;
+  profileCollapse = true;
   today: number = Date.now();
 
+  userState$: Observable<UserState> = this.store.select(selectActiveUser);
+  onDestroy$ = new Subject();
   constructor(
-    private userService: UserService,
-    private userStore: UserStoreService
+    private store: Store<AppState>
   ) {
 
   }
 
   ngOnInit(): void {
-      this.userService.check().pipe().subscribe();
-      this.userService.getUser().pipe().subscribe();
+      this.store.dispatch(verifyToken())
   }
 
-  logout() {
-    this.userService.logout().pipe().subscribe();
+  logout() { 
+    this.store.dispatch(logout())
+    localStorage.clear();
   }
 }

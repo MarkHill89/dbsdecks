@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';  
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from '@angular/platform-browser';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -14,6 +14,11 @@ import { HomeComponent } from './home/home.component';
 import { GoogleAnalyticsService } from './infrastructure/services/google-analytics.service';
 import { UserComponent } from './user/user.component';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { userReducer } from './state/user/user.reducer';
+import { UserEffects } from './state/user/user.effects';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +32,9 @@ import { UserComponent } from './user/user.component';
     ModalModule.forRoot(),
     AlertModule.forRoot(),
     BsDropdownModule.forRoot(),
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot({ user : userReducer}),
+    EffectsModule.forRoot([UserEffects])
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]

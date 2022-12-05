@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+ <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container">
         <a class='navbar-brand pt-0 pr-3 border-right border-white' routerLink="/">
             <img src="/assets/img/logo_sm.png"/>
@@ -14,16 +14,42 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLinkActive="active" routerLink="/decks">Decks</a>
                 </li>
-                <li class="nav-item" *ngIf="!(authenticated$ | async)">
-                    <a class="nav-link" routerLink="/user/login">Login</a>
-                </li>
-                <li class="nav-item" *ngIf="(authenticated$ | async)">
+                <li class="nav-item d-lg-none">
                   <a class="nav-link" routerLinkActive="active" routerLink="/user/portal">Portal</a>
                 </li>
+                <li class="nav-item d-lg-none">
+                  <a class="nav-link cursor-pointer" (click)="logout()">Logout</a>
+                </li>
             </ul>
+            <div class="d-none d-lg-flex" *ngIf="(userState$ | async)?.status !== 'authenticated'">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/user/login">Login</a>
+                </li>
+              </ul>
+            </div>
+            <div class="d-none d-lg-flex"  *ngIf="(userState$ | async)?.status === 'authenticated'">
+              <button class="btn btn-success"  (click)="profileCollapse = !profileCollapse" type="button" data-bs-toggle="collapse" data-bs-target="#userLoginToggle" aria-controls="userLoginToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            </div>
         </div>
     </div>
 </nav>
+<div class='navbar-collapse bg-success px-4' [class.collapse]="profileCollapse" id="userLoginToggle" *ngIf="(userState$ | async)?.status === 'authenticated'">
+  <div class="container d-none d-lg-block">
+    <div class="d-flex flex-row-reverse">
+      <ul class="navbar-nav mb-2 mr-auto mb-lg-0">
+        <li class="nav-item ">
+          <a class="nav-link text-light" routerLinkActive="active" routerLink="/user/portal">Portal</a>
+        </li>
+        <li class="nav-item text-white">
+          <a class="nav-link cursor-pointer text-light" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 <router-outlet></router-outlet>
 <footer class="text-center text-lg-start text-white border-top">
     <section>

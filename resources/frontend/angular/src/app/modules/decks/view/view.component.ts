@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DecksStoreService } from '@dbsdecks/app/api/decks/decks-store.service';
 import { DecksService } from '@dbsdecks/app/api/decks/decks.service';
-import { UserStoreService } from '@dbsdecks/app/api/user/user-store.service';
 import { Deck } from '@dbsdecks/app/api/decks/decks';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,14 +16,12 @@ export class ViewComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject();
 
   deck$ : Observable<Deck> = this.deckStore.activeDeck$.pipe(takeUntil(this.onDestroy$)).pipe();
-  user$ = this.userStore.user$.pipe(takeUntil(this.onDestroy$)).pipe();
   editing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private route: ActivatedRoute,
     private deckStore : DecksStoreService,
     private deckService : DecksService,
-    private userStore: UserStoreService
   ) { }
 
   ngOnInit(): void {

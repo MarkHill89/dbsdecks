@@ -14,11 +14,11 @@
                     <br><span class='tiny-text'>Sample</span>
                 </button>
                 <!-- deck editing buttons -->
-                <button class="btn btn-white" *ngIf='(user$ | async)?.username == (deck$ | async)?.username && (editing$ | async) == false' (click)="edit()">
+                <button class="btn btn-white" *ngIf=' false' (click)="edit()">
                     <i class="fa fa-pencil pb-0"></i>
                     <br><span class="tiny-text">Edit</span>
                 </button>
-                <span *ngIf='(user$ | async)?.username == (deck$ | async)?.username && (editing$ | async) == true'>
+                <span *ngIf='true'>
                     <button class="btn btn-secondary" (click)="save()" >
                         <i class='fa fa-save'></i>
                         <br><span class='tiny-text'>Save</span>
@@ -35,21 +35,21 @@
     <div class="row mb-3" *ngIf="(deck$ | async)">
         <div class="col">
             <app-view-section
-                [editable]="(user$ | async)?.username == (deck$ | async)?.username && (editing$ | async) == true"
+                [editable]="true"
                 title="Character"
                 deck="main">
             </app-view-section>
         </div>
         <div class="col">
             <app-view-section
-                [editable]="(user$ | async)?.username == (deck$ | async)?.username && (editing$ | async) == true"
+                [editable]="true"
                 title="Character"
                 deck="z">
             </app-view-section>
         </div>
         <div class="col">
             <app-view-section
-                [editable]="(user$ | async)?.username == (deck$ | async)?.username && (editing$ | async) == true"
+                [editable]="true"
                 title="Side Deck"
                 deck="side">
             </app-view-section>

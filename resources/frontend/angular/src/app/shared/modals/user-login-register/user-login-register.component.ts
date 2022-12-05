@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-user-login-register',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserLoginRegisterComponent implements OnInit {
 
-  constructor() { }
+  loginVisible$ = new BehaviorSubject<boolean>(true);
+
+  constructor(
+    public bsModalRef: BsModalRef,
+  ) { }
 
   ngOnInit(): void {
   }
 
+  onSelectLoginTab($event: any) {
+    this.loginVisible$.next(true);
+  }
+
+  onSelectRegisterTab($event: any) {
+    this.loginVisible$.next(false);
+  }
+
+  login() {
+
+  }
+
+  register() {
+    
+  }
 }
