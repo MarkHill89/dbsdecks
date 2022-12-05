@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row" *ngIf="(authenticated$ | async) === true; else showPrompt">
+    <div class="row" *ngIf="true; else showPrompt">
         <div class="col text-center text-white">
             <p>Click the button below to start</p>
             <button type="button" class="btn btn-success" (click)="openNewDeckModal()">Create Deck</button>

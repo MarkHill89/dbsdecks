@@ -7,8 +7,8 @@
     </div>
     <div class="row justify-content-center">
         <section class='col-md-6'>
-            <div class="alert alert-danger" *ngIf="(errorType$ | async) === errorType.LOGIN_ERROR">
-                {{errorMessage$ | async}}
+            <div class="alert alert-danger" *ngIf="(userStatus$ | async)?.status === 'error'">
+                {{(userStatus$ | async)?.error}}
             </div>
             <form [formGroup]="loginForm" (ngSubmit)="login()">
                 <div class="form-group">
@@ -23,7 +23,7 @@
                         <input type="password" formControlName="password" class="form-control form-control-sm" />
                     </div>
                 </div>
-                <button *ngIf="(loading$ | async) !== loadingStatus.AUTH_LOADING; else showLoader" type="submit" class="btn btn-sm btn-danger">Login</button>
+                <button *ngIf="(userStatus$ | async)?.status !== 'loading'; else showLoader" type="submit" class="btn btn-sm btn-danger">Login</button>
             </form>
            
             <ng-template #showLoader>

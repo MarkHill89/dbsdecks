@@ -16,8 +16,8 @@ import { UserComponent } from './user/user.component';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { userReducer } from './api/user/user.reducer';
-import { UserEffects } from './api/user/user.effects';
+import { userReducer } from './state/user/user.reducer';
+import { UserEffects } from './state/user/user.effects';
 
 @NgModule({
   declarations: [

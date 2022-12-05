@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DecksStoreService } from '@dbsdecks/app/api/decks/decks-store.service';
-import { UserStoreService } from '@dbsdecks/app/api/user/user-store.service';
 import { LoadingStoreService } from '@dbsdecks/app/api/loading/loading-store.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -19,7 +18,6 @@ export class ListsComponent implements OnInit, OnDestroy {
 
   onDestroy$ = new Subject();
 
-  authenticated$ = this.userStore.authenticated$.pipe(takeUntil(this.onDestroy$));
   decks$ = this.deckStore.decks$.pipe(takeUntil(this.onDestroy$));
   loading$ = this.loadingStore.loading$.pipe(takeUntil(this.onDestroy$));
 
@@ -30,7 +28,6 @@ export class ListsComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private userStore: UserStoreService,
     private deckStore: DecksStoreService,
     private deckService: DecksService,
     private loadingStore: LoadingStoreService,
