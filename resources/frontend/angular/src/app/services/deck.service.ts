@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, Subject } from 'rxjs';
-import { Deck } from '../api/decks/decks';
+import { Deck } from '../api/decks/decks.model';
 import { takeUntil } from 'rxjs/operators';
 
 @Injectable({

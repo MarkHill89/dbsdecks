@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Deck extends Model
 {
@@ -23,6 +24,12 @@ class Deck extends Model
         "submitDate",
         "leaderNumber",
         "isConverted",
-        "shenronID"
+        "shenronID",
+        "username"
     ];
+
+    public function user() {
+        return $this->hasOne(User::class, 'id', 'userId');
+    }
+
 }

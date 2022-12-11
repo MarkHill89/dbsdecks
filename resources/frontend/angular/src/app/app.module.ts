@@ -18,6 +18,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { userReducer } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effects';
+import { decksReducer } from './state/decks/decks.reducer';
+import { DecksEffects } from './state/decks/decks.effects';
 
 @NgModule({
   declarations: [
@@ -33,8 +35,8 @@ import { UserEffects } from './state/user/user.effects';
     AlertModule.forRoot(),
     BsDropdownModule.forRoot(),
     SharedModule,
-    StoreModule.forRoot({ user : userReducer}),
-    EffectsModule.forRoot([UserEffects])
+    StoreModule.forRoot({ user : userReducer, decks: decksReducer}),
+    EffectsModule.forRoot([UserEffects, DecksEffects])
   ],
   providers: [GoogleAnalyticsService],
   bootstrap: [AppComponent]

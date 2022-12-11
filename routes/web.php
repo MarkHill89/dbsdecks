@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
-
+use App\Http\Controllers\DeckController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,7 +45,7 @@ Route::prefix('api')->group(function () {
 
     Route::prefix('deck')->group(function () {
         Route::get('/trending-leaders', [CardController::class, 'get_trending_leaders']);
-        Route::get('/list', [CardController::class, 'get_deck_lists_all']);
+        Route::get('/list', [DeckController::class, 'getDecks']);
         Route::get('/list/view', [CardController::class, 'get_deck_view_data']);
         Route::get('/list/view-deck', [CardController::class, 'get_deck_list_card_data']);
         Route::get('/get-leaders', [CardController::class, 'get_leaders']);

@@ -5,7 +5,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable, Observer, of, Subject, switchMap, takeUntil, BehaviorSubject, combineLatest, forkJoin, startWith } from 'rxjs';
 import { LeaderCard } from 'src/app/api/card/card.model';
 import { CardService } from 'src/app/api/card/card.service';
-import { Deck } from 'src/app/api/decks/decks';
+import { Deck } from 'src/app/api/decks/decks.model';
 
 @Component({
   selector: 'app-create-deck-modal',

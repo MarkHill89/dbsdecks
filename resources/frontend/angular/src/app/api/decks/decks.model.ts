@@ -1,6 +1,15 @@
 import { Card } from "../card/card.model";
 
 export interface Deck {
+    id: number;
+    imageUrl: string;
+    leaderNumber: string;
+    submitDate: string;
+    title: string;
+    username: string;
+}
+
+export interface DeckList {
     isActive ?: boolean;
     isPrivate: boolean;
     leader ?: Card;

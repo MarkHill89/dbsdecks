@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http'
 import { environment } from '../../../environments/environment';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap, map } from 'rxjs/operators';
-import { Deck } from './decks';
+import { Deck } from './decks.model';
 import { DecksStoreService } from './decks-store.service';
 import { ErrorStoreService } from '../error/error-store.service';
 import { LoadingStoreService } from '../loading/loading-store.service';
@@ -29,17 +29,7 @@ export class DecksService {
 ) { }
 
   getDecks(deckFilters = {}): Observable<any> {
-    this.loadingStore.loading = LoadingStatus.DECK_LISTS_LOADING;
-    return this.httpClient.get<Deck[]>(`${this.apiUrl}deck/list`, {...this.httpOptions, params : {
-      isPublic: 1,
-      limit: 10
-    }}).pipe(
-      takeUntil(this.ngUnsubscribe),
-      map(({body} : any) => {
-        this.loadingStore.loading = LoadingStatus.IDLE;
-        this.decksStore.decks = body;
-      })
-    );
+    return this.httpClient.get<Deck[]>(`${this.apiUrl}deck/list`, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe), map(({body} : any) => body))
   }
 
   findDeck(id: any) : Observable<any> {
