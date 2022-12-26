@@ -4,26 +4,33 @@
         <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
 </div>
-<div class="modal-body">
-    <tabset [justified]="true" #searchTabs>
-        <tab heading="Card List" [ngStyle]="{'height': '500px'}" (selectTab)="onSelectCardTab($event)">
+<div class="modal-body" [ngStyle]="{'height': '500px'}">
+    <app-side-nav>
+        <form [formGroup]="cardFilters">
+            <input type="text" class='form-control' formControlName="name" placeholder="Leader Name"/>
+        </form>
+    </app-side-nav>
+    <div class="row" [ngStyle]="{'height': '50px'}">
+        <div class="col">
+            <form [formGroup]="newDeckForm">
+                <input type="text" class='form-control' formControlName="title" placeholder="Deck Title"/>
+            </form>
+        </div>
+    </div>
+        <div class="col" [ngStyle]="{'height': '425px'}">
             <ng-scrollbar>
                 <div class="row">
-                    <div class="col-md-4" *ngFor="let leader of (filteredLeaders$ | async)">
+                    <div class="col-md-4 mb-1" *ngFor="let leader of (leaders$ | async)">
                         <img [src]="leaderImage(leader.imageUrl)" class='w-100 leader-card' 
                             [class.selected]="(selectedLeader$ | async)?.name === leader.name && (selectedLeader$ | async) !== null" 
                             (click)="selectLeader(leader)" />
                     </div>
                 </div>
             </ng-scrollbar>
-        </tab>
-        <tab heading="Filters" [ngStyle]="{'height': '500px'}" (selectTab)="onSelectFilterTab($event)">
-            <ng-scrollbar>
-                <app-card-filters (filterValues)="applyFilters($event)"></app-card-filters>
-            </ng-scrollbar>
-        </tab>
-    </tabset>
+        </div>
+
 </div>
-<div class="modal-footer">
+<div class="modal-footer d-flex justify-content-between">
+    <button type="button" class="'btn btn-sm btn-warning pull-left" (click)="openFilters()"><i class="fas fa-filter"></i></button>
     <button type="button" class="btn btn-sm btn-danger" (click)="createDeck()">Create Deck</button>
 </div>

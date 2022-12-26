@@ -1,0 +1,14 @@
+<div class="side-nav-wrapper" [class.open]="(isOpen$ | async)?.open">
+    <div class="side-nav-overlay">
+      <div class="side-nav-menu">
+        <div class="side-nav-menu-header">
+          <p class="text-dark">{{title}}</p>
+          <button class="close-btn" (click)="closeNav()">&times;</button>
+        </div>
+        <div class="side-nav-menu-content">
+            <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { CreateDeckModalComponent } from '../../../shared/modals/create-deck-modal/create-deck-modal.component';
@@ -9,6 +8,8 @@ import { loadDecks } from '@dbsdecks/app/state/decks/decks.actions';
 import { DeckState } from '@dbsdecks/app/state/decks/decks.reducer';
 import { selectAllDecks } from '@dbsdecks/app/state/decks/decks.selectors';
 import { AppState } from '@dbsdecks/app/state/app.state';
+import { UserState } from '@dbsdecks/app/state/user/user.reducer';
+import { selectActiveUser } from '@dbsdecks/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-lists',
@@ -20,13 +21,13 @@ export class ListsComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject();
 
   decks$: Observable<DeckState> = this.store.select(selectAllDecks)
+  userState$: Observable<UserState> = this.store.select(selectActiveUser)
 
   bsModalRef?: BsModalRef;
 
   constructor(
     private store: Store<AppState>,
-    private modalService: BsModalService,
-    private router: Router
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -34,14 +35,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   }
 
   openNewDeckModal() {
-    
     this.bsModalRef = this.modalService.show(CreateDeckModalComponent);
-    this.bsModalRef.content.onCreateDeck.pipe(takeUntil(this.onDestroy$)).subscribe((event: any) => {
-      // this.deckService.createDeck(event).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      //   this.modalService.hide();
-      //   this.router.navigate(['/decks/edit/', this.deckStore.activeDeck.id]);
-      // });
-    });
   }
 
   breakImageUrl(url: string) : string {
@@ -56,8 +50,4 @@ export class ListsComponent implements OnInit, OnDestroy {
       this.onDestroy$.next(false);
       this.onDestroy$.complete();
   }
-
-
-
-
 }

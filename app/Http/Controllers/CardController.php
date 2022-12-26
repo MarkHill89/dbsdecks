@@ -13,6 +13,21 @@ use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller
 {
+
+     /**
+     *  returns only leader cards
+     * 
+     * @return \Illuminate\Http\Response 
+     */
+    public function leaders() {
+        $cards = Card::where("cardType", "Leader")
+        ->orderBy('name')
+        ->select('name', 'imageUrl', 'Number')
+        ->get();
+
+        return response($cards, 200);
+    }
+
     public function cardsByName(Request $request) {
         $cardName = $request->input('cardName');
         $cards = Card::where("name", "like", "%$cardName%")

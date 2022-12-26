@@ -14,21 +14,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 
-class AuthController extends Controller
-{
-    public function username()
-    {
-        return 'username';
-    }
+class AuthController extends Controller {
 
-    public function check(Request $request)
-    {
+     /**
+     *  checks for the authenticated user
+     * 
+     * @return \Illuminate\Http\Response 
+     */
+    public function check(Request $request) {
+        
         if (Auth::check()) {
-            return response(201);
+            return response([
+                "userId" => $request->user()->id
+            ], 201);
         } else {
-            return response(401);
+            return response(["error" => "User not authenticated"], 401);
         }
     }
+
+    /**
+     * Everything below here is potentially depricated
+     */
     public function updatePassword(Request $request)
     {
         $fields = $request->validate([
@@ -116,11 +122,8 @@ class AuthController extends Controller
         // Check if user / Password is valid
         $authAttempt = Auth::attempt(['username' => $username, 'password' => $password]);
         if ($authAttempt) {
-            // If valid attempt create token to validate user and login the user.
-            $token = $user->createToken("dbs decks")->plainTextToken;
-            Auth::login($user);
-            $response = ['token' => $token];
-            return response($response, 201);
+            $token = $user->createToken("dbsdecks");
+            return response(["token" => $token->plainTextToken], 201);
         } else {
             return response([
                 'message' => "Invalid Credentials"

@@ -29,7 +29,7 @@ export class DecksService {
 ) { }
 
   getDecks(deckFilters = {}): Observable<any> {
-    return this.httpClient.get<Deck[]>(`${this.apiUrl}deck/list`, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe), map(({body} : any) => body))
+    return this.httpClient.get<Deck[]>(`${this.apiUrl}deck`, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe), map(({body} : any) => body))
   }
 
   findDeck(id: any) : Observable<any> {
@@ -44,11 +44,12 @@ export class DecksService {
   }
 
   createDeck(deckInfo: any) {
-    this.httpOptions.headers = this.httpOptions.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    if(this.httpOptions.headers.get('Authorization') === null) {
+      this.httpOptions.headers = this.httpOptions.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
+   }
     return this.httpClient.post(`${this.apiUrl}deck/submit`, deckInfo, this.httpOptions).pipe(
-      map(({body} : any) => {
-        this.decksStore.activeDeck = body;
-      })
+      takeUntil(this.ngUnsubscribe),
+      map(({body} : any) => body)
     )
   }
 

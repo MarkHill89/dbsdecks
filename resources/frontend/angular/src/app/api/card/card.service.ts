@@ -27,12 +27,10 @@ export class CardService {
         )
     }
 
-    getLeaderCards(cardName: string) {
-        return this.httpClient.get(`${this.url}card/byName`, {...this.httpOptions, params : {
-            cardName
-        }}).pipe(map(({body} : any) => {
-            this.cardStore.leaders = body;
-        }))
+    getLeaderCards() {
+        return this.httpClient.get(`${this.url}card/leaders`, this.httpOptions).pipe(
+            map(({body} : any) => body)
+        )
     }
 
     getPrices(productId: Number): Observable<any> {
