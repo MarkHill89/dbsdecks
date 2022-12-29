@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
-
+use App\Http\Controllers\DeckController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,21 +45,17 @@ Route::prefix('api')->group(function () {
 
     Route::prefix('deck')->group(function () {
         Route::get('/trending-leaders', [CardController::class, 'get_trending_leaders']);
-        Route::get('/list', [CardController::class, 'get_deck_lists_all']);
         Route::get('/list/view', [CardController::class, 'get_deck_view_data']);
         Route::get('/list/view-deck', [CardController::class, 'get_deck_list_card_data']);
-        Route::get('/get-leaders', [CardController::class, 'get_leaders']);
     });
 
     // Protected Routes
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::prefix('auth')->group(function () {
-            Route::get('/check', [AuthController::class, 'check']);
             Route::get('/user', [AuthController::class, 'user']);
             Route::post('/logout', [AuthController::class, 'logout']);
             Route::post('/update-password', [AuthController::class, 'updatePassword']);
             Route::get('/deck-by-user', [CardController::class, 'get_deck_by_user']);
-            Route::post('/deck-submit', [CardController::class, 'submitDeck']);
             Route::post('/update-deck', [CardController::class, 'updateDeck']);
             Route::post('/delete-deck', [CardController::class, 'deleteDeck']);
         });

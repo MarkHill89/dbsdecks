@@ -1,29 +1,39 @@
 <div class="container">
-    <div class="row" *ngIf="true; else showPrompt">
-        <div class="col text-center text-white">
-            <p>Click the button below to start</p>
-            <button type="button" class="btn btn-success" (click)="openNewDeckModal()">Create Deck</button>
+    <div class="row">
+        <div class="col py-3">
+            <h4 class="text-white">Community Decks</h4>
+            <hr class='border border-warning border-1 mt-1'/>
+        </div>
+    </div>
+    <div class="row"  *ngIf="(userState$ | async)?.status === 'authenticated'; else showPrompt">
+        <div class="col text-center text-white mb-5">
+            <button type="button" class="btn btn-success btn-lg" (click)="openNewDeckModal()">+ Create Deck</button>
         </div>
     </div>
     <ng-template #showPrompt>
         <div class="row">
-            <div class="col text-center text-white">
+            <div class="col text-center text-white mb-5">
                 <p>Login to Build a Deck</p>
             </div>
         </div>
     </ng-template>
     <div class="row">
-        <div class="col">
-            <hr />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <table class="table table-sm">
-                <tr *ngFor="let deck of (decks$ | async)">
-                    <td>{{deck.title}}</td>
-                </tr>
-            </table>
+        <div class="col-lg-6 mb-2" *ngFor="let deck of (decks$ | async)?.decks">
+            <div class="deck-preview-wrapper">
+                <a [routerLink]="['view', deck.id]">
+                    <div class="deck-preview-image-overlay" [style]="backgroundImageStyle(breakImageUrl(deck.imageUrl))">
+
+                        <div class="deck-preview-title p-2">
+                            <div class="deck-preivew-title-top">
+                                {{deck.title}}
+                            </div>
+                            <div class="deck-preview-title-bottom">
+                                {{deck.username}}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>

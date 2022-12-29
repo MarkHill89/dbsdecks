@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DecksStoreService } from '@dbsdecks/app/api/decks/decks-store.service';
 import { DecksService } from '@dbsdecks/app/api/decks/decks.service';
-import { Deck } from '@dbsdecks/app/api/decks/decks';
+import { Deck } from '@dbsdecks/app/api/decks/decks.model';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

@@ -17,6 +17,7 @@ import { ImageStringPipe } from './pipes/image-string.pipe';
 import { CreateDeckModalComponent } from './modals/create-deck-modal/create-deck-modal.component';
 import { CardFiltersComponent } from './components/card-filters/card-filters.component';
 import { UserLoginRegisterComponent } from './modals/user-login-register/user-login-register.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { UserLoginRegisterComponent } from './modals/user-login-register/user-lo
     FilterPipe,
     CreateDeckModalComponent,
     CardFiltersComponent,
-    UserLoginRegisterComponent
+    UserLoginRegisterComponent,
+    SideNavComponent
   ],
   imports: [
     CommonModule,

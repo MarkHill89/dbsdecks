@@ -6,6 +6,7 @@ import { DecksComponent } from './decks.component';
 import { ListsComponent } from './lists/lists.component';
 import { ViewComponent } from './view/view.component';
 import { ViewSectionComponent } from './view/view-section/view-section.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ViewSectionComponent } from './view/view-section/view-section.component
   ],
   imports: [
     CommonModule,
-    DecksRoutingModule
+    DecksRoutingModule,
+    HttpClientModule
   ]
 })
 export class DecksModule { }

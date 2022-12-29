@@ -1,0 +1,45 @@
+.deck-preview-wrapper {
+    height: 200px;
+    position: relative;
+    display: block;
+    a  {
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .deck-preview-image-overlay {
+        background-size: 116%;
+        background-position: -41px -149px;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        background-clip: content-box;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        height: 200px;
+        display: block;
+        position: relative;
+    }
+    .deck-preview-title  {
+        background-color: rgba(0, 0, 0, .75);
+        color: white;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        
+        .deck-preivew-title-top{
+            font: {
+                size: 18px;
+                weight: bold;
+            }
+        }
+
+        .deck-preview-title-bottom {
+            font : {
+                size: 12px;
+            }
+        }
+    }
+}
+
