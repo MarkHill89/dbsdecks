@@ -12,7 +12,7 @@ export const selectAllDecks = createSelector(
 
 export const  selectDeckList = (state: AppState) => state.deckList;
 
-export const activeDeckList = createSelector(
+export const selectActiveDeckList = createSelector(
     selectDeckList,
     (state: DeckListState) => state
 )

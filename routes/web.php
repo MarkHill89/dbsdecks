@@ -38,11 +38,6 @@ Route::prefix('api')->group(function () {
             ->middleware('guest');
     });
 
-    Route::prefix('card')->group(function() {
-        Route::get('/all', [CardController::class, 'allCards']);
-        Route::get('/byName', [CardController::class, 'cardsByName']);
-    });
-
     Route::prefix('deck')->group(function () {
         Route::get('/trending-leaders', [CardController::class, 'get_trending_leaders']);
         Route::get('/list/view', [CardController::class, 'get_deck_view_data']);

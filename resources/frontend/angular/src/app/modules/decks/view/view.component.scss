@@ -1,0 +1,32 @@
+.columns {
+    display: grid;
+    grid-template-columns: repeat(1, 100%);
+    grid-gap: 1rem;
+    grid-auto-flow: row dense;
+    @media (min-width: 992px) { 
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        grid-gap: 1rem;
+        grid-auto-flow: row dense;
+    }
+}
+
+.btn-deck {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tiny-text {
+    font-size: 8px;
+    margin-top: -20px;
+}
+
+.fa {
+    padding-bottom: 0;
+    margin-bottom: -15px;
+}
+
+.w-50 {
+    width: 50%;
+}

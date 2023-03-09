@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\ErrorException;
 use App\Models\Deck;
+use App\Models\DeckData;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,81 @@ class DeckController extends Controller{
         ->get();
 
         return response($decks, 201);
+    }
+
+    /**
+     *  select a deck by id
+     * 
+     * @return \Illuminate\Http\Response 
+     */
+    public function select(Request $request, $deckId) {
+        try { 
+            $id = (int) $deckId;
+
+            if(!$id) {
+                throw new Exception("invalid deck id");
+            }
+
+            $deck = Deck::join('users', 'users.id', '=', 'deck.userId')
+            ->where('deck.id', $id)
+            ->select('deck.id', 'deck.title', 'deck.submitDate', 'users.username', 'deck.isActive', 'deck.isPrivate')
+            ->first();
+
+            $leader = Deck::join('v_unique_cards', 'deck.leaderNumber', '=', 'v_unique_cards.Number')
+            ->where('deck.id', $id)
+            ->select(
+            'v_unique_cards.name',
+            'v_unique_cards.rarity',
+            'v_unique_cards.text',
+            'v_unique_cards.cardType',
+            'v_unique_cards.color',
+            'v_unique_cards.cost',
+            'v_unique_cards.specialTrait',
+            'v_unique_cards.power',
+            'v_unique_cards.comboPower',
+            'v_unique_cards.comboEnergy',
+            'v_unique_cards.era',
+            'v_unique_cards.cardCharacter',
+            'v_unique_cards.url',
+            'v_unique_cards.imageUrl')
+            ->first();
+
+
+            $deckData = DeckData::join('v_unique_cards', 'deck_data_new.cardNumber', '=', 'v_unique_cards.Number')
+            ->where('deck_data_new.deckId', $id)
+            ->select(
+                'deck_data_new.cardNumber',
+                'deck_data_new.mainDeckQty',
+                'deck_data_new.sideDeckQty',
+                'deck_data_new.zDeckQty',
+                'v_unique_cards.name',
+                'v_unique_cards.rarity',
+                'v_unique_cards.text',
+                'v_unique_cards.cardType',
+                'v_unique_cards.color',
+                'v_unique_cards.cost',
+                'v_unique_cards.specialTrait',
+                'v_unique_cards.power',
+                'v_unique_cards.comboPower',
+                'v_unique_cards.comboEnergy',
+                'v_unique_cards.era',
+                'v_unique_cards.cardCharacter',
+                'v_unique_cards.url',
+                'v_unique_cards.imageUrl'
+            )
+            ->distinct()
+            ->get();
+   
+            $deck->leader = $leader;
+            $deck->deckData = $deckData;
+      
+            return response($deck, 201);
+
+        } catch(Exception $e) {
+            return response([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -103,46 +179,4 @@ class DeckController extends Controller{
         ], 500);
     }
 
-    // public function convert()
-    // {
-    //     $deck = DB::table('deck_data')
-    //     ->select('deckId', 'mainDeckList', 'sideDeckList')
-    //     ->orderBy('id', 'desc')
-    //     ->first(0);
-    //     return  array_map(function($m) use ($deck) {
-    //         return (object) [
-    //             "deckId" => $deck->deckId,
-    //             "cardNumber" => $m->cardNumber,
-    //             "mainDeckQty" => $m->count,
-    //             "sideDeckQty" => (function($m, $sideDeckList) {
-    //                 $key = array_search($m->cardNumber, array_column($sideDeckList, "cardNumber"));
-    //                 return ($key > -1) ? $sideDeckList[$key]['count'] : 0;
-    //             })($m, json_decode($deck->sideDeckList))
-    //         ];
-    //     }, json_decode($deck->mainDeckList));
-    // }
-
-    // public function create(Request $request) {
-    //     try {
-    //         if(!Auth::check()) {
-    //             throw new Exception("Please log in to begin buildiing.");
-    //         }
-    //         $title = $request->input('title');
-    //         $leaderNumber = $request->input('leaderNumber');
-
-    //         $deck['userId'] = Auth::id();
-    //         $deck['title'] = $title;
-    //         $deck['isPrivate'] = 1;
-    //         $deck['isActive'] = 0;
-    //         $deck['leaderNumber'] = $leaderNumber;
-
-    //         $deck = Deck::create($deck);
-    //         $deck->save();
-
-    //         response($deck->id, 200);
-            
-    //     } catch(Exception $e) {
-    //         response($e->getMessage(), 401);
-    //     }
-    // }
 }

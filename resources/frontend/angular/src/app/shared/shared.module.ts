@@ -18,6 +18,7 @@ import { CreateDeckModalComponent } from './modals/create-deck-modal/create-deck
 import { CardFiltersComponent } from './components/card-filters/card-filters.component';
 import { UserLoginRegisterComponent } from './modals/user-login-register/user-login-register.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { CardSearchModalComponent } from './modals/card-search-modal/card-search-modal.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
     CreateDeckModalComponent,
     CardFiltersComponent,
     UserLoginRegisterComponent,
-    SideNavComponent
+    SideNavComponent,
+    CardSearchModalComponent
   ],
   imports: [
     CommonModule,

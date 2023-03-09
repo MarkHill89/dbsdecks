@@ -21,7 +21,7 @@ import { UserEffects } from './state/user/user.effects';
 import { deckListReducer, decksReducer } from './state/decks/decks.reducer';
 import { DecksEffects } from './state/decks/decks.effects';
 import { CardEffects } from './state/cards/cards.effects';
-import { leaderCardReducer } from './state/cards/cards.reducer';
+import { cardReducer, leaderCardReducer } from './state/cards/cards.reducer';
 import { sideNavReducer } from './state/shared/side-nav/side-nav.reducer';
 
 @NgModule({
@@ -43,6 +43,7 @@ import { sideNavReducer } from './state/shared/side-nav/side-nav.reducer';
        decks: decksReducer,
        deckList: deckListReducer,
        leaderCards: leaderCardReducer,
+       cards: cardReducer,
        sideNav: sideNavReducer
     }),
     EffectsModule.forRoot([UserEffects, DecksEffects, CardEffects])

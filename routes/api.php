@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\DeckController;
+use App\Http\Controllers\ScraperController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,13 +19,18 @@ Route::prefix('auth')->group(function() {
 
 Route::prefix('card')->group(function () {
     Route::get('leaders', [CardController::class, 'leaders']);
+    Route::get('nonleaders', [CardController::class, 'nonleaders']);
 });
 
 Route::prefix('deck')->group(function () {
     Route::get('', [DeckController::class, 'index']);
     Route::post('submit', [DeckController::class, 'submit'])->middleware("auth:sanctum");
+    Route::get('select/{deckId}', [DeckController::class, 'select']);
 });
 
+Route::prefix('utility')->group(function () {
+    Route::get('scraper', [ScraperController::class, 'pull']);
+});
 
 // // Marks Routes
 // Route::get('/scraper', [ScraperController::class, 'index']);

@@ -34,7 +34,7 @@ export class UserEffects {
             ofType(verifyToken),
             exhaustMap(() =>
                 this.userService.check().pipe(
-                    map(data => verifyTokenSuccess()),
+                    map(({user, token}) => verifyTokenSuccess({user, token})),
                     catchError(error => of(vertifyTokenFailure()))
                 )
             )

@@ -28,19 +28,12 @@ export class DecksService {
       private loadingStore: LoadingStoreService
 ) { }
 
-  getDecks(deckFilters = {}): Observable<any> {
+  getDecks(): Observable<any> {
     return this.httpClient.get<Deck[]>(`${this.apiUrl}deck`, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe), map(({body} : any) => body))
   }
 
-  findDeck(id: any) : Observable<any> {
-    this.loadingStore.loading = LoadingStatus.DECK_LISTS_LOADING;
-    return this.httpClient.get<Deck>(`${this.apiUrl}/deck/find/${id}`, this.httpOptions).pipe(
-      takeUntil(this.ngUnsubscribe),
-      map(({body} : any) => {
-        this.loadingStore.loading = LoadingStatus.IDLE;
-        this.decksStore.activeDeck = body;
-      })
-    );
+  getDeck(id: String): Observable<any> {
+    return this.httpClient.get<Deck[]>(`${this.apiUrl}deck/select/${id}`, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe), map(({body} : any) => body))
   }
 
   createDeck(deckInfo: any) {
@@ -53,13 +46,6 @@ export class DecksService {
     )
   }
 
-  submitDeck(deck: any): Observable<any> {
-    if(deck.action === 'edit') {
-      return this.httpClient.put<any>(`${this.apiUrl}/deck/submit`, deck, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe));
-    }else {
-      return this.httpClient.post<any>(`${this.apiUrl}/deck/submit`, deck, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe));
-    }
-  }
 
   trendingLeaders(): Observable<any> {
     return this.httpClient.get<any>(`${this.apiUrl}/trending/leaders`, this.httpOptions).pipe(takeUntil(this.ngUnsubscribe));

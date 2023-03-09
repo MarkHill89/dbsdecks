@@ -38,8 +38,9 @@ export const userReducer = createReducer(
         ..._state,
         status: 'loading'
     })),
-    on(verifyTokenSuccess, (_state) => ({
-        ..._state,
+    on(verifyTokenSuccess, (_state, {user, token}) => ({
+        user: user,
+        token: token,
         status: 'authenticated',
         error: ''
     })),

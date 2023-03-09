@@ -2,11 +2,15 @@ import { Card } from "../card/card.model";
 
 export interface Deck {
     id: number;
-    imageUrl: string;
-    leaderNumber: string;
+    imageUrl?: string;
+    leaderNumber?: string;
     submitDate: string;
     title: string;
     username: string;
+    isActive ?: number;
+    isPrivate ?: number;
+    leader?: Card;
+    deckData?: Card[];  
 }
 
 export interface DeckList {

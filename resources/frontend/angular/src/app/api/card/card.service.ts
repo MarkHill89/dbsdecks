@@ -21,8 +21,8 @@ export class CardService {
         private cardStore: CardStoreService
     ) { }
 
-    getCards(cardFilters: any) {
-        return this.httpClient.post(`${this.url}/card`, cardFilters, this.httpOptions).pipe(
+    getCards() {
+        return this.httpClient.get(`${this.url}card/nonleaders`, this.httpOptions).pipe(
             map(({body} : any) => body)
         )
     }

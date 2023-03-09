@@ -3,7 +3,7 @@ import { DecksService } from "@dbsdecks/app/api/decks/decks.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { AppState } from "../app.state";
-import { createDeck, createDeckFailure, createDeckSuccess, loadDecks, onLoadDecksFailure, onLoadDecksSuccess } from "./decks.actions";
+import { createDeck, createDeckFailure, createDeckSuccess, loadDeck, loadDecks, loadDeckSuccess, onLoadDeckFailure, onLoadDecksFailure, onLoadDecksSuccess } from "./decks.actions";
 import { catchError, exhaustMap, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { selectAllDecks } from "./decks.selectors";
 import { Router } from '@angular/router';
@@ -61,4 +61,16 @@ export class DecksEffects {
         ),
         {dispatch: false}
     )
+
+    viewDeck$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(loadDeck),
+            exhaustMap((action) => {
+                return this.service.getDeck(action.id).pipe(
+                    map(deck => loadDeckSuccess({deck})),
+                    catchError(error => of(onLoadDeckFailure({error: error.error.message})))   
+                )
+            })
+        )
+    );
 }

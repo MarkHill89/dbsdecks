@@ -38,8 +38,11 @@ export class ListsComponent implements OnInit, OnDestroy {
     this.bsModalRef = this.modalService.show(CreateDeckModalComponent);
   }
 
-  breakImageUrl(url: string) : string {
-    return url.split(';')[0];
+  breakImageUrl(url: string | undefined) : string {
+    if(url) {
+      return url.split(';')[0];
+    }
+    return '';
   }
 
   backgroundImageStyle(url: string) : string {

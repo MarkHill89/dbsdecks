@@ -1,245 +1,207 @@
 <?php
 
 namespace App\Http\Controllers;
-use Symfony\Component\DomCrawler\Crawler;
-use Illuminate\Http\Request;
-use Goutte\Client;
-use Illuminate\Support\Facades\DB;
 
-class ScraperController extends Controller
-{
-    public string $cardName = '';
-    public string $cardNumber = '';
-    public string $rarity = '';
-    public string $cardType = '';
-    public string $color = '';
-    public string $specialTrait = '';
-    public string $power = '0';
-    public string $character = '';
-    public string $era = '';
-    public string $energy = '';
-    public int $comboEnergy = 0;
-    public int $comboPower = 0;
-    public string $skill = '';
-    public int $count = 0;
-    public int $count_check = 362;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\DomCrawler\Crawler;
+use Goutte\Client;
+use App\Models\Dbs\DbsCard;
+
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\TCGHelpers;
+
+class ScraperController extends Controller {
+
     public Crawler $crawler;
     public $array = array();
-    public $groupId = "428901";
-    public $setName = 'promotional-cards';
-    public function index()
-    {
-        $array = array();
-        $client = new Client();
-        $this->crawler = $client->request('GET', "http://www.dbs-cardgame.com/us-en/cardlist/?search=true&category={$this->groupId}");
-        
-        
-        $this->crawler->filter('.list-inner > li')->each(function(Crawler $listInner){
-
-            $listInner->filter('.cardFront')->each(function($cardFront) {
-                
-                $cardFront->filter('.cardName')->each(function($cardName) {
-                $this->cardName = empty($cardName->text()) ? '' : $cardName->text();
-                });
-                
-                $cardFront->filter('.cardNumber')->each(function($cardNumber) {
-                    $this->cardNumber = empty($cardNumber->text()) ? '' : $cardNumber->text();
-                });
-                
-                $cardFront->filter('.rarityCol > dd')->each(function($rarity) {
-                    $this->rarity = empty($rarity->text()) ? '' : $rarity->text();
-                });
-                
-                $cardFront->filter('.typeCol > dd')->each(function($cardType) {
-                    $this->cardType = empty($cardType->text()) ? '' : $cardType->text();
-                });
-                
-                $cardFront->filter('.colorCol > dd')->each(function($color) {
-                    $this->color = empty($color->text()) ? '' : $color->text();
-                });
-
-                $specialTraitsCol = $cardFront->filter('.specialTraitCol > dd');
-                if(count($specialTraitsCol)) {
-                    $specialTraitsCol->each(function($specialTrait) {
-                        $this->specialTrait = empty($specialTrait->text()) ? '' : $specialTrait->text();
-                    });
-                }else { 
-                    $this->specialTrait = '';
-                }
-                
-                $powerCol = $cardFront->filter('.powerCol > dd');
-                if(count($powerCol)) {
-                    $powerCol->each(function($power) {
-                        $this->power = empty($power->text()) ? '0' : $power->text();
-                    });
-                } else {
-                    $this->power = '0';
-                }
-                
-                $characterCol = $cardFront->filter('.characterCol > dd');
-                if(count($characterCol)) {
-                    $characterCol->each(function($character) {
-                        $this->character = empty($character->text()) ? '' : $character->text();
-                    });
-                } else {
-                    $this->character = '';
-                }
-
-                $eraCol = $cardFront->filter('.eraCol > dd');
-                if(count($eraCol)) {
-                    $eraCol->each(function($era) {
-                        $this->era = empty($era->text()) ? '' : $era->text();
-                    });
-                } else {
-                    $this->era = '';
-                }
-
-                $energyCol = $cardFront->filter('.energyCol > dd');
-                $energyImage = $cardFront->filter('.energyCol > dd > img');
-                if(count($energyCol)) {
-                    $energyCol->each(function($energy) {
-                        $this->energy = empty($energy->text()) ? '' : $energy->text();
-                    });
-                    if(count($energyImage)) {
-                        $energyImage->each(function($energyImage) {
-                            $this->energy .= empty($energyImage->attr('src')) ? '' : $energyImage->attr('src');    
-                        });
-                    }
-                } else {
-                    $this->energy = '';
-                }
-                $this->energy = str_replace('../../images/cardlist/common/red_ball.png', 'R', $this->energy);
-                $this->energy = str_replace('../../images/cardlist/common/blue_ball.png', 'B', $this->energy);
-                $this->energy = str_replace('../../images/cardlist/common/green_ball.png', 'G', $this->energy);
-                $this->energy = str_replace('../../images/cardlist/common/yellow_ball.png', 'Y', $this->energy);
-                $this->energy = str_replace('../../images/cardlist/common/black_ball.png', 'K', $this->energy);
-                if(strlen($this->energy)) {
-                    $this->energy = str_replace(')', '', $this->energy).")";
-                }
-
-                $comboEnergyCol = $cardFront->filter('.comboEnergyCol > dd');
-                if(count($comboEnergyCol)) {
-                    $comboEnergyCol->each(function($comboEnergy) {
-                        $this->comboEnergy = empty($comboEnergy->text()) ? 0 : $comboEnergy->text(); 
-                    });
-                } else {
-                    $this->comboEnergy = 0;
-                }
-
-                $comboPowerCol = $cardFront->filter('.comboPowerCol > dd');
-                if(count($comboPowerCol)) {
-                    $comboPowerCol->each(function($comboPower) {
-                        $this->comboPower = empty($comboPower->text()) ? 0 : $comboPower->text(); 
-                    });
-                } else {
-                    $this->comboPower = 0;
-                }
-
-                $skillCol = $cardFront->filter('.skillCol > dd');
-                if(count($skillCol)) {
-                    $this->skill = $this->getCardSkillText($skillCol);
-                } else {
-                    $this->skill = '';
-                }
-            });
-            $cardBackCol = $listInner->filter('.cardBack');
-            if(count($cardBackCol)) {
-                $cardBackCol->each(function($cardBack) {
-                    $cardBack->filter('.cardName')->each(function($cardName) {
-                        $text = empty($cardName->text()) ? '' : $cardName->text();
-                        $this->cardName .= " // $text";
-                        $this->skill .="<br><strong>$text</strong><br>";
-                    });
-                    $cardBack->filter('.powerCol')->each(function($powerCol) {
-                        $power = empty($powerCol->text()) ? '0' : $powerCol->text();
-                        $this->power .= "/$power";
-                    });
-                    $cardBack->filter('.skillCol')->each(function($skillCol) {
-                        $this->skill .= $this->getCardSkillText($skillCol);
-                    });
-                });
-            }
-
-            $productId = function() {
-                $id = '000000';
-                $cn = preg_replace("/[^0-9]/", "", $this->cardNumber );
-                $updatedProductId = $id.=$cn;
-                return substr($updatedProductId, -6);
-            };
-
-            $url = function() {
-                $clean = preg_replace("/[\-\:]/", " ", $this->cardName);
-                $noAst = preg_replace("/[\'\,]/", "", $clean);
-                $removeLeaderSplit = str_replace(" // ", " ", $noAst);
-                $noSpaces = str_replace(" ", "-", $removeLeaderSplit);
-                $lowerCase = strtolower($noSpaces);
-                return "https://store.tcgplayer.com/dragon-ball-super-ccg/{$this->setName}/$lowerCase";
-            };
-            
-            $cleanName = function() {
-                $clean = preg_replace("/[\-\:]/", " ", $this->cardName);
-                $noAst = preg_replace("/[\'\,]/", "", $clean);
-                $removeLeaderSplit = str_replace(" // ", " ", $noAst);
-                return $removeLeaderSplit;
-            };
-            
-            $skill = function() {
-                $col = preg_replace("/â/", ":", $this->skill);
-                $nm = preg_replace("/１/", "1", $col);
-                $cl = preg_replace("/\?ã¼/", ":<br>", $nm);
-                $sp = preg_replace("/ï¼/", " ", $cl);
-                $lt = preg_replace("/ã/", "", $sp);
-                $gt = preg_replace("/ã/", "", $lt);
-                $lb = preg_replace("/ï¼/", "{", $gt);
-                $rb = preg_replace("/ï¼/", "}", $lb);
-                $ns = preg_replace("/ã»/", "", $rb);
-                $na_patterns = ['/(â)/', '/(ã)/', '/(ã)/'];
-                $na = preg_replace($na_patterns, "'", $ns);
-                return addslashes($na);
-            };
-
-            $cardData = [];
-            $cardData['name'] = utf8_decode(addSlashes($this->cardName));
-            $cardData['cleanName'] =  utf8_decode($cleanName());
-            $cardData['Rarity'] = preg_replace("/\[\w+\]/", "", $this->rarity);
-            $cardData['Number'] = $this->cardNumber;
-            $cardData['Description'] = $skill();
-            $cardData['CardType'] = ucfirst(strtolower($this->cardType));
-            $cardData['Color'] = $this->color;
-            $cardData['EnergyColorCost'] = preg_replace("/１/", "1", $this->energy);
-            $cardData['SpecialTrait'] = $this->specialTrait;
-            $cardData['Power'] = $this->power;
-            $cardData['ComboPower'] = $this->comboPower;
-            $cardData['ComboEnergy'] = $this->comboEnergy;
-            $cardData['Era'] = $this->era;
-            $cardData['Character'] = utf8_decode($this->character);
-            $cardData['productId'] = $productId();
-            $cardData['groupId'] = $this->groupId;
-            $cardData['url'] = $url();
-            $cardData['imageUrl'] = "https://dbs-decks.com/img/{$this->cardNumber}.png";
-            if($cardData['CardType'] === "Leader") {
-                $cardData['imageUrl'] = $cardData['imageUrl'].";https://dbs-decks.com/img/{$this->cardNumber}_b.png";
-            }
-            $cardData['GTIN'] = 0;
-            if($this->count >= $this->count_check) {
-                DB::table('tcgplayer_card')->updateOrInsert(['Number' => $this->cardNumber, 'groupId' => $this->groupId], $cardData);
-                array_push($this->array, $cardData);
-            }
-            $this->count++;
-        });
-        return json_encode($this->array);
+    private $cardData = array();
+    private $cardId = 0;
+    private $imageDir = "";
+    public function __construct() {
     }
 
-    private function getCardSkillText($skillCol) {
-        $doc = new \DOMDocument;
-        $doc->loadHTML($skillCol->html());
-        $xp = new \DOMXPath($doc);
-        foreach ($xp->query('//img') as $node) {
-            $text = $doc->createTextNode($node->getAttribute('alt').' ');
-            $node->parentNode->replaceChild($text, $node);
+    public function pull(Request $request) {
+
+        $response = Http::get('https://api.bandai-tcg-plus.com/api/user/card/list', [
+            'card_set[]' => 534,
+            'game_title_id' => 1,
+            'limit' => 500,
+            'offset' => 0
+        ]);
+
+        if($response->failed()) {
+            return $response->status();
+        } else {
+            $cards = $response->object()->success->cards;
+
+            foreach($cards as $card) {
+                $this->cardId = (int) $card->id;
+                $cardResponse = Http::get("https://api.bandai-tcg-plus.com/api/user/card/{$this->cardId}");
+                if($cardResponse->failed()) {
+                    return $cardResponse->failed();
+                   
+                } else {
+                    $cardObject = $cardResponse->object()->success->card;
+                    if(DbsCard::where("Number", $cardObject->card_number)->exists()) {
+                        continue;
+                    }
+
+                    $cardConfig = $this->decodeCardConfig($cardObject->card_config);
+
+                    $this->imageDir = explode("-", $cardObject->card_number)[0];
+                    $handle = fopen("php://memory", "rw");
+                    $image = imagecreatefromstring(file_get_contents($cardObject->image_url));
+                    imagepalettetotruecolor($image);
+                    imagewebp($image, $handle);
+                    imagedestroy($image);
+                    rewind($handle);
+                    Storage::disk('ftp')->put("/{$this->imageDir}/{$cardObject->card_number}.webp", $handle);
+                    fclose($handle);
+
+                    $this->cardData = array(
+                        "name" => $cardObject->card_name,
+                        "cleanName" =>  $cardObject->card_name,
+                        "Rarity" => $cardConfig["Rarity"],
+                        "Number" => $cardObject->card_number,
+                        "Description" => isset($cardObject->card_text) ? $cardObject->card_text : "",
+                        "CardType" => $cardConfig["CardType"],
+                        "Color" => $cardConfig["Color"],
+                        "EnergyColorCost" => $cardConfig["Energy"] == 0 ? 0 : $cardConfig["Energy"]."({$cardConfig['ColorCost']})",
+                        "SpecialTrait" => !is_string($cardConfig["SpecialTrait"]) || empty($cardConfig["SpecialTrait"]) ? "" : $cardConfig["SpecialTrait"],
+                        "Power" => !is_int($cardConfig["Power"]) || empty($cardConfig["Power"]) ? 0 : $cardConfig["Power"],
+                        "ComboPower" => !is_int($cardConfig["ComboPower"]) || empty($cardConfig["ComboPower"]) ? 0 : $cardConfig["ComboPower"],
+                        "ComboEnergy" => !is_int($cardConfig["ComboEnergy"]) || empty($cardConfig["ComboEnergy"]) ? 0 : $cardConfig["ComboEnergy"],
+                        "Character" => !is_string($cardConfig["Character"]) || empty($cardConfig["Character"]) ? "" : $cardConfig["Character"],
+                        "Era" => !is_string($cardConfig["Era"]) || empty($cardConfig["Era"]) ?  "" : $cardConfig["Era"],
+                        "url" => "https://store.tcgplayer.com/dragon-ball-super-ccg",
+                        "imageUrl" => "https://ndg-cdn.com/images/dbs/{$this->imageDir}/{$cardObject->card_number}.webp",
+                        "groupId" => "123456",
+                        "productId" => str_replace("-", "", $cardObject->card_number),
+                        "GTIN" => 0
+                    );
+
+                    if($this->cardData["CardType"] === "Leader") {
+                        $this->cardId = $this->cardId + 1;
+                        $leaderResponse = Http::get("https://api.bandai-tcg-plus.com/api/user/card/{$this->cardId}");
+                        if($leaderResponse->failed()) {
+                            continue;
+                        } else {
+                            $leaderObject = $leaderResponse->object()->success->card;
+
+                            $this->imageDir = explode("-", $leaderObject->card_number)[0];
+                            $handle = fopen("php://memory", "rw");
+                            $image = imagecreatefromstring(file_get_contents($leaderObject->image_url));
+                            imagepalettetotruecolor($image);
+                            imagewebp($image, $handle);
+                            imagedestroy($image);
+                            rewind($handle);
+                            Storage::disk('ftp')->put("/{$this->imageDir}/{$leaderObject->card_number}_b.webp", $handle);
+                            fclose($handle);
+                            $leaderConfig = $this->decodeCardConfig($leaderObject->card_config);
+                            $this->cardData["name"] = $this->cardData["name"]." // ".$leaderObject->card_name;
+                            $this->cardData["Description"] = $this->cardData["Description"]."<br>"."<b>{$leaderObject->card_name}</b><br>{$leaderObject->card_text}";
+                            $this->cardData["Power"] = $this->cardData["Power"]."/".$leaderConfig["Power"];
+                            $this->cardData["imageUrl"] = $this->cardData["imageUrl"].";https://ndg-cdn.com/images/dbs/{$this->imageDir}/{$leaderObject->card_number}_b.webp";
+                        }
+                    }
+                    if(isset($this->cardData["Description"])){
+                        $this->cardData["Description"] = str_replace("　", "", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("《", "&#8810;", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("》", "&#8811;", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("１", "1", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("２", "2", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("・", "&#183;", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("―", "-", $this->cardData["Description"]);
+                        $this->cardData["Description"] = str_replace("[", "[", $this->cardData["Description"]);
+                    }
+                    $this->cardData["EnergyColorCost"] = str_replace("Ｘ", "X", $this->cardData["EnergyColorCost"]);
+                    $this->cardData["productId"] = str_replace("BT", "", $this->cardData["productId"]);
+                    $this->cardData["productId"] = str_replace("SD", "", $this->cardData["productId"]);
+                    $this->cardData["productId"] = str_replace("P", "", $this->cardData["productId"]);
+                    $this->cardData["productId"] = str_replace("EX", "", $this->cardData["productId"]);
+
+                    $dbsCard = DbsCard::create($this->cardData);
+                    $dbsCard->save();
+                    array_push($this->array, $cardObject->card_number." has been created");
+                }
+            }
         }
-        $xpath = new \DOMXPath($doc);
-        $node = $xpath->query("//body")->item(0);
-        return $node->textContent;
+
+        return $this->array;
+    }
+
+    private function decodeCardConfig($cardConfig) {
+        $configObject = array();
+
+        $rarities = array(
+            "SCR" => "Secret Rare",
+            "Secret Rare[SCR]" => "Secret Rare",
+            "SPR" => "Special Rare",
+            "SR" => "Super Rare",
+            "Super Rare[SR]" => "Super Rare",
+            "R" => "Rare",
+            "Rare[R]" => "Rare",
+            "UC" => "Uncommon",
+            "Uncommon[UC]" => "Uncommon",
+            "C" => "Common",
+            "Common[C]" => "Common",
+            "ST" => "Starter Rare",
+            "PR" => "Promotion",
+            "Promotion[PR]" => "Promotion",
+            "EX" => "Expansion Rare",
+            "Expansion Rare[EX]" => "Expansion Rare"
+        );
+        
+        foreach($cardConfig as $config) {
+            switch($config->config_name) {
+                case "Type": 
+                    $configObject["CardType"] = ucfirst(strtolower($config->value));
+                    break;
+                case "Color":
+                    $configObject["Color"] = $config->value;
+                    break;
+                case "Character":
+                    $configObject["Character"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : "";
+                    break;
+                case "Rarity":
+                    $configObject["Rarity"] = isset($config->value) ? trim($rarities[str_replace("　", "", $config->value)]) : "";
+                    break;
+                case "Energy":
+                    $configObject["Energy"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : 0;
+                    break;
+                case "Color Cost":
+                    if(isset($config->value)) {
+                        $colorCost = str_replace("(Red)", "R", $config->value);
+                        $colorCost = str_replace("(Blue)", "B", $colorCost);
+                        $colorCost = str_replace("(Green)", "G", $colorCost);
+                        $colorCost = str_replace("(Yellow)", "Y", $colorCost);
+                        $colorCost = str_replace("(Black)", "K", $colorCost);
+                        $colorCost = str_replace("　", "", $colorCost);
+                        $configObject["ColorCost"] = $colorCost;
+                    } else {
+                        $configObject["ColorCost"] = 0;
+                    }
+                    break;
+                case "Combo Energy":
+                    $configObject["ComboEnergy"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : 0;
+                    break;
+                case "Combo power":
+                case "Combo Power":
+                    $configObject["ComboPower"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : 0;
+                    break;
+                case "Power":
+                    $configObject["Power"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : 0;
+                    break;
+                case "Special Trait":
+                    $configObject["SpecialTrait"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : "";
+                    break;
+                case "Era":
+                    $configObject["Era"] = isset($config->value) ? trim(str_replace("　", "", $config->value)) : "";
+                    break;
+            }
+        }
+        return $configObject;
     }
 }

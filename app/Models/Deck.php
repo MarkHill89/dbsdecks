@@ -17,14 +17,11 @@ class Deck extends Model
      */
     protected $fillable = [
         "id",
-        "userId",
         "title",
         "isPrivate",
         "isActive",
         "submitDate",
         "leaderNumber",
-        "isConverted",
-        "shenronID",
         "username"
     ];
 

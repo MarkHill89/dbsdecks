@@ -1,3 +1,4 @@
+import { User } from '@dbsdecks/app/api/user/user.model';
 import { createAction, props } from '@ngrx/store';
 
 export const login = createAction(
@@ -17,7 +18,7 @@ export const loginFailure = createAction(
 
 export const verifyToken = createAction('[Login API] Verify Token')
 
-export const verifyTokenSuccess = createAction('[Login API] Verify Token Success')
+export const verifyTokenSuccess = createAction('[Login API] Verify Token Success', props<{user: User, token: string}>())
 
 export const vertifyTokenFailure = createAction('[Login API] Verify Token Failure')
 

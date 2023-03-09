@@ -1,6 +1,6 @@
 import { Deck } from 'src/app/api/decks/decks.model';
 import { createReducer, on } from '@ngrx/store';
-import { createDeck, createDeckFailure, createDeckSuccess, loadDecks, onLoadDecksSuccess } from './decks.actions';
+import { createDeck, createDeckFailure, createDeckSuccess, loadDeck, loadDecks, loadDeckSuccess, onLoadDecksSuccess, updateDeckList } from './decks.actions';
 import { Card } from '../../api/card/card.model';
 
 export interface DeckState {
@@ -30,16 +30,15 @@ export const decksReducer = createReducer(
 
 export interface DeckListState {
     id: string | number,
-    userId: string | number,
+    userId?: string | number,
+    username?: string;
     title: string,
-    leaderNumber: string,
-    leader: Card,
-    mainDeck: Card[],
-    zDeck: Card[],
-    sideDeck: Card[],
-    isPrivate: boolean | number,
-    isActive: boolean | number,
-    submitDate: string,
+    leaderNumber?: string,
+    leader?: Card,
+    deckData ?: Card[],
+    isPrivate?: boolean | number,
+    isActive?: boolean | number,
+    submitDate?: string,
     error: string,
     status: 'loading' | 'loaded' | 'error'
 }
@@ -47,12 +46,11 @@ export interface DeckListState {
 export const initialDeckListState: DeckListState = {
     id: 0,
     userId: 0,
+    username: '',
     title: '',
     leaderNumber: '',
     leader : {} as Card,
-    mainDeck: [] as Card[],
-    zDeck: [] as Card[],
-    sideDeck: [] as Card[],
+    deckData : [] as Card[],
     isPrivate: false,
     isActive: true,
     submitDate: '',
@@ -92,5 +90,33 @@ export const deckListReducer = createReducer(
         ..._state,
         status: 'error',
         error
-    }))
+    })),
+    on(loadDeck, (_state, { id }) => ({
+        ..._state,
+        id,
+        status: 'loading',
+        error: ''
+    })),
+    on(loadDeckSuccess, (_state, {deck}) => ({
+        ..._state,
+        id : deck.id,
+        title : deck.title,
+        submitDate : deck.submitDate,
+        isActive : deck.isActive,
+        isPrivate : deck.isPrivate,
+        leader : deck.leader,
+        deckData : deck.deckData,
+        username : deck.username,
+        status : 'loaded',
+        error: ''
+    })),
+    on(updateDeckList, (_state, {card})  => {
+        const updatedCards = _state.deckData?.map(
+            (_card: Card) => card.cardNumber === _card.cardNumber ? card : _card
+        )
+        return {
+            ..._state,
+            deckData: updatedCards
+        };
+    })
 )

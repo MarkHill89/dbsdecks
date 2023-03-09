@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DecksStoreService } from '@dbsdecks/app/api/decks/decks-store.service';
-import { DecksService } from '@dbsdecks/app/api/decks/decks.service';
-import { Deck } from '@dbsdecks/app/api/decks/decks.model';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, BehaviorSubject, Observable, tap, map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '@dbsdecks/app/state/app.state';
+import { selectActiveUser } from '@dbsdecks/app/state/user/user.selectors';
+import { UserState } from '@dbsdecks/app/state/user/user.reducer';
+import { loadDeck, updateDeckList } from '@dbsdecks/app/state/decks/decks.actions';
+import { selectActiveDeckList } from '@dbsdecks/app/state/decks/decks.selectors';
+import { Card } from '@dbsdecks/app/api/card/card.model';
 
 @Component({
   selector: 'app-view',
@@ -14,22 +17,44 @@ import { takeUntil } from 'rxjs/operators';
 export class ViewComponent implements OnInit, OnDestroy {
 
   onDestroy$ = new Subject();
-
-  deck$ : Observable<Deck> = this.deckStore.activeDeck$.pipe(takeUntil(this.onDestroy$)).pipe();
-  editing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isEditing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  userState$: Observable<UserState> = this.store.select(selectActiveUser);
+  deck$ = this.store.select(selectActiveDeckList);
 
   constructor(
     private route: ActivatedRoute,
-    private deckStore : DecksStoreService,
-    private deckService : DecksService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
-    this.deckService.findDeck(parseInt(this.route.snapshot.params['deckId'])).pipe(takeUntil(this.onDestroy$)).subscribe();
+    this.store.dispatch(loadDeck({id: this.route.snapshot.params.id}))
+  }
+
+  // view filters 
+  mainDeck(cards: Card[] | undefined) {
+    return cards?.filter(card => card.mainDeckQty)
+  }
+
+  sideDeck(cards: Card[] | undefined) {
+    return cards?.filter(card => card.sideDeckQty)
+  }
+  zDeck(cards: Card[] | undefined) {
+    return cards?.filter(card => card.zDeckQty)
+  }
+
+  breakImageUrl(url: String | undefined) : string[] {
+    if(url) {
+      return url.split(';');
+    }
+    return [];
+  }
+
+  updateList(event: Card) {
+    this.store.dispatch(updateDeckList({card : event}))
   }
 
   edit() {
-    this.editing$.next(true);
+    this.isEditing$.next(true);
   }
 
   save() {
@@ -37,7 +62,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    this.editing$.next(false);
+    this.isEditing$.next(false);
   }
 
   ngOnDestroy(): void {

@@ -7,8 +7,8 @@ const routes: Routes = [{
   path: '',
   children: [
     {path: '', component: ListsComponent},
-    {path: 'view/:deckId', component: ViewComponent},
-    {path: 'edit/:deckId', component: ViewComponent}
+    {path: 'view/:id', component: ViewComponent},
+    {path: 'edit/:id', component: ViewComponent}
   ]
 }];
 

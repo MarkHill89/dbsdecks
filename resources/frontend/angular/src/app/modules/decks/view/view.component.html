@@ -1,30 +1,38 @@
 <div class="container">
     <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="ms-auto btn-group my-0">
-                <!-- TODO: Add presentDeck() -->
-                <button class="btn btn-white">
+        <div class="col-md-12 d-flex">
+            <div class="me-auto btn-group my-0">
+                <!-- TODO: Add visualView() -->
+                <button class="btn btn-dark  btn-deck">
+                    <i class="fa fa-eye"></i>
+                    <br><span class="tiny-text">Visual View</span>
+                </button>
+
+                <!-- TODO: Add presenter mode -->
+                <button class="btn btn-dark  btn-deck">
                     <i class="fa fa-chalkboard-teacher"></i>
                     <br><span class="tiny-text">Present</span>
                 </button>
 
                 <!-- TODO: Add getSampleHand() -->
-                <button class='btn btn-white'>
+                <button class='btn btn-dark  btn-deck'>
                     <i class='fa fa-layer-group pb-0'></i>
                     <br><span class='tiny-text'>Sample</span>
                 </button>
+            </div>
+            <div class="btn-group ms-auto" *ngIf='(userState$ | async)?.user?.userId !== (deck$ | async)?.userId'>
                 <!-- deck editing buttons -->
-                <button class="btn btn-white" *ngIf=' false' (click)="edit()">
-                    <i class="fa fa-pencil pb-0"></i>
+                <button class="btn btn-white  btn-deck" *ngIf='(isEditing$ | async) === false' (click)="edit()">
+                    <i class="fa-solid fa-pencil"></i>
                     <br><span class="tiny-text">Edit</span>
                 </button>
-                <span *ngIf='true'>
-                    <button class="btn btn-secondary" (click)="save()" >
+                <span *ngIf='(isEditing$ | async) === true'>
+                    <button class="btn btn-secondary btn-deck" (click)="save()" >
                         <i class='fa fa-save'></i>
                         <br><span class='tiny-text'>Save</span>
                     </button>
 
-                    <button class="btn btn-secondary" (click)="cancel()" >
+                    <button class="btn btn-secondary btn-deck" (click)="cancel()" >
                         <i class='fa fa-ban'></i>
                         <br><span class='tiny-text'>Cancel</span>
                     </button>
@@ -32,28 +40,73 @@
             </div>
         </div>
     </div>
-    <div class="row mb-3" *ngIf="(deck$ | async)">
-        <div class="col">
-            <app-view-section
-                [editable]="true"
-                title="Character"
-                deck="main">
-            </app-view-section>
+    <div class="row mb-3">
+        <div class="col-md-6 pt-3 mb-3 d-flex align-items-start flex-column">
+            <h5 class="mb-1 text-white">{{(deck$ | async)?.title}}</h5>
+            <p class="text-white">
+                <small>By: {{ (deck$ | async)?.username }}</small>
+            </p>
+            <p class="text-white align-self-center mt-auto">Sort Deck By</p>
+            <div class="btn-group w-100 sort-group">
+                <button class="btn btn-secondary btn-deck">
+                    <i class='fa fa-th-list pb-0'></i>
+                    <br><span class='tiny-text'>Basic</span>
+                </button>
+                <button class="btn btn-secondary btn-deck">
+                    <i class='fa fa-chart-pie pb-0'></i>
+                    <br><span class='tiny-text'>Color</span>
+                </button>
+                <button class="btn btn-secondary btn-deck">
+                    <i class='fa fa-chart-line pb-0'></i>
+                    <br><span class='tiny-text'>Cost</span>
+                </button>
+                <button class="btn btn-secondary btn-deck">
+                    <i class='fa fa-chart-area pb-0'></i>
+                    <br><span class='tiny-text'>Type</span>
+                </button>
+
+            </div>
         </div>
         <div class="col">
-            <app-view-section
-                [editable]="true"
-                title="Character"
-                deck="z">
-            </app-view-section>
-        </div>
-        <div class="col">
-            <app-view-section
-                [editable]="true"
-                title="Side Deck"
-                deck="side">
-            </app-view-section>
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <h5 class="mb-1 text-white">
+                                {{ (deck$ | async)?.leader?.name }}
+                            </h5>
+                            <img class="w-50 rounded-lg" [src]="breakImageUrl((deck$ | async)?.leader?.imageUrl)[0]">
+                            <img class="w-50 rounded-lg" [src]="breakImageUrl((deck$ | async)?.leader?.imageUrl)[1]">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
+    <div class="row mb-3 columns" *ngIf="(deck$ | async)?.status === 'loaded'">
+            <app-view-section
+                [editing]="(isEditing$ | async)"
+                header="Main Deck"
+                deck="main"
+                [list]=" (deck$ | async)?.deckData"
+                [cards]="mainDeck((deck$ | async)?.deckData)"
+                (throwList)="updateList($event)">
+            </app-view-section>
+            <app-view-section
+                [editing]="(isEditing$ | async)"
+                header="Side Deck"
+                deck="side"
+                [list]=" (deck$ | async)?.deckData"
+                [cards]="sideDeck((deck$ | async)?.deckData)"
+                (throwList)="updateList($event)">
+            </app-view-section>
+            <app-view-section
+                [editing]="(isEditing$ | async)"
+                header="Z Deck"
+                deck="zdeck"
+                [list]=" (deck$ | async)?.deckData"
+                [cards]="zDeck((deck$ | async)?.deckData)"
+                (throwList)="updateList($event)">
+            </app-view-section>
+    </div>
 </div>

@@ -1,19 +1,14 @@
 <?php
-namespace App\Models;
+
+namespace App\Models\Dbs;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Card extends Model
-{
-    protected $table = "v_unique_cards";
+class DbsCard extends Model { 
+    protected $table = "tcgplayer_card";
 
     protected $primaryKey = "id";
-    
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         "id",
         "name",
@@ -34,8 +29,6 @@ class Card extends Model
         "groupId",
         "url",
         "imageUrl",
-        "GTIN",
-        "BANDAIDisclaimer",
-        "deckbuilder_card_id"
+        "GTIN"
     ];
 }

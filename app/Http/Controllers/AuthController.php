@@ -25,7 +25,8 @@ class AuthController extends Controller {
         
         if (Auth::check()) {
             return response([
-                "userId" => $request->user()->id
+                "user" => array("userId" => $request->user()->id),
+                "token" => $request->user()->tokens()
             ], 201);
         } else {
             return response(["error" => "User not authenticated"], 401);

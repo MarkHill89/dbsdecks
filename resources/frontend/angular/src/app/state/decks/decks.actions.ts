@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Deck } from '../../api/decks/decks.model';
 import { LeaderCard } from 'src/app/api/card/card.model';
+import { Card } from '../../api/card/card.model';
 
 export const loadDecks = createAction("[Decks] Loading Decks from Server")
 
@@ -40,4 +41,24 @@ export const createDeckSuccess = createAction(
 export const createDeckFailure = createAction(
     "[Decks API] Create deck Failed",
     props<{error: string}>()
+)
+
+export const loadDeck = createAction(
+    "[DECK API] Loading Deck from Server",
+    props<{id: string}>()
+)
+
+export const loadDeckSuccess = createAction(
+    "[Decks API] Deck successfully fetched",
+    props<{deck : Deck}>()
+)
+
+export const onLoadDeckFailure = createAction(
+    "[Decks] Decks Failed to Load",
+    props<{error: string}>()
+)
+
+export const updateDeckList = createAction(
+    "[Decks] Updating deck",
+    props<{card: Card}>()
 )
